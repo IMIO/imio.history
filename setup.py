@@ -4,14 +4,12 @@ import os
 version = '1.0dev'
 
 long_description = (
-    open('README.txt').read()
+    open('README.rst').read()
     + '\n' +
     'Contributors\n'
     '============\n'
     + '\n' +
-    open('CONTRIBUTORS.txt').read()
-    + '\n' +
-    open('CHANGES.txt').read()
+    open('CHANGES.rst').read()
     + '\n')
 
 setup(name='imio.history',
@@ -31,7 +29,7 @@ setup(name='imio.history',
       keywords='',
       author='',
       author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      url='http://github.com/IMIO/imio.history',
       license='gpl',
       packages=find_packages('src'),
       package_dir={'': 'src'},
@@ -43,10 +41,4 @@ setup(name='imio.history',
           # -*- Extra requirements: -*-
       ],
       extras_require={'test': ['plone.app.testing']},
-      entry_points="""
-      # -*- Entry points: -*-
-      [z3c.autoinclude.plugin]
-      target = plone
-      """,
-      setup_requires=["PasteScript"],
       )
