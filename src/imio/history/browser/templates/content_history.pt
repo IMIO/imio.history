@@ -1,21 +1,20 @@
 <div id="content" define-macro="history" i18n:domain="plone"
-      tal:define="historyInfo python: context.getHistory(0, batchSize=1000);
-                  objs        historyInfo/events;
+      tal:define="events view/getHistory;
                   showColors  view/showColors;">
 
   <tal:comment replace="nothing">Table containing the history</tal:comment>
-  <tal:history condition="objs">
+  <tal:history condition="events">
   <table class="listing nosort" style="width: 100%">
    <thead>
     <tr>
       <th i18n:translate="listingheader_action" width="100px">Action</th>
       <th i18n:translate="listingheader_performed_by" width="125px">Performed by</th>
       <th i18n:translate="listingheader_date_and_time" width="125px">Date and time</th>
-      <th i18n:translate="history_comments" i18n:domain="imio.history">Comments</th>
+      <th i18n:translate="listingheader_comment">Comment</th>
     </tr>
    </thead>
    <tbody>
-    <tal:event repeat="event objs">
+    <tal:event repeat="event events">
     <tr tal:define="odd repeat/event/odd;
                     rhComments event/comments|nothing;
                     state event/review_state|nothing;

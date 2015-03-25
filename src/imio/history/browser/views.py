@@ -33,12 +33,6 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
         """
         return IImioHistory(self.context).historyLastEventHasComments()
 
-    def getHistory(self):
-        """
-          Get the history for current object.
-        """
-        return IImioHistory(self.context).getHistory()
-
 
 class IHContentHistoryView(ContentHistoryView):
     '''
@@ -46,6 +40,12 @@ class IHContentHistoryView(ContentHistoryView):
       We want to display the content_history as a table.
     '''
     index = ViewPageTemplateFile("templates/content_history.pt")
+
+    def getHistory(self):
+        """
+          Get the history for current object.
+        """
+        return IImioHistory(self.context).getHistory()
 
     def getTransitionTitle(self, transitionName):
         """
