@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object>
+  <!-- hide the documentby_line viewlet -->
+  <hidden manager="plone.belowcontenttitle" skinname="*">
+    <viewlet name="plone.belowcontenttitle.documentbyline" />
+  </hidden>
+</object>

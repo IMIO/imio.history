@@ -1,0 +1,25 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="imio.history">
+
+    <browser:view
+        for="*"
+        name="contenthistory"
+        class=".views.IHContentHistoryView"
+        layer="imio.history.interfaces.IImioHistoryLayer"
+        permission="zope2.View"
+        />
+
+    <browser:viewlet
+        name="imio.history.documentbyline"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+        class=".views.IHDocumentBylineViewlet"
+        layer="imio.history.interfaces.IImioHistoryLayer"
+        permission="zope2.View"
+        />
+
+</configure>

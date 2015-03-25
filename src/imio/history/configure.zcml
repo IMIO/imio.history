@@ -6,14 +6,20 @@
     i18n_domain="imio.history">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <include package=".browser" />
+
+  <include package="Products.GenericSetup" file="meta.zcml" />
 
   <genericsetup:registerProfile
       name="default"
       title="imio.history"
       directory="profiles/default"
-      description="Installs the imio.history package"
+      description="Installs the imio.history package."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
-  
+
+  <adapter for="OFS.interfaces.IItem"
+           factory=".adapters.ImioHistoryAdapter"
+           provides=".interfaces.IImioHistory" />
+
 </configure>
