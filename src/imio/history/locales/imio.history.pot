@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-25 12:44+0000\n"
+"POT-Creation-Date: 2015-03-25 15:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: imio.history\n"
 
-#: ./browser/templates/content_history.pt:25
+#. Default: "<span class='discreet'>Access to this comment is restricted.</span>"
+msgid "<span class='discreet'>Access to this comment is restricted.</span>"
+msgstr ""
+
+#: ./browser/templates/content_history.pt:24
 msgid "data_change"
 msgstr ""
 

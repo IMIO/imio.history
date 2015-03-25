@@ -21,7 +21,7 @@
                     isDataChange python: event['action'] == '_datachange_'"
         tal:attributes="class python: odd and 'even' or 'odd'" valign="top">
       <td tal:condition="isDataChange">
-        <i i18n:translate="data_change" i18n:domain="imio.history"></i>
+        <i i18n:translate="data_change" i18n:domain="imio.history">Data change</i>
         <form name="deleteEventForm"
               action="delete_history_event"
               tal:define="member context/@@plone_portal_state/member;
