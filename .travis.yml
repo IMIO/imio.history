@@ -8,9 +8,18 @@ install:
 script:
   - bin/test
 after_success:
-  - pip install coveralls
+  - bin/createcoverage run bin/test
+  - pip install -q coveralls
   - coveralls
 
 notifications:
   email:
-    - devs@imio.be
+    recipients:
+      - devs@imio.be
+    on_success: change
+    on_failure: change
+  irc:
+    channels:
+      - "irc.freenode.org#imio"
+    on_success: change
+    on_failure: always
