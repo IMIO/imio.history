@@ -41,10 +41,13 @@ setup(
     install_requires=[
         'Plone',
         'setuptools',
+        'plone.api',
     ],
     extras_require={
         'test': [
             'plone.app.testing',
+            'plone.app.robotframework',
+            'ipdb',
         ],
     },
     entry_points="""
