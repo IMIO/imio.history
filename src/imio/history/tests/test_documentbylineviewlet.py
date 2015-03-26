@@ -19,7 +19,7 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
                                  container=self.portal)
         view = BrowserView(doc, self.portal.REQUEST)
         manager = getMultiAdapter(
-            (self.portal, self.portal.REQUEST, view),
+            (doc, self.portal.REQUEST, view),
             IViewletManager,
             'plone.belowcontenttitle')
         manager.update()
@@ -38,19 +38,26 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
            History link will be highlighted if last event had a comment and
            if that comment is not an ignorable comment."""
         adapter = IImioHistory(self.portal.doc)
-        # historyLastEventHasComments will return False because '' is an ignored comment
+        # not highlighted because '' is an ignored comment
         history = adapter.getHistory()
-        self.assertFalse(adapter.historyLastEventHasComments())
+        self.assertFalse(self.viewlet.highlight_history_link())
         self.assertTrue(history[0]['comments'] in adapter.ignorableHistoryComments())
 
         # now 'publish' the doc and add a comment, last event has a comment
         self.wft.doActionFor(self.portal.doc, 'publish', comment='my publish comment')
         history = adapter.getHistory()
-        self.assertTrue(adapter.historyLastEventHasComments())
+        self.assertTrue(self.viewlet.highlight_history_link())
         self.assertFalse(history[0]['comments'] in adapter.ignorableHistoryComments())
 
         # now test the 'you can not access this comment' message
         self.wft.doActionFor(self.portal.doc, 'retract', comment=HISTORY_COMMENT_NOT_VIEWABLE)
         history = adapter.getHistory()
-        self.assertFalse(adapter.historyLastEventHasComments())
+        self.assertFalse(self.viewlet.highlight_history_link())
         self.assertTrue(history[0]['comments'] in adapter.ignorableHistoryComments())
+
+        # test that it works if no history
+        # it is the case if we changed used workflow
+        self.wft.setChainForPortalTypes(('Document', ), ('intranet_workflow',))
+        history = adapter.getHistory()
+        self.assertFalse(self.viewlet.highlight_history_link())
+        self.assertTrue(history == [])
