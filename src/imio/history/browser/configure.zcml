@@ -6,6 +6,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="imio.history">
 
+    <!-- Publish static files -->
+    <browser:resourceDirectory
+        name="imio.history"
+        directory="static"
+    />
+
     <browser:view
         for="*"
         name="contenthistory"
