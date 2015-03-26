@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/IMIO/imio.history.svg
+    :target: https://travis-ci.org/IMIO/imio.history
+
 imio.history
 ------------
 
