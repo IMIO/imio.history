@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="imio.history">
+
+
+<include package="zope.component" file="meta.zcml" />
+
+  <adapter for="OFS.interfaces.IItem"
+           factory=".tests.adapters.TestingImioHistoryAdapter"
+           provides=".interfaces.IImioHistory" />
+
+</configure>

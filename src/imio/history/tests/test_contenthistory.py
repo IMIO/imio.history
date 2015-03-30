@@ -1,6 +1,9 @@
 from zope.component import getMultiAdapter
+from Products.Five import zcml
 
 from plone import api
+from imio import history as imio_history
+from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.testing import IntegrationTestCase
 
 
@@ -59,3 +62,25 @@ class TestContentHistory(IntegrationTestCase):
            This is defined to be easily overrided, for now it is always True."""
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
         self.assertTrue(view.showColors())
+
+    def test_MayViewComment(self, ):
+        """Test the mayViewComment method.
+           We will register an adapter that test when it is overrided."""
+        # by default, mayViewComment returns "True" so every comments
+        # are viewable in the object's workflow history
+        # create a document and publish it, the comment of the 'publish' transition is viewable
+        # create a document
+        self.wft.doActionFor(self.doc, 'publish', comment='My comment')
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+        history = view.getHistory()
+        lastEvent = history[0]
+        self.assertTrue(lastEvent['action'] == 'publish')
+        self.assertTrue(lastEvent['comments'] == 'My comment')
+
+        # now register an adapter that will do 'publish' transition comment not visible
+        zcml.load_config('testing-adapter.zcml', imio_history)
+        history = view.getHistory()
+        lastEvent = history[0]
+        self.assertTrue(lastEvent['action'] == 'publish')
+        # now comment is no more viewable
+        self.assertTrue(lastEvent['comments'] == HISTORY_COMMENT_NOT_VIEWABLE)
