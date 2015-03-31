@@ -6,6 +6,8 @@
     i18n_domain="imio.history">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
+
   <include package=".browser" />
 
   <include package="Products.GenericSetup" file="meta.zcml" />
