@@ -43,6 +43,25 @@ class TestContentHistory(IntegrationTestCase):
         history = view.getHistory()
         self.assertTrue(len(history) == 1 and history[0]['action'] == 'hide')
 
+        # test that it works if element has no more workflow defined in portal_workflow
+        # define no workflow anymore for 'Document'
+        self.wft.setChainForPortalTypes(('Document', ), [])
+        self.assertTrue(view.getHistory() == [])
+
+        # test that it works also with an element having no workflow
+        # and so no workflow_history attribute
+        # we will test with type 'File' that does not have a workflow by default
+        fileType = self.portal.portal_types['File']
+        self.assertTrue(self.wft.getWorkflowsFor(fileType) == [])
+        afile = api.content.create(type='File',
+                                   id='afile',
+                                   container=self.portal)
+        view = getMultiAdapter((afile, self.portal.REQUEST), name='contenthistory')
+        # no workflow_history attribute
+        self.assertTrue(not hasattr(afile, 'workflow_history'))
+        # this does not fail
+        self.assertTrue(view.getHistory() == [])
+
     def test_getTransitionTitle(self):
         """Test the getTransitionTitle method.
            This will return the title of a transition if it has one, the id otherwise."""

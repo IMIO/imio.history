@@ -72,4 +72,5 @@
    </tbody>
   </table>
   </tal:history>
+  <div tal:condition="not: events">—</div>
 </div>

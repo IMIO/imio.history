@@ -4,7 +4,9 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Be defensive in getHistory, do not fail if no workflow used or
+  if element has no workflow_history attribute
+  [gbastien]
 
 
 1.1 (2015-03-31)

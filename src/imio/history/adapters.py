@@ -1,3 +1,5 @@
+from Acquisition import aq_base
+
 from Products.CMFCore.utils import getToolByName
 
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
@@ -12,7 +14,14 @@ class ImioHistoryAdapter(object):
     def getHistory(self):
         """See docstring in interfaces.py."""
         res = []
+        # no workflow_history attribute?  Return
+        if not hasattr(aq_base(self.context), 'workflow_history'):
+            return res
         wfTool = getToolByName(self.context, 'portal_workflow')
+        wfs = wfTool.getWorkflowsFor(self.context)
+        # no workflow currently used for the context?  Return
+        if not wfs:
+            return res
         wfName = wfTool.getWorkflowsFor(self.context)[0].getId()
         # in some case (we changed the workflow for already existing element
         # for example), the workflow key is not in workflow_history
