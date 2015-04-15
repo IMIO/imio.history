@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4 (unreleased)
+1.4 (2015-04-15)
 ----------------
 
 - Added helper method 'utils.getPreviousEvent' that will receive an event
