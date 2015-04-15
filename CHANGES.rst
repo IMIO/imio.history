@@ -4,7 +4,9 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Do not reverse workflow_history in ImioHistoryAdapter.getHistory 
+  as it is for display purpose, do this in the IHContentHistoryView.getHistory
+  [gbastien]
 
 
 1.2 (2015-04-01)

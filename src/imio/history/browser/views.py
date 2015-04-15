@@ -45,7 +45,9 @@ class IHContentHistoryView(ContentHistoryView):
         """
           Get the history for current object.
         """
-        return IImioHistory(self.context).getHistory()
+        history = IImioHistory(self.context).getHistory()
+        history.reverse()
+        return history
 
     def getTransitionTitle(self, transitionName):
         """

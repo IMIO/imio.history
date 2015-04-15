@@ -28,7 +28,6 @@ class ImioHistoryAdapter(object):
         if not wfName in self.context.workflow_history:
             return res
         history = list(self.context.workflow_history[wfName])
-        history.reverse()
         for event in history:
             # hide comment if user may not access it
             if not self.mayViewComment(event):
@@ -43,7 +42,7 @@ class ImioHistoryAdapter(object):
         history = self.getHistory()
         if not history:
             return False
-        lastEvent = history[0]
+        lastEvent = history[-1]
         if not lastEvent['comments'] in self.ignorableHistoryComments():
             return True
         return False
