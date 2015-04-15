@@ -4,10 +4,12 @@ Changelog
 1.3 (unreleased)
 ----------------
 
-- Do not reverse workflow_history in ImioHistoryAdapter.getHistory 
+- Do not reverse workflow_history in ImioHistoryAdapter.getHistory
   as it is for display purpose, do this in the IHContentHistoryView.getHistory
   [gbastien]
-
+- Added parameter 'checkMayView' to ImioHistoryAdapter.getHistory to be able
+  to enable/disable mayViewComment check while getting the workflow_history
+  [gbastien]
 
 1.2 (2015-04-01)
 ----------------

@@ -11,7 +11,7 @@ class ImioHistoryAdapter(object):
         self.context = context
         self.request = self.context.REQUEST
 
-    def getHistory(self):
+    def getHistory(self, checkMayView=True):
         """See docstring in interfaces.py."""
         res = []
         # no workflow_history attribute?  Return
@@ -28,13 +28,16 @@ class ImioHistoryAdapter(object):
         if not wfName in self.context.workflow_history:
             return res
         history = list(self.context.workflow_history[wfName])
-        for event in history:
-            # hide comment if user may not access it
-            if not self.mayViewComment(event):
-                # We take a copy, because we will modify it.
-                event = event.copy()
-                event['comments'] = HISTORY_COMMENT_NOT_VIEWABLE
-            res.append(event)
+        if checkMayView:
+            for event in history:
+                # hide comment if user may not access it
+                if not self.mayViewComment(event):
+                    # We take a copy, because we will modify it.
+                    event = event.copy()
+                    event['comments'] = HISTORY_COMMENT_NOT_VIEWABLE
+                res.append(event)
+        else:
+            res = history
         return res
 
     def historyLastEventHasComments(self):

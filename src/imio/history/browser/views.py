@@ -41,11 +41,11 @@ class IHContentHistoryView(ContentHistoryView):
     '''
     index = ViewPageTemplateFile("templates/content_history.pt")
 
-    def getHistory(self):
+    def getHistory(self, checkMayView=True):
         """
           Get the history for current object.
         """
-        history = IImioHistory(self.context).getHistory()
+        history = IImioHistory(self.context).getHistory(checkMayView=checkMayView)
         history.reverse()
         return history
 

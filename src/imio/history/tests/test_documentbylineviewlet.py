@@ -49,7 +49,7 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         self.assertTrue(self.viewlet.highlight_history_link())
         self.assertFalse(history[-1]['comments'] in adapter.ignorableHistoryComments())
 
-        # now test the 'you can not access this comment' message
+        # now test that the 'you can not access this comment' is an ignored message
         self.wft.doActionFor(self.portal.doc, 'retract', comment=HISTORY_COMMENT_NOT_VIEWABLE)
         history = adapter.getHistory()
         self.assertFalse(self.viewlet.highlight_history_link())
