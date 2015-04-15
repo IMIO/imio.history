@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.3.1 (unreleased)
-------------------
+1.4 (unreleased)
+----------------
 
 - Added helper method 'utils.getPreviousEvent' that will receive an event
   as parameter and will return the previous event in the workflow_history
