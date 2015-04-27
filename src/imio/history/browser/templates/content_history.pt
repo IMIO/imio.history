@@ -11,13 +11,15 @@
       <th i18n:translate="listingheader_performed_by" width="125px">Performed by</th>
       <th i18n:translate="listingheader_date_and_time" width="125px">Date and time</th>
       <th i18n:translate="listingheader_comment">Comment</th>
+      <th i18n:translate=""></th>
+      <th i18n:translate=""></th>
     </tr>
    </thead>
    <tbody>
     <tal:event repeat="event events">
     <tr tal:define="odd repeat/event/odd;
                     rhComments event/comments|nothing;
-                    state event/review_state|nothing;
+                    state python:event['action'] or event['review_state'];
                     isDataChange python: event['action'] == '_datachange_'"
         tal:attributes="class python: odd and 'even' or 'odd'" valign="top">
       <td tal:condition="isDataChange">
@@ -40,7 +42,7 @@
           tal:condition="not: isDataChange"
           tal:define="actionTitle python: event['action'] and view.getTransitionTitle(event['action']) or 'Created'"
           tal:content="actionTitle" i18n:translate=""
-          tal:attributes="class python: showColors and ('state-%s' % str(event['review_state']).lower()) or ''">Action</td>
+          tal:attributes="class python: showColors and ('state-%s' % str(state).lower()) or ''">Action</td>
       <td tal:define="actorid python:event.get('actor');
                       actor python:context.portal_membership.getMemberInfo(actorid);
                       fullname actor/fullname|nothing;
@@ -66,6 +68,29 @@
             </tal:change>
           </tal:loop>
         </table>
+      </td>
+      <td tal:define="isVersion python:event['type']=='versioning'">
+        <tal:block condition="isVersion">
+
+          <div class="historyLinks">
+            <a href=""
+               tal:attributes="href event/preview_url"
+               i18n:translate="title_view_revision">View</a>
+            <a href="" tal:attributes="href event/diff_current_url"
+               tal:condition="exists:event/diff_current_url"
+               i18n:translate="title_compare_revision">&middot; Compare to current</a>
+          </div>
+
+        </tal:block>
+      </td>
+      <td tal:define="isVersion python:event['type']=='versioning'">
+        <tal:block condition="isVersion">
+
+          <form action="" method="post" tal:condition="event/revert_url" tal:attributes="action event/revert_url">
+            <input type="hidden" name="version_id" value="" tal:attributes="value event/version_id" />
+            <input class="standalone" type="submit" i18n:attributes="value title_revert_revision" tal:condition="exists:event/diff_current_url" value="Revert to this revision" />
+          </form>
+        </tal:block>
       </td>
     </tr>
     </tal:event>

@@ -1,20 +1,29 @@
 # -*- coding: utf-8 -*-
-
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 
 class IImioHistoryLayer(IBrowserRequest):
+
     """imio.history BrowserLayer interface."""
+
     pass
 
 
 class IImioHistory(Interface):
-    """ """
 
-    def getHistory(self, checkMayView=True):
-        """Returns the history for context, sorted in reverse order
-        (most recent change first).  If p_checkMayView is True (default),
+    """Base interface for history adapters."""
+
+    def getHistory(self, **kw):
+        """Get history."""
+
+
+class IImioWfHistory(IImioHistory):
+
+    """Workflow history."""
+
+    def getHistory(self, **kw):
+        """Returns the history for context.  If p_checkMayView is True (default),
         the method 'mayViewComment' is called on every history event."""
 
     def historyLastEventHasComments(self):
@@ -25,3 +34,11 @@ class IImioHistory(Interface):
 
     def mayViewComment(self, event):
         """This will make it possible to hide some comments."""
+
+
+class IImioRevisionHistory(IImioHistory):
+
+    """Revision history."""
+
+    def getHistory(self, **kw):
+        """Returns the history for context."""

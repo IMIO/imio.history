@@ -1,19 +1,29 @@
 from Acquisition import aq_base
 
 from Products.CMFCore.utils import getToolByName
+from plone import api
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
 
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 
 
-class ImioHistoryAdapter(object):
+class ImioWfHistoryAdapter(object):
+
+    """Adapter for workflow history."""
+
     def __init__(self, context):
         self.context = context
         self.request = self.context.REQUEST
 
-    def getHistory(self, checkMayView=True):
+    def getHistory(self, **kw):
         """See docstring in interfaces.py."""
         res = []
+        if 'checkMayView' in kw:
+            checkMayView = kw['checkMayView']
+        else:
+            checkMayView = True
+
         # no workflow_history attribute?  Return
         if not hasattr(aq_base(self.context), 'workflow_history'):
             return res
@@ -28,16 +38,16 @@ class ImioHistoryAdapter(object):
         if not wfName in self.context.workflow_history:
             return res
         history = list(self.context.workflow_history[wfName])
-        if checkMayView:
-            for event in history:
-                # hide comment if user may not access it
-                if not self.mayViewComment(event):
-                    # We take a copy, because we will modify it.
-                    event = event.copy()
-                    event['comments'] = HISTORY_COMMENT_NOT_VIEWABLE
-                res.append(event)
-        else:
-            res = history
+
+        for event in history:
+            # We take a copy, because we will modify it.
+            event = event.copy()
+            if checkMayView and not self.mayViewComment(event):
+                event['comments'] = HISTORY_COMMENT_NOT_VIEWABLE
+
+            event['type'] = 'workflow'
+            res.append(event)
+
         return res
 
     def historyLastEventHasComments(self):
@@ -57,3 +67,22 @@ class ImioHistoryAdapter(object):
     def mayViewComment(self, event):
         """See docstring in interfaces.py."""
         return True
+
+
+class ImioRevisionHistoryAdapter(ContentHistoryViewlet):
+
+    """Adapter for revision history."""
+
+    def __init__(self, context):
+        self.context = context
+        self.request = self.context.REQUEST
+        self.site_url = api.portal.get().absolute_url()
+
+    def getHistory(self, **kw):
+        """Get revision history."""
+        history = self.revisionHistory()
+        # only store actors fullnames
+        for event in history:
+            event['actor'] = event['actor']['fullname']
+
+        return history

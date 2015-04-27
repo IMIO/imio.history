@@ -4,7 +4,8 @@ Changelog
 1.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add revision history management.
+  [cedricmessiant]
 
 
 1.4 (2015-04-15)

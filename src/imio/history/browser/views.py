@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from zope.component import getAdapters
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
@@ -31,7 +33,7 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
           If a comment was added to last event of the object history,
           we highlight the link (set a css class on it) so user eye is drawn to it.
         """
-        return IImioHistory(self.context).historyLastEventHasComments()
+        return IImioWfHistory(self.context).historyLastEventHasComments()
 
 
 class IHContentHistoryView(ContentHistoryView):
@@ -42,11 +44,18 @@ class IHContentHistoryView(ContentHistoryView):
     index = ViewPageTemplateFile("templates/content_history.pt")
 
     def getHistory(self, checkMayView=True):
-        """
-          Get the history for current object.
-        """
-        history = IImioHistory(self.context).getHistory(checkMayView=checkMayView)
-        history.reverse()
+        """Get the history for current object.
+
+        Merge workflow history with content history and sort by time."""
+        history = []
+        history_adapters = getAdapters((self.context,), IImioHistory)
+        for adapter in history_adapters:
+            history.extend(adapter[1].getHistory(checkMayView=checkMayView))
+
+        if not history:
+            return []
+
+        history.sort(key=lambda x: x["time"], reverse=True)
         return history
 
     def getTransitionTitle(self, transitionName):

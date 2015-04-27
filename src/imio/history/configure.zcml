@@ -21,7 +21,13 @@
       />
 
   <adapter for="OFS.interfaces.IItem"
-           factory=".adapters.ImioHistoryAdapter"
-           provides=".interfaces.IImioHistory" />
+           factory=".adapters.ImioWfHistoryAdapter"
+           name="workflow"
+           provides=".interfaces.IImioWfHistory" />
+
+  <adapter for="OFS.interfaces.IItem"
+           factory=".adapters.ImioRevisionHistoryAdapter"
+           name="revision"
+           provides=".interfaces.IImioRevisionHistory" />
 
 </configure>
