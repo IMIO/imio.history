@@ -1,7 +1,7 @@
-from imio.history.adapters import ImioHistoryAdapter
+from imio.history.adapters import ImioWfHistoryAdapter
 
 
-class TestingImioHistoryAdapter(ImioHistoryAdapter):
+class TestingImioWfHistoryAdapter(ImioWfHistoryAdapter):
 
     def mayViewComment(self, event):
         """See docstring in interfaces.py."""

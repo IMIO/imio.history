@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapters
+from zope.component import getAdapter, getAdapters
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -33,7 +33,8 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
           If a comment was added to last event of the object history,
           we highlight the link (set a css class on it) so user eye is drawn to it.
         """
-        return IImioWfHistory(self.context).historyLastEventHasComments()
+        adapter = getAdapter(self.context, IImioHistory, 'workflow')
+        return adapter.historyLastEventHasComments()
 
 
 class IHContentHistoryView(ContentHistoryView):

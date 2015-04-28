@@ -1,3 +1,4 @@
+from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
 
@@ -37,7 +38,7 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         """Test the highlight_history_link method.
            History link will be highlighted if last event had a comment and
            if that comment is not an ignorable comment."""
-        adapter = IImioHistory(self.portal.doc)
+        adapter = getAdapter(self.portal.doc, IImioHistory, 'workflow')
         # not highlighted because '' is an ignored comment
         history = adapter.getHistory()
         self.assertFalse(self.viewlet.highlight_history_link())

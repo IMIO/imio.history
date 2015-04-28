@@ -9,7 +9,7 @@
 <include package="zope.component" file="meta.zcml" />
 
   <adapter for="OFS.interfaces.IItem"
-           factory=".tests.adapters.TestingImioHistoryAdapter"
-           provides=".interfaces.IImioHistory" />
+           factory=".tests.adapters.TestingImioWfHistoryAdapter"
+           provides=".interfaces.IImioWfHistory" />
 
 </configure>

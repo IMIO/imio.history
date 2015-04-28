@@ -26,12 +26,15 @@ class TestContentHistory(IntegrationTestCase):
         # we can get the workflow history even when no transition was triggered
         history = view.getHistory()
         # this is the 'element created' event in the history
-        self.assertTrue(len(history) == 1 and history[0]['action'] is None)
+        self.assertEqual(len(history), 2)
+        self.assertEqual(history[0]['action'], 'Edited')
+        self.assertIsNone(history[1]['action'])
         # publish the doc
         self.wft.doActionFor(self.doc, 'publish')
         history = view.getHistory()
         # actions are sorted reverse so first element of history is still last action
-        self.assertTrue(len(history) == 2 and history[0]['action'] == 'publish')
+        self.assertEqual(len(history), 3)
+        self.assertEqual(history[0]['action'], 'publish')
 
         # when changing an element workflow, getHistory will return events
         # of the currently applied workflow
@@ -41,12 +44,13 @@ class TestContentHistory(IntegrationTestCase):
         self.wft.doActionFor(self.doc, 'hide')
         # now using getHistory will return right history
         history = view.getHistory()
-        self.assertTrue(len(history) == 1 and history[0]['action'] == 'hide')
+        self.assertEqual(history[0]['action'], 'hide')
 
         # test that it works if element has no more workflow defined in portal_workflow
         # define no workflow anymore for 'Document'
         self.wft.setChainForPortalTypes(('Document', ), [])
-        self.assertTrue(view.getHistory() == [])
+        for event in view.getHistory():
+            self.assertNotEqual(event['type'], 'workflow')
 
         # test that it works also with an element having no workflow
         # and so no workflow_history attribute

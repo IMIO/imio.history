@@ -1,5 +1,6 @@
 from DateTime import DateTime
 
+from zope.component import getAdapter
 from plone import api
 
 from imio.history.interfaces import IImioHistory
@@ -15,7 +16,8 @@ class TestUtils(IntegrationTestCase):
         doc = api.content.create(type='Document',
                                  id='doc',
                                  container=self.portal)
-        history = IImioHistory(doc).getHistory()
+        adapter = getAdapter(doc, IImioHistory, 'workflow')
+        history = adapter.getHistory()
         firstEvent = history[0]
         # this is the 'creation' event
         self.assertTrue(firstEvent['action'] is None)
@@ -23,7 +25,7 @@ class TestUtils(IntegrationTestCase):
 
         # now publish the doc so we have an new event in the workflow_history
         self.wft.doActionFor(doc, 'publish', comment='My comment')
-        history = IImioHistory(doc).getHistory()
+        history = adapter.getHistory()
         lastEvent = history[-1]
         self.assertTrue(lastEvent['action'] == 'publish')
         self.assertTrue(getPreviousEvent(doc, lastEvent) == firstEvent)
