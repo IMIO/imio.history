@@ -2,6 +2,8 @@ from zope.component import getMultiAdapter
 from Products.Five import zcml
 
 from plone import api
+from plone.app.testing import TEST_USER_NAME
+
 from imio import history as imio_history
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.testing import IntegrationTestCase
@@ -28,7 +30,10 @@ class TestContentHistory(IntegrationTestCase):
         # this is the 'element created' event in the history
         self.assertEqual(len(history), 2)
         self.assertEqual(history[0]['action'], 'Edited')
+        self.assertEqual(history[0]['type'], 'versioning')
+        self.assertEqual(history[0]['actor'], TEST_USER_NAME)
         self.assertIsNone(history[1]['action'])
+        self.assertEqual(history[1]['type'], 'workflow')
         # publish the doc
         self.wft.doActionFor(self.doc, 'publish')
         history = view.getHistory()
