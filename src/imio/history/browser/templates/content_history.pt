@@ -19,7 +19,7 @@
     <tal:event repeat="event events">
     <tr tal:define="odd repeat/event/odd;
                     rhComments event/comments|nothing;
-                    state python:event['action'] or event['review_state'];
+                    state event/review_state|event/action|nothing;
                     isDataChange python: event['action'] == '_datachange_'"
         tal:attributes="class python: odd and 'even' or 'odd'" valign="top">
       <td tal:condition="isDataChange">
