@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5 (unreleased)
+1.5 (2015-07-14)
 ----------------
 
 - Add revision history management.
