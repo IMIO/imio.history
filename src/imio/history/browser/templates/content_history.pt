@@ -49,7 +49,7 @@
                       username actor/username|nothing"
           tal:content="python:fullname or username or actorid"/>
       <td tal:content="python:context.restrictedTraverse('@@plone').toLocalizedTime(event['time'],long_format=True)"/>
-      <td tal:condition="not: isDataChange">
+      <td tal:condition="not: isDataChange" class="history-comments">
         <tal:comment condition="rhComments" i18n:translate="" i18n:domain="imio.history" tal:content="structure rhComments"/>
         <span tal:condition="not: rhComments" i18n:translate="no_comments" class="discreet">No comments</span>
       </td>
