@@ -90,6 +90,12 @@ class IHContentHistoryView(ContentHistoryView):
 class IHVersionPreviewView(BrowserView):
     """Makes it possible to display a preview of a given version."""
 
+    def __init__(self, context, request):
+        """ """
+        super(IHVersionPreviewView, self).__init__(context, request)
+        self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        self.portal_url = self.portal.absolute_url()
+
     def __call__(self, version_id):
         pr = getToolByName(self.context, 'portal_repository')
         self.versioned_object = pr.retrieve(self.context, version_id).object
