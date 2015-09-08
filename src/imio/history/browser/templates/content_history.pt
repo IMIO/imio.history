@@ -72,6 +72,8 @@
       <td tal:define="isVersion python:event['type']=='versioning'">
         <tal:block condition="isVersion">
 
+          <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
+
           <div class="historyLinks">
             <a href=""
                tal:attributes="href event/preview_url"
@@ -85,7 +87,6 @@
       </td>
       <td tal:define="isVersion python:event['type']=='versioning'">
         <tal:block condition="isVersion">
-
           <form action="" method="post" tal:condition="event/revert_url" tal:attributes="action event/revert_url">
             <input type="hidden" name="version_id" value="" tal:attributes="value event/version_id" />
             <input class="standalone" type="submit" i18n:attributes="value title_revert_revision" tal:condition="exists:event/diff_current_url" value="Revert to this revision" />

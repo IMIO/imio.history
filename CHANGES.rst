@@ -4,7 +4,11 @@ Changelog
 1.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added @@history-version-preview view that is called by default in the
+  content_history but that renders nothing.  It is made to be registered for a
+  relevant content_type so it is possible to display a preview of a versioned
+  object directly in the history popup
+  [gbastien]
 
 
 1.5 (2015-07-14)

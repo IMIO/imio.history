@@ -2,8 +2,8 @@
 from zope.component import getAdapter, getAdapters
 
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
@@ -85,3 +85,12 @@ class IHContentHistoryView(ContentHistoryView):
           Colorize transition name?
         """
         return True
+
+
+class IHVersionPreviewView(BrowserView):
+    """Makes it possible to display a preview of a given version."""
+
+    def __call__(self, version_id):
+        pr = getToolByName(self.context, 'portal_repository')
+        self.versioned_object = pr.retrieve(self.context, version_id).object
+        return super(IHVersionPreviewView, self).__call__()

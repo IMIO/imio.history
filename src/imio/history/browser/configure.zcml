@@ -17,6 +17,15 @@
         name="contenthistory"
         class=".views.IHContentHistoryView"
         layer="imio.history.interfaces.IImioHistoryLayer"
+        permission="zope.Public"
+        />
+
+    <browser:page
+        for="OFS.interfaces.IItem"
+        name="history-version-preview"
+        class=".views.IHVersionPreviewView"
+        layer="imio.history.interfaces.IImioHistoryLayer"
+        template="templates/version_preview.pt"
         permission="zope2.View"
         />
 
