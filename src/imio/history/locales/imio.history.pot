@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-03-25 15:31+0000\n"
+"POT-Creation-Date: 2015-09-09 11:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,11 @@ msgstr ""
 msgid "<span class='discreet'>Access to this comment is restricted.</span>"
 msgstr ""
 
-#: ./browser/templates/content_history.pt:24
-msgid "data_change"
+#: ./browser/templates/version_preview.pt:1
+msgid "No preview available."
 msgstr ""
 
+#. Default: "Data change"
+#: ./browser/templates/content_history.pt:26
+msgid "data_change"
+msgstr ""
