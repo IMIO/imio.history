@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.6 (unreleased)
+1.6 (2015-09-10)
 ----------------
 
 - Added @@history-version-preview view that is called by default in the
