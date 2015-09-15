@@ -11,8 +11,8 @@
       <th i18n:translate="listingheader_performed_by" width="125px">Performed by</th>
       <th i18n:translate="listingheader_date_and_time" width="125px">Date and time</th>
       <th i18n:translate="listingheader_comment">Comment</th>
-      <th i18n:translate=""></th>
-      <th i18n:translate=""></th>
+      <th i18n:translate="" tal:condition="python:view.isVersioningPolicy()"></th>
+      <th i18n:translate="" tal:condition="python:view.isVersioningPolicy()"></th>
     </tr>
    </thead>
    <tbody>
@@ -69,7 +69,8 @@
           </tal:loop>
         </table>
       </td>
-      <td tal:define="isVersion python:event['type']=='versioning'">
+      <td tal:define="isVersion python:event['type']=='versioning'"
+      	  tal:condition="python:view.isVersioningPolicy()">
         <tal:block condition="isVersion">
 
           <div class="historyLinks">
@@ -85,7 +86,8 @@
 
         </tal:block>
       </td>
-      <td tal:define="isVersion python:event['type']=='versioning'">
+      <td tal:define="isVersion python:event['type']=='versioning'"
+      	  tal:condition="python:view.isVersioningPolicy()">
         <tal:block condition="isVersion">
           <form action="" method="post" tal:condition="event/revert_url" tal:attributes="action event/revert_url">
             <input type="hidden" name="version_id" value="" tal:attributes="value event/version_id" />
