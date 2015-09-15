@@ -13,7 +13,6 @@ class TestContentHistory(IntegrationTestCase):
 
     def setUp(self):
         super(TestContentHistory, self).setUp()
-        # get the viewlet
         doc = api.content.create(type='Document',
                                  id='doc',
                                  container=self.portal)
@@ -95,9 +94,8 @@ class TestContentHistory(IntegrationTestCase):
         """Test the mayViewComment method.
            We will register an adapter that test when it is overrided."""
         # by default, mayViewComment returns "True" so every comments
-        # are viewable in the object's workflow history
+        # are viewable in the object's history
         # create a document and publish it, the comment of the 'publish' transition is viewable
-        # create a document
         self.wft.doActionFor(self.doc, 'publish', comment='My comment')
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
         history = view.getHistory()
@@ -120,3 +118,5 @@ class TestContentHistory(IntegrationTestCase):
         self.assertTrue(lastEvent['action'] == 'publish')
         # comment is viewable as mayViewComment was not done
         self.assertTrue(lastEvent['comments'] == 'My comment')
+        # cleanUp zmcl.load_config because it impact other tests
+        zcml.cleanUp()

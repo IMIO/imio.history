@@ -4,8 +4,10 @@ Changelog
 1.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- In ImioRevisionHistoryAdapter.getHistory, take into account the
+  'checkMayView' parameter by implementing a 'mayViewRevision' method so it
+  is possible to restrict access to a specific revision if necessary
+  [gbastien]
 
 1.6 (2015-09-10)
 ----------------
