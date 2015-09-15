@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2015-09-09 11:25+0000\n"
+"POT-Creation-Date: 2015-09-15 11:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,10 @@ msgstr ""
 #. Default: "<span class='discreet'>Access to this comment is restricted.</span>"
 msgid "<span class='discreet'>Access to this comment is restricted.</span>"
 msgstr "<span class='discreet'>Vous n'avez pas accès à ce commentaire.</span>"
+
+#. Default: "<span class='discreet'>Access to this revision is restricted.</span>"
+msgid "<span class='discreet'>Access to this revision is restricted.</span>"
+msgstr "<span class='discreet'>Vous n'avez pas accès à cette version.</span>"
 
 #: ./browser/templates/version_preview.pt:1
 msgid "No preview available."

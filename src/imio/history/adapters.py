@@ -104,4 +104,4 @@ class ImioRevisionHistoryAdapter(ContentHistoryViewlet):
 
     def mayViewRevision(self, event):
         """See docstring in interfaces.py."""
-        return True
+        return False
