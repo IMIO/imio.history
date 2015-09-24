@@ -1,10 +1,17 @@
 Changelog
 =========
 
-1.7 (unreleased)
+1.8 (unreleased)
 ----------------
 
 - Nothing changed yet.
+
+
+1.7 (2015-09-24)
+----------------
+
+- Remove revision columns when unused. 
+  [DieKatze]
 
 
 1.6 (2015-09-10)

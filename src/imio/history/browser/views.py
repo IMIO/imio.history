@@ -89,7 +89,7 @@ class IHContentHistoryView(ContentHistoryView):
     def showRevisionInfos(self):
         """Return True if the type of the context is versioned. """
         pr = getToolByName(self.context, 'portal_repository')
-        if self.context.getTypeInfo().getId() in pr.getVersionableContentTypes():
+        if self.context.portal_type in pr.getVersionableContentTypes():
             return True
         else:
             return False
