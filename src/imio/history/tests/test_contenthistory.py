@@ -120,3 +120,16 @@ class TestContentHistory(IntegrationTestCase):
         self.assertTrue(lastEvent['action'] == 'publish')
         # comment is viewable as mayViewComment was not done
         self.assertTrue(lastEvent['comments'] == 'My comment')
+
+    def test_showRevisionInfos(self):
+        """Test the showRevisionInfos method."""
+        pr = api.portal.get_tool('portal_repository')
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+
+        # As the type of doc is a versionable content, showRevisionInfo should
+        # return True.
+        self.assertTrue(view.showRevisionInfos())
+        # Remove the type "Document" from the versionable content.
+        pr.setVersionableContentType([u'ATDocument', u'ATNewsItem', u'Event', u'Link', u'News Item'])
+        # Now showRevisionInfos shoud return False.
+        self.assertTrue(not view.showRevisionInfos())
