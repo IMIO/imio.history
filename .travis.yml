@@ -8,7 +8,7 @@ install:
 script:
   - bin/test
 after_success:
-  - bin/createcoverage run bin/test
+  - bin/coverage
   - pip install -q coveralls
   - coveralls
 
