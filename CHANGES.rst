@@ -4,6 +4,8 @@ Changelog
 1.7 (unreleased)
 ----------------
 
+- Remove revision columns when unused. 
+  [DieKatze]
 - In ImioRevisionHistoryAdapter.getHistory, take into account the
   'checkMayView' parameter by implementing a 'mayViewRevision' method so it
   is possible to restrict access to a specific revision if necessary
