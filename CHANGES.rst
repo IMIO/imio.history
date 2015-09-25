@@ -1,13 +1,7 @@
 Changelog
 =========
 
-1.8 (unreleased)
-----------------
-
-- Nothing changed yet.
-
-
-1.7 (2015-09-24)
+1.7 (unreleased)
 ----------------
 
 - Remove revision columns when unused. 
