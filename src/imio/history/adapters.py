@@ -6,6 +6,7 @@ from plone.app.layout.viewlets.content import ContentHistoryViewlet
 
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
+from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 
 
 class ImioWfHistoryAdapter(object):
@@ -80,9 +81,27 @@ class ImioRevisionHistoryAdapter(ContentHistoryViewlet):
 
     def getHistory(self, **kw):
         """Get revision history."""
+        res = []
+        if 'checkMayView' in kw:
+            checkMayView = kw['checkMayView']
+        else:
+            checkMayView = True
+
         history = self.revisionHistory()
         # only store actors fullnames
         for event in history:
             event['actor'] = event['actor']['fullname']
 
-        return history
+        for event in history:
+            # We take a copy, because we will modify it.
+            event = event.copy()
+            if checkMayView and not self.mayViewRevision(event):
+                event['comments'] = HISTORY_REVISION_NOT_VIEWABLE
+
+            res.append(event)
+
+        return res
+
+    def mayViewRevision(self, event):
+        """See docstring in interfaces.py."""
+        return True

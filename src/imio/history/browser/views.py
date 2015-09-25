@@ -8,6 +8,7 @@ from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
 
+from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 
 
@@ -93,6 +94,12 @@ class IHContentHistoryView(ContentHistoryView):
             return True
         else:
             return False
+
+    def versionIsViewable(self, event):
+        """
+          Check if version we want to show is viewable.
+        """
+        return not bool(event['comments'] == HISTORY_REVISION_NOT_VIEWABLE)
 
 
 class IHVersionPreviewView(BrowserView):

@@ -6,10 +6,16 @@
     i18n_domain="imio.history">
 
 
-<include package="zope.component" file="meta.zcml" />
+  <include package="zope.component" file="meta.zcml" />
 
   <adapter for="OFS.interfaces.IItem"
            factory=".tests.adapters.TestingImioWfHistoryAdapter"
+           name="workflow"
            provides=".interfaces.IImioWfHistory" />
+
+  <adapter for="OFS.interfaces.IItem"
+           factory=".tests.adapters.TestingImioRevisionHistoryAdapter"
+           name="revision"
+           provides=".interfaces.IImioRevisionHistory" />
 
 </configure>

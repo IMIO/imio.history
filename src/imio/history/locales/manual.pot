@@ -17,3 +17,7 @@ msgstr ""
 #. Default: "<span class='discreet'>Access to this comment is restricted.</span>"
 msgid "<span class='discreet'>Access to this comment is restricted.</span>"
 msgstr ""
+
+#. Default: "<span class='discreet'>Access to this revision is restricted.</span>"
+msgid "<span class='discreet'>Access to this revision is restricted.</span>"
+msgstr ""

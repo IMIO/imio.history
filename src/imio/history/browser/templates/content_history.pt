@@ -72,19 +72,20 @@
       </td>
       <td tal:define="isVersion python:event['type']=='versioning'"
           tal:condition="showRevisionInfos">
-        <tal:block condition="isVersion">
+        <tal:block define="versionIsViewable python: isVersion and view.versionIsViewable(event)"
+                   condition="isVersion">
+          <tal:versionViewable condition="versionIsViewable">
+            <div class="historyLinks">
+              <a href=""
+                 tal:attributes="href event/preview_url"
+                 i18n:translate="title_view_revision">View</a>
+              <a href="" tal:attributes="href event/diff_current_url"
+                 tal:condition="exists:event/diff_current_url"
+                 i18n:translate="title_compare_revision">&middot; Compare to current</a>
+            </div>
 
-          <div class="historyLinks">
-            <a href=""
-               tal:attributes="href event/preview_url"
-               i18n:translate="title_view_revision">View</a>
-            <a href="" tal:attributes="href event/diff_current_url"
-               tal:condition="exists:event/diff_current_url"
-               i18n:translate="title_compare_revision">&middot; Compare to current</a>
-          </div>
-
-          <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
-
+            <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
+          </tal:versionViewable>
         </tal:block>
       </td>
       <td tal:define="isVersion python:event['type']=='versioning'"
