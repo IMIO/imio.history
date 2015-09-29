@@ -133,4 +133,3 @@ class TestContentHistory(IntegrationTestCase):
         pr.setVersionableContentType([u'ATDocument', u'ATNewsItem', u'Event', u'Link', u'News Item'])
         # Now showRevisionInfos shoud return False.
         self.assertFalse(view.showRevisionInfos())
-

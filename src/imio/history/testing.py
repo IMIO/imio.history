@@ -32,7 +32,7 @@ class PloneWithHistoryLayer(PloneWithPackageLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
-         # Install into Plone site using portal_setup
+        # Install into Plone site using portal_setup
         applyProfile(portal, 'imio.history:testing')
 
         # Login and create some test content
@@ -54,20 +54,17 @@ class PloneWithHistoryLayer(PloneWithPackageLayer):
 
 
 FIXTURE = PloneWithHistoryLayer(
-    name="FIXTURE"
-)
+    name="FIXTURE")
 
 
 INTEGRATION = IntegrationTesting(
     bases=(FIXTURE,),
-    name="INTEGRATION"
-)
+    name="INTEGRATION")
 
 
 FUNCTIONAL = FunctionalTesting(
     bases=(FIXTURE,),
-    name="FUNCTIONAL"
-)
+    name="FUNCTIONAL")
 
 
 ACCEPTANCE = FunctionalTesting(
@@ -76,8 +73,7 @@ ACCEPTANCE = FunctionalTesting(
         AUTOLOGIN_LIBRARY_FIXTURE,
         z2.ZSERVER_FIXTURE
     ),
-    name="ACCEPTANCE"
-)
+    name="ACCEPTANCE")
 
 
 class IntegrationTestCase(unittest.TestCase):

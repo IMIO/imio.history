@@ -36,7 +36,7 @@ class ImioWfHistoryAdapter(object):
         wfName = wfTool.getWorkflowsFor(self.context)[0].getId()
         # in some case (we changed the workflow for already existing element
         # for example), the workflow key is not in workflow_history
-        if not wfName in self.context.workflow_history:
+        if wfName not in self.context.workflow_history:
             return res
         history = list(self.context.workflow_history[wfName])
 

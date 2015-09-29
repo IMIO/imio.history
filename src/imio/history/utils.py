@@ -11,4 +11,4 @@ def getPreviousEvent(obj, event, checkMayView=True):
     adapter = getAdapter(obj, IImioHistory, 'workflow')
     history = adapter.getHistory(checkMayView=checkMayView)
     if event in history and history.index(event) > 0:
-        return history[history.index(event)-1]
+        return history[history.index(event) - 1]
