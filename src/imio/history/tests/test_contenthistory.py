@@ -133,3 +133,13 @@ class TestContentHistory(IntegrationTestCase):
         pr.setVersionableContentType([u'ATDocument', u'ATNewsItem', u'Event', u'Link', u'News Item'])
         # Now showRevisionInfos shoud return False.
         self.assertFalse(view.showRevisionInfos())
+
+    def test_renderComments(self):
+        """Test the renderComments method."""
+        # render comments will first try to translate the comments
+        # then turn it from 'text/plain' to 'text/html'
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+        self.assertEquals(view.renderComments('data_change'),
+                          u'<p>Data change</p>')
+        self.assertEquals(view.renderComments('Custom comments not translatable.\nAnd one additional line.'),
+                          u'<p>Custom comments not translatable.<br />And one additional line.</p>')

@@ -1,6 +1,3 @@
-# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
-# SOME DESCRIPTIVE TITLE.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -12,25 +9,25 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
+"Language-Code: fr\n"
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: imio.history\n"
+"X-is-fallback-for: fr-fr fr-be fr-ca\n"
 
 #. Default: "<span class='discreet'>Access to this comment is restricted.</span>"
 msgid "<span class='discreet'>Access to this comment is restricted.</span>"
-msgstr ""
+msgstr "<span class='discreet'>Access to this comment is restricted.</span>"
 
 #. Default: "<span class='discreet'>Access to this revision is restricted.</span>"
 msgid "<span class='discreet'>Access to this revision is restricted.</span>"
-msgstr ""
+msgstr "<span class='discreet'>Access to this revision is restricted.</span>"
 
 #: ./browser/templates/version_preview.pt:1
 msgid "No preview available."
-msgstr ""
+msgstr "No preview available."
 
 #. Default: "Data change"
 #: ./browser/templates/content_history.pt:27
 msgid "data_change"
-msgstr ""
-
+msgstr "Data change"

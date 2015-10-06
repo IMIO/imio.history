@@ -7,7 +7,7 @@ CATALOGNAME="imio.history"
 
 # List of languages used for po initialization (no mandatory update for syncing)
 # Ex LANGUAGES="en|English|en-au;en-ca;en-gb;en-us fr|French|fr-fr;fr-be;fr-ca nl|Dutch|nl-be;nl-nl"
-LANGUAGES="fr|French|fr-fr;fr-be;fr-ca"
+LANGUAGES="fr|French|fr-fr;fr-be;fr-ca;en"
 
 # Create locales folder structure for languages
 install -d locales
