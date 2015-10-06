@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from zope.component import getAdapter, getAdapters
+from zope.i18n import translate
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFPlone.utils import safe_unicode
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
@@ -45,6 +47,10 @@ class IHContentHistoryView(ContentHistoryView):
     '''
     index = ViewPageTemplateFile("templates/content_history.pt")
 
+    def __init__(self, context, request):
+        super(IHContentHistoryView, self).__init__(context, request)
+        self.transformsTool = getToolByName(self.context, 'portal_transforms')
+
     def getHistory(self, checkMayView=True):
         """Get the history for current object.
 
@@ -72,6 +78,15 @@ class IHContentHistoryView(ContentHistoryView):
             return currentWF.transitions[transitionName].title
         else:
             return transitionName
+
+    def renderComments(self, comments):
+        """
+          Render comments correctly as it is 'plain/text' and we want 'text/html'.
+        """
+        # try to translate comments before it is turned into text/html
+        translated = translate(safe_unicode(comments), domain='imio.history', context=self.request)
+        data = self.transformsTool.convertTo('text/x-html-safe', translated)
+        return data.getData()
 
     @memoize
     def _getCurrentContextWorkflow(self):

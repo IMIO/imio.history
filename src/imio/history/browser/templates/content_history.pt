@@ -19,7 +19,7 @@
    <tbody>
     <tal:event repeat="event events">
     <tr tal:define="odd repeat/event/odd;
-                    rhComments event/comments|nothing;
+                    comments event/comments|nothing;
                     state event/review_state|event/action|nothing;
                     isDataChange python: event['action'] == '_datachange_'"
         tal:attributes="class python: odd and 'even' or 'odd'" valign="top">
@@ -51,8 +51,10 @@
           tal:content="python:fullname or username or actorid"/>
       <td tal:content="python:context.restrictedTraverse('@@plone').toLocalizedTime(event['time'],long_format=True)"/>
       <td tal:condition="not: isDataChange" class="history-comments">
-        <tal:comment condition="rhComments" i18n:translate="" i18n:domain="imio.history" tal:content="structure rhComments"/>
-        <span tal:condition="not: rhComments" i18n:translate="no_comments" class="discreet">No comments</span>
+        <tal:renderComments condition="comments">
+         <tal:renderedComments replace="structure python: view.renderComments(comments)"/>
+        </tal:renderComments>
+        <span tal:condition="not: comments" i18n:translate="no_comments" class="discreet">No comments</span>
       </td>
       <td tal:condition="isDataChange">
         <tal:comment replace="nothing">

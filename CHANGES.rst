@@ -4,13 +4,15 @@ Changelog
 1.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Make sure comments is displayed correctly by using portal_transforms to
+  turn it to 'text/html' before displaying it in the PageTemplate using
+  'structure'.
+  [gbastien]
 
 1.7 (2015-09-28)
 ----------------
 
-- Remove revision columns when unused. 
+- Remove revision columns when unused.
   [DieKatze]
 - In ImioRevisionHistoryAdapter.getHistory, take into account the
   'checkMayView' parameter by implementing a 'mayViewRevision' method so it
