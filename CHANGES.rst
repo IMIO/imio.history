@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.8 (unreleased)
+1.8 (2015-10-06)
 ----------------
 
 - Make sure comments is displayed correctly by using portal_transforms to
