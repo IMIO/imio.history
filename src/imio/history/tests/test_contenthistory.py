@@ -77,12 +77,22 @@ class TestContentHistory(IntegrationTestCase):
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
         # it use the 'simple_publication_workflow'
         # test with an existing transition
-        self.assertTrue(view.getTransitionTitle('publish') == 'Reviewer publishes content')
+        self.assertEqual(view.getTransitionTitle('publish'),
+                         'Reviewer publishes content')
         # if the transition does not exist, it will return passed transition id
-        self.assertTrue(view.getTransitionTitle('unexisting_transition_id') == 'unexisting_transition_id')
+        self.assertEqual(view.getTransitionTitle('unexisting_transition_id'),
+                         'unexisting_transition_id')
         # if a transition does not have a title, the passed transition id is returned
         self.wft.simple_publication_workflow.transitions['publish'].title = ''
-        self.assertTrue(view.getTransitionTitle('publish') == 'publish')
+        self.assertEqual(view.getTransitionTitle('publish'),
+                         'publish')
+        # an entry that is not a transition_id but contains special chars does not break
+        self.assertEqual(view.getTransitionTitle(u'sp\xe9cial'),
+                         u'sp\xe9cial')
+        self.assertEqual(view.getTransitionTitle('sp\xc3\xa9cial'),
+                         'sp\xc3\xa9cial')
+        # empty value does not break
+        self.assertEqual(view.getTransitionTitle(''), '')
 
     def test_showColors(self):
         """Test the showColors method.

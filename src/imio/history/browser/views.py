@@ -72,9 +72,8 @@ class IHContentHistoryView(ContentHistoryView):
           as it is what is really displayed in the template.
         """
         currentWF = self._getCurrentContextWorkflow()
-        if transitionName and \
-           hasattr(currentWF.transitions, transitionName) \
-           and currentWF.transitions[transitionName].title:
+        if transitionName in currentWF.transitions and \
+           currentWF.transitions[transitionName].title:
             return currentWF.transitions[transitionName].title
         else:
             return transitionName

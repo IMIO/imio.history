@@ -4,8 +4,9 @@ Changelog
 1.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Do not break in IHContentHistoryView.getTransitionTitle if transitionName
+  contains special characters.
+  [gbastien]
 
 1.8 (2015-10-06)
 ----------------
