@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.10 (unreleased)
+1.10 (2017-06-14)
 -----------------
 
 - In ImioWfHistoryAdapter.historyLastEventHasComments, call
