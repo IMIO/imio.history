@@ -14,7 +14,7 @@ from plone.testing import z2
 
 import imio.history
 
-import unittest2 as unittest
+import unittest
 
 
 class PloneWithHistoryLayer(PloneWithPackageLayer):
