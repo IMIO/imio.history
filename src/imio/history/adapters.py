@@ -53,7 +53,7 @@ class ImioWfHistoryAdapter(object):
 
     def historyLastEventHasComments(self):
         """See docstring in interfaces.py."""
-        history = self.getHistory()
+        history = self.getHistory(for_last_event=True)
         if not history:
             return False
         lastEvent = history[-1]

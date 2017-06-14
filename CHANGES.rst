@@ -4,8 +4,11 @@ Changelog
 1.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In ImioWfHistoryAdapter.historyLastEventHasComments, call
+  ImioWfHistoryAdapter.getHistory with parameter 'for_last_event=True' so
+  getHistory knows that it queries only relevant last event and when overrided,
+  the package overriding it may avoid heavy processing if relevant.
+  [gbastien]
 
 1.9 (2016-10-12)
 ----------------

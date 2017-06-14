@@ -24,7 +24,10 @@ class IImioWfHistory(IImioHistory):
 
     def getHistory(self, **kw):
         """Returns the history for context.  If p_checkMayView is True (default),
-        the method 'mayViewComment' is called on every history event."""
+        the method 'mayViewComment' is called on every history event.
+        If p_for_last_event is True, it means that getHistory is called from method
+        historyLastEventHasComments.  This is done so when overrided, heavy process
+        may be avoided when knowing that we will just get last event's comment."""
 
     def historyLastEventHasComments(self):
         """Returns True if the last event of the object's history has a comment."""
