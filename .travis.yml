@@ -1,10 +1,14 @@
 language: python
 python:
   - 2.7
+cache:
+  directories:
+  - eggs
+  - downloads
 install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg --version=2.5.3
-  - bin/buildout -Nc travis.cfg
+  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True -c travis.cfg
 script:
   - bin/test
 after_success:
