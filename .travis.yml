@@ -9,7 +9,7 @@ cache:
 install:
   - mkdir -p buildout-cache/{eggs,downloads}
   - python bootstrap.py -c travis.cfg --version=2.5.3
-  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True -c travis.cfg
+  - bin/buildout -N -c travis.cfg buildout:download-cache=downloads code-analysis:return-status-codes=True
 script:
   - bin/test
 after_success:
