@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.11 (unreleased)
+1.11 (2017-06-23)
 -----------------
 
 - Adapted History word highlighting ti display it bigger and underline it so
