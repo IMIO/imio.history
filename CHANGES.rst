@@ -4,8 +4,9 @@ Changelog
 1.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Adapted History word highlighting ti display it bigger and underline it so
+  it is even more viewable.
+  [gbastien]
 
 1.10 (2017-06-14)
 -----------------
