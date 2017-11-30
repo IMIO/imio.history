@@ -12,3 +12,24 @@ def getPreviousEvent(obj, event, checkMayView=True):
     history = adapter.getHistory(checkMayView=checkMayView)
     if event in history and history.index(event) > 0:
         return history[history.index(event) - 1]
+
+
+def getLastAction(obj, action=None, history_name='workflow', checkMayView=False):
+    '''Returns, from the p_history_name of p_obj, the last occurence of p_event.'''
+
+    adapter = getAdapter(obj, IImioHistory, history_name)
+    history = adapter.getHistory(checkMayView=checkMayView)
+
+    if not action:
+        return history[-1]
+
+    i = len(history) - 1
+    while i >= 0:
+        event = history[i]
+        if isinstance(action, basestring):
+            condition = event['action'] == action
+        else:
+            condition = event['action'] in action
+        if condition:
+            return event
+        i -= 1

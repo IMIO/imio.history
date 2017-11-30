@@ -53,12 +53,13 @@ class IHContentHistoryView(ContentHistoryView):
 
     def getHistory(self, checkMayView=True):
         """Get the history for current object.
-
-        Merge workflow history with content history and sort by time."""
+           Merge workflow history with content history and sort by time."""
         history = []
         history_adapters = getAdapters((self.context,), IImioHistory)
-        for adapter in history_adapters:
-            history.extend(adapter[1].getHistory(checkMayView=checkMayView))
+        for adapter_name, adapter in history_adapters:
+            # for now, specifically limit display to u'revision' and u'workflow'
+            if adapter_name in (u'revision', u'workflow'):
+                history.extend(adapter.getHistory(checkMayView=checkMayView))
 
         if not history:
             return []

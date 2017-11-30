@@ -14,7 +14,7 @@ class IImioHistory(Interface):
 
     """Base interface for history adapters."""
 
-    def getHistory(self, **kw):
+    def getHistory(self, checkMayView=True, **kw):
         """Get history."""
 
 
@@ -22,7 +22,7 @@ class IImioWfHistory(IImioHistory):
 
     """Workflow history."""
 
-    def getHistory(self, **kw):
+    def getHistory(self, checkMayView=True, **kw):
         """Returns the history for context.  If p_checkMayView is True (default),
         the method 'mayViewComment' is called on every history event.
         If p_for_last_event is True, it means that getHistory is called from method
@@ -43,5 +43,5 @@ class IImioRevisionHistory(IImioHistory):
 
     """Revision history."""
 
-    def getHistory(self, **kw):
+    def getHistory(self, checkMayView=True, **kw):
         """Returns the history for context."""

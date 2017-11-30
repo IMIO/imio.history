@@ -9,22 +9,42 @@ from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 
 
-class ImioWfHistoryAdapter(object):
+class BaseImioHistoryAdapter(object):
 
-    """Adapter for workflow history."""
+    """Base adapter for imio.history."""
+
+    history_name = 'dummy_history'
 
     def __init__(self, context):
         self.context = context
         self.request = self.context.REQUEST
 
-    def getHistory(self, **kw):
+    def getHistory(self, checkMayView=True, **kw):
+        """Get revision history."""
+        res = []
+        history = getattr(self.context, self.history_name)
+
+        for event in history:
+            # Make sure original event is not modified
+            event = event.copy()
+            if checkMayView and not self.mayViewComment(event):
+                event['comments'] = HISTORY_COMMENT_NOT_VIEWABLE
+            res.append(event)
+
+        return res
+
+    def mayViewComment(self, event):
+        """See docstring in interfaces.py."""
+        return True
+
+
+class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
+
+    """Adapter for workflow history."""
+
+    def getHistory(self, checkMayView=True, **kw):
         """See docstring in interfaces.py."""
         res = []
-        if 'checkMayView' in kw:
-            checkMayView = kw['checkMayView']
-        else:
-            checkMayView = True
-
         # no workflow_history attribute?  Return
         if not hasattr(aq_base(self.context), 'workflow_history'):
             return res
@@ -79,14 +99,9 @@ class ImioRevisionHistoryAdapter(ContentHistoryViewlet):
         self.request = self.context.REQUEST
         self.site_url = api.portal.get().absolute_url()
 
-    def getHistory(self, **kw):
+    def getHistory(self, checkMayView=True, **kw):
         """Get revision history."""
         res = []
-        if 'checkMayView' in kw:
-            checkMayView = kw['checkMayView']
-        else:
-            checkMayView = True
-
         history = self.revisionHistory()
         # only store actors fullnames
         for event in history:

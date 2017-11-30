@@ -4,8 +4,15 @@ Changelog
 1.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Define a `BaseImioHistoryAdapter` to base new history adapter on.
+  `checkMayView=True` is now a default parameter of `getHistory`.
+  [gbastien]
+- For now, specifically restrict histories displayed in the `@@historyview` to
+  `workflow` and `revision`.
+  [gbastien]
+- Added method `utils.getLastAction` that returns the metadata of last action of
+  a given name for a given history.
+  [gbastien]
 
 1.11 (2017-06-23)
 -----------------
