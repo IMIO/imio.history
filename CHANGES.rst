@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.12 (unreleased)
+1.12 (2017-11-30)
 -----------------
 
 - Define a `BaseImioHistoryAdapter` to base new history adapter on.
