@@ -4,8 +4,8 @@ Changelog
 1.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `utils.getLastAction`, do not break if history is empty, added tests.
+  [gbastien]
 
 1.12 (2017-11-30)
 -----------------
