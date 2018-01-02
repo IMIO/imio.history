@@ -73,7 +73,7 @@ class IHContentHistoryView(ContentHistoryView):
           as it is what is really displayed in the template.
         """
         currentWF = self._getCurrentContextWorkflow()
-        if transitionName in currentWF.transitions and \
+        if currentWF and transitionName in currentWF.transitions and \
            currentWF.transitions[transitionName].title:
             return currentWF.transitions[transitionName].title
         else:
@@ -94,7 +94,8 @@ class IHContentHistoryView(ContentHistoryView):
           Return currently used workflow.
         """
         wfTool = getToolByName(self.context, 'portal_workflow')
-        return wfTool.getWorkflowsFor(self.context)[0]
+        workflows = wfTool.getWorkflowsFor(self.context)
+        return workflows and workflows[0] or None
 
     def showColors(self):
         """

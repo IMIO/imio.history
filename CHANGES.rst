@@ -4,8 +4,8 @@ Changelog
 1.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Do not fail to call workflow_history specific methods if obj has no workflow.
+  [gbastien]
 
 1.13 (2017-12-07)
 -----------------
