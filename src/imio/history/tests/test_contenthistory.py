@@ -68,7 +68,8 @@ class TestContentHistory(IntegrationTestCase):
         # no workflow_history attribute
         self.assertTrue(not hasattr(afile, 'workflow_history'))
         # this does not fail
-        self.assertTrue(view.getHistory() == [])
+        self.assertEqual(view.getTransitionTitle('a_transition'), 'a_transition')
+        self.assertEqual(view.getHistory(), [])
 
     def test_getTransitionTitle(self):
         """Test the getTransitionTitle method.

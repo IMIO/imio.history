@@ -45,6 +45,7 @@ class IHContentHistoryView(ContentHistoryView):
       Overrides the ContentHistoryView template to use our own.
       We want to display the content_history as a table.
     '''
+    histories_to_handle = (u'revision', u'workflow')
     index = ViewPageTemplateFile("templates/content_history.pt")
 
     def __init__(self, context, request):
@@ -58,7 +59,7 @@ class IHContentHistoryView(ContentHistoryView):
         history_adapters = getAdapters((self.context,), IImioHistory)
         for adapter_name, adapter in history_adapters:
             # for now, specifically limit display to u'revision' and u'workflow'
-            if adapter_name in (u'revision', u'workflow'):
+            if adapter_name in self.histories_to_handle:
                 history.extend(adapter.getHistory(checkMayView=checkMayView))
 
         if not history:
