@@ -77,6 +77,9 @@
         <tal:block define="versionIsViewable python: isVersion and view.versionIsViewable(event)"
                    condition="isVersion">
           <tal:versionViewable condition="versionIsViewable">
+
+            <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
+
             <div class="historyLinks">
               <a href=""
                  tal:attributes="href event/preview_url"
@@ -86,7 +89,6 @@
                  i18n:translate="title_compare_revision">&middot; Compare to current</a>
             </div>
 
-            <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
           </tal:versionViewable>
         </tal:block>
       </td>
