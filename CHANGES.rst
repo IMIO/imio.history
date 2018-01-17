@@ -6,6 +6,17 @@ Changelog
 
 - Do not fail to call workflow_history specific methods if obj has no workflow.
   [gbastien]
+- `IHContentHistoryView.renderComments` now receives the entire event as
+  parameter not just the comment so it pass the different values of the event as
+  mapping to the translate method so it is useable in translated comment.
+  [gbastien]
+- Added `IHContentHistoryView.renderCustomJS` to be able to inject custom JS
+  when loading the `@@historyview`, especially because it is loaded as an
+  overlay.
+  [gbastien]
+- Added helper `utils.add_event_to_history` that adds an event to an history
+  respecting minimum required data.
+  [gbastien]
 
 1.13 (2017-12-07)
 -----------------

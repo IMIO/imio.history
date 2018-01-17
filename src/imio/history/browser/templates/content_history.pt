@@ -2,7 +2,7 @@
       tal:define="events view/getHistory;
                   showColors  view/showColors;
                   showRevisionInfos view/showRevisionInfos;">
-
+  <tal:block replace="structure view/renderCustomJS"></tal:block>
   <tal:comment replace="nothing">Table containing the history</tal:comment>
   <tal:history condition="events">
   <table class="listing nosort" style="width: 100%">
@@ -52,7 +52,7 @@
       <td tal:content="python:context.restrictedTraverse('@@plone').toLocalizedTime(event['time'],long_format=True)"/>
       <td tal:condition="not: isDataChange" class="history-comments">
         <tal:renderComments condition="comments">
-         <tal:renderedComments replace="structure python: view.renderComments(comments)"/>
+         <tal:renderedComments replace="structure python: view.renderComments(event)"/>
         </tal:renderComments>
         <span tal:condition="not: comments" i18n:translate="no_comments" class="discreet">No comments</span>
       </td>

@@ -80,12 +80,25 @@ class IHContentHistoryView(ContentHistoryView):
         else:
             return transitionName
 
-    def renderComments(self, comments):
+    def _extra_render_comments_mapping(self):
+        """ """
+        return {}
+
+    def renderComments(self, event):
         """
           Render comments correctly as it is 'plain/text' and we want 'text/html'.
         """
+        # prepare some data passed to translate as mappings
+        mapping = event.copy()
+        mapping['event_time'] = int(event['time'])
+        mapping['url'] = self.context.absolute_url()
+        mapping.update(self._extra_render_comments_mapping())
         # try to translate comments before it is turned into text/html
-        translated = translate(safe_unicode(comments), domain='imio.history', context=self.request)
+        translated = translate(
+            safe_unicode(event['comments']),
+            mapping=mapping,
+            domain='imio.history',
+            context=self.request)
         data = self.transformsTool.convertTo('text/x-html-safe', translated)
         return data.getData()
 
@@ -117,6 +130,10 @@ class IHContentHistoryView(ContentHistoryView):
           Check if version we want to show is viewable.
         """
         return not bool(event['comments'] == HISTORY_REVISION_NOT_VIEWABLE)
+
+    def renderCustomJS(self):
+        """ """
+        return '<script></script>'
 
 
 class IHVersionPreviewView(BrowserView):

@@ -6,6 +6,7 @@ from plone import api
 
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
+from imio.history.utils import add_event_to_history
 from imio.history.utils import getLastAction
 from imio.history.utils import getPreviousEvent
 
@@ -76,3 +77,39 @@ class TestUtils(IntegrationTestCase):
     def test_getLastAction_history_empty(self):
         """Does not breaks and returns None if history empty."""
         self.assertIsNone(getLastAction(self.portal.folder, history_name='revision'))
+
+    def test_add_event_to_history(self):
+        """Add an event to an history following an action."""
+        folder = self.portal.folder
+        # if history attr does not exist, it is created
+        DUMMY_HISTORY_ATTR = 'dummy_history'
+        self.assertFalse(hasattr(folder, DUMMY_HISTORY_ATTR))
+
+        # action1 with default values
+        add_event_to_history(folder, DUMMY_HISTORY_ATTR, 'action1')
+        added_action1 = getattr(folder, DUMMY_HISTORY_ATTR)[0]
+        self.assertEqual(added_action1['action'], 'action1')
+        # current user id in actor
+        self.assertEqual(added_action1['actor'], 'test_user_1_')
+        self.assertEqual(added_action1['actor'], api.user.get_current().getId())
+        self.assertEqual(added_action1['comments'], '')
+        self.assertTrue(isinstance(added_action1['time'], DateTime))
+
+        # action2 with parameters
+        new_user = api.user.create(username='dummy_user', email='dummy@user.org')
+        add_event_to_history(folder,
+                             DUMMY_HISTORY_ATTR,
+                             'action2',
+                             actor=new_user,
+                             time=DateTime('2018/01/12'),
+                             comments=u'My comments',
+                             extra_infos={'dummy_info1': u'Information 1',
+                                          'dummy_info2': u'Information 2'})
+        added_action2 = getattr(folder, DUMMY_HISTORY_ATTR)[1]
+        self.assertEqual(added_action2['action'], 'action2')
+        self.assertEqual(added_action2['actor'], new_user.getId())
+        self.assertEqual(added_action2['comments'], u'My comments')
+        self.assertEqual(added_action2['time'], DateTime('2018/01/12'))
+        # extra infos
+        self.assertEqual(added_action2['dummy_info1'], u'Information 1')
+        self.assertEqual(added_action2['dummy_info2'], u'Information 2')

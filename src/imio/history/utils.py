@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from DateTime import DateTime
+from persistent.list import PersistentList
 from zope.component import getAdapter
 from imio.history.interfaces import IImioHistory
+from plone import api
+from Products.CMFPlone.utils import base_hasattr
 
 
 def getPreviousEvent(obj, event, checkMayView=True):
@@ -39,3 +43,15 @@ def getLastAction(obj, action='last', history_name='workflow', checkMayView=Fals
         if condition:
             return event
         i -= 1
+
+
+def add_event_to_history(obj, history_attr, action, actor=None, time=None, comments=u'', extra_infos={}):
+    """This is an helper method to add an entry to an history."""
+    if not base_hasattr(obj, history_attr):
+        setattr(obj, history_attr, PersistentList())
+    history_data = {'action': action,
+                    'actor': actor and actor.getId() or api.user.get_current().getId(),
+                    'time': time or DateTime(),
+                    'comments': comments}
+    history_data.update(extra_infos)
+    getattr(obj, history_attr).append(history_data.copy())
