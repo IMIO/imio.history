@@ -25,7 +25,7 @@ class BaseImioHistoryAdapter(object):
         """Overridable method that returns the base history to handle."""
         history = []
         if self.history_attr_name:
-            history = getattr(self.context, 'emergency_changes_history', [])
+            history = getattr(self.context, self.history_attr_name, [])
         return history
 
     def getHistory(self,
