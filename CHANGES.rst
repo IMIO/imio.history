@@ -19,6 +19,11 @@ Changelog
 - Added helper `utils.add_event_to_history` that adds an event to an history
   respecting minimum required data.
   [gbastien]
+- Added the `BaseImioHistoryAdapter.mayViewEvent` method used when parameter
+  `checkMayViewEvent=True`, it returns `True` by default but is made to be
+  overrided, if returns False, the entire event is not displayed in the
+  `@@historyview`.
+  [gbastien]
 
 1.13 (2017-12-07)
 -----------------

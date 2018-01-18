@@ -103,7 +103,7 @@ class TestContentHistory(IntegrationTestCase):
 
     def test_MayViewComment(self, ):
         """Test the mayViewComment method.
-           We will register an adapter that test when it is overrided."""
+           We will register an adapter that hide 'publish' transition comments."""
         # by default, mayViewComment returns "True" so every comments
         # are viewable in the object's history
         # create a document and publish it, the comment of the 'publish' transition is viewable
@@ -129,6 +129,38 @@ class TestContentHistory(IntegrationTestCase):
         self.assertTrue(lastEvent['action'] == 'publish')
         # comment is viewable as mayViewComment was not done
         self.assertTrue(lastEvent['comments'] == 'My comment')
+        # cleanUp zmcl.load_config because it impact other tests
+        zcml.cleanUp()
+
+    def test_MayViewEvent(self):
+        """Test the mayViewEvent method.
+           We will register an adapter that hides the 'publish' event."""
+        # by default, mayViewEvent returns "True" so every events
+        # are viewable in the object's history
+        # create a document and publish it, 2 events are viewable
+        self.wft.doActionFor(self.doc, 'publish', comment='My comment')
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+        history = view.getHistory()
+        self.assertEqual(len(history), 3)
+        actions = [event['action'] for event in history]
+        self.assertTrue('publish' in actions)
+        # we have also a revision
+        self.assertTrue(u'Edited' in actions)
+
+        # enable, the 'publish' actions wille not be viewable anymore, as well as revisions
+        zcml.load_config('testing-adapter.zcml', imio_history)
+        history = view.getHistory()
+        self.assertEqual(len(history), 1)
+        actions = [event['action'] for event in history]
+        self.assertFalse('publish' in actions)
+        self.assertFalse(u'Edited' in actions)
+
+        # if passing checkMayViewEvent=False, then publish event is viewable
+        history = view.getHistory(checkMayViewEvent=False)
+        self.assertEqual(len(history), 3)
+        actions = [event['action'] for event in history]
+        self.assertTrue('publish' in actions)
+        self.assertTrue(u'Edited' in actions)
         # cleanUp zmcl.load_config because it impact other tests
         zcml.cleanUp()
 

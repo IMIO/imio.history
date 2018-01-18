@@ -21,6 +21,9 @@ class IImioHistory(Interface):
     def get_history_data(self):
         """Base overridable method that returns the base history to handle."""
 
+    def mayViewEvent(self, event):
+        """This will make it possible to hide some complete events."""
+
     def mayViewComment(self, event):
         """This will make it possible to hide some comments."""
 
