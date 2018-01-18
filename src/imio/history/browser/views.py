@@ -52,7 +52,7 @@ class IHContentHistoryView(ContentHistoryView):
         super(IHContentHistoryView, self).__init__(context, request)
         self.transformsTool = getToolByName(self.context, 'portal_transforms')
 
-    def getHistory(self, checkMayView=True):
+    def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True):
         """Get the history for current object.
            Merge workflow history with content history and sort by time."""
         history = []
@@ -60,7 +60,9 @@ class IHContentHistoryView(ContentHistoryView):
         for adapter_name, adapter in history_adapters:
             # for now, specifically limit display to u'revision' and u'workflow'
             if adapter_name in self.histories_to_handle:
-                history.extend(adapter.getHistory(checkMayView=checkMayView))
+                history.extend(adapter.getHistory(
+                    checkMayViewEvent=checkMayViewEvent,
+                    checkMayViewComment=checkMayViewComment))
 
         if not history:
             return []

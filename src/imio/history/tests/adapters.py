@@ -12,6 +12,6 @@ class TestingImioWfHistoryAdapter(ImioWfHistoryAdapter):
 
 class TestingImioRevisionHistoryAdapter(ImioRevisionHistoryAdapter):
 
-    def mayViewRevision(self, event):
+    def mayViewComment(self, event):
         """See docstring in interfaces.py."""
         return False

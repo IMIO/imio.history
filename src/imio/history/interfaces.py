@@ -14,20 +14,23 @@ class IImioHistory(Interface):
 
     """Base interface for history adapters."""
 
-    def getHistory(self, checkMayView=True, **kw):
-        """Get history."""
+    def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True, **kw):
+        """Get an history. p_checkMayViewEvent will check if event is viewable and
+           p_checkMayViewComment will check if the comment of an event is viewable."""
+
+    def get_history_data(self):
+        """Base overridable method that returns the base history to handle."""
+
+    def mayViewComment(self, event):
+        """This will make it possible to hide some comments."""
 
 
 class IImioWfHistory(IImioHistory):
 
     """Workflow history."""
 
-    def getHistory(self, checkMayView=True, **kw):
-        """Returns the history for context.  If p_checkMayView is True (default),
-        the method 'mayViewComment' is called on every history event.
-        If p_for_last_event is True, it means that getHistory is called from method
-        historyLastEventHasComments.  This is done so when overrided, heavy process
-        may be avoided when knowing that we will just get last event's comment."""
+    def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True, **kw):
+        """Returns the WF history for context."""
 
     def historyLastEventHasComments(self):
         """Returns True if the last event of the object's history has a comment."""
@@ -35,13 +38,10 @@ class IImioWfHistory(IImioHistory):
     def ignorableHistoryComments(self):
         """Ignorable history comments, stored as utf-8."""
 
-    def mayViewComment(self, event):
-        """This will make it possible to hide some comments."""
-
 
 class IImioRevisionHistory(IImioHistory):
 
     """Revision history."""
 
-    def getHistory(self, checkMayView=True, **kw):
+    def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True, **kw):
         """Returns the history for context."""

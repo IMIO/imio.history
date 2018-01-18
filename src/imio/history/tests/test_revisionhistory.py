@@ -31,10 +31,10 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         self.assertEqual(history[0]['actor'], TEST_USER_NAME)
         self.assertEqual(history[0]['action'], 'Edited')
 
-    def test_MayViewRevision(self, ):
-        """Test the mayViewRevision method.
+    def test_MayViewVersionComment(self, ):
+        """Test the mayViewComment method.
            We will register an adapter that test when it is overrided."""
-        # by default, mayViewRevision returns "True" so every revisions
+        # by default, mayViewComment returns "True" so every revisions
         # are viewable in the object's history
         # use self.doc and make a new revision, the revision is viewable
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
@@ -43,23 +43,23 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         pr = self.portal.portal_repository
         self.assertTrue(self.doc.meta_type in pr.getVersionableContentTypes())
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == u'Edited')
-        self.assertTrue(lastEvent['comments'] == u'Initial revision')
+        self.assertEqual(lastEvent['action'], u'Edited')
+        self.assertEqual(lastEvent['comments'], u'Initial revision')
         self.assertTrue(view.versionIsViewable(lastEvent))
 
         # now register an adapter that will do 'Initial revision' comment not visible
         zcml.load_config('testing-adapter.zcml', imio_history)
         history = view.getHistory()
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == u'Edited')
-        self.assertTrue(lastEvent['comments'] == HISTORY_REVISION_NOT_VIEWABLE)
+        self.assertEqual(lastEvent['action'], u'Edited')
+        self.assertEqual(lastEvent['comments'], HISTORY_REVISION_NOT_VIEWABLE)
         self.assertFalse(view.versionIsViewable(lastEvent))
 
-        # getHistory can be called with checkMayView set to False,
+        # getHistory can be called with checkMayViewComment set to False,
         # in this case, mayViewVersion check is not done
-        history = view.getHistory(checkMayView=False)
+        history = view.getHistory(checkMayViewComment=False)
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == u'Edited')
-        self.assertTrue(lastEvent['comments'] == u'Initial revision')
+        self.assertEqual(lastEvent['action'], u'Edited')
+        self.assertEqual(lastEvent['comments'], u'Initial revision')
         # cleanUp zmcl.load_config because it impact other tests
         zcml.cleanUp()

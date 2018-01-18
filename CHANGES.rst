@@ -4,6 +4,8 @@ Changelog
 1.14 (unreleased)
 -----------------
 
+- Refactored code so it is easy to handle no histories.
+  [gbastien]
 - Do not fail to call workflow_history specific methods if obj has no workflow.
   [gbastien]
 - `IHContentHistoryView.renderComments` now receives the entire event as
