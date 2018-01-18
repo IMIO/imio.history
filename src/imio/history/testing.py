@@ -84,5 +84,6 @@ class IntegrationTestCase(unittest.TestCase):
     def setUp(self):
         super(IntegrationTestCase, self).setUp()
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         self.catalog = self.portal.portal_catalog
         self.wft = self.portal.portal_workflow

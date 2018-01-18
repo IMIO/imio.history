@@ -60,7 +60,7 @@ class TestContentHistory(IntegrationTestCase):
         # and so no workflow_history attribute
         # we will test with type 'File' that does not have a workflow by default
         fileType = self.portal.portal_types['File']
-        self.assertTrue(self.wft.getWorkflowsFor(fileType) == [])
+        self.assertEqual(self.wft.getWorkflowsFor(fileType), [])
         afile = api.content.create(type='File',
                                    id='afile',
                                    container=self.portal)
@@ -111,24 +111,25 @@ class TestContentHistory(IntegrationTestCase):
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
         history = view.getHistory()
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == 'publish')
-        self.assertTrue(lastEvent['comments'] == 'My comment')
+        self.assertEqual(lastEvent['action'], 'publish')
+        self.assertEqual(lastEvent['comments'], 'My comment')
 
         # now register an adapter that will do 'publish' transition comment not visible
         zcml.load_config('testing-adapter.zcml', imio_history)
+        self.request.set('hide_wf_history_comment', True)
         history = view.getHistory()
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == 'publish')
+        self.assertEqual(lastEvent['action'], 'publish')
         # now comment is no more viewable
-        self.assertTrue(lastEvent['comments'] == HISTORY_COMMENT_NOT_VIEWABLE)
+        self.assertEqual(lastEvent['comments'], HISTORY_COMMENT_NOT_VIEWABLE)
 
         # getHistory can be called with checkMayViewComment set to False,
         # in this case, mayViewComment check is not done
         history = view.getHistory(checkMayViewComment=False)
         lastEvent = history[0]
-        self.assertTrue(lastEvent['action'] == 'publish')
+        self.assertEqual(lastEvent['action'], 'publish')
         # comment is viewable as mayViewComment was not done
-        self.assertTrue(lastEvent['comments'] == 'My comment')
+        self.assertEqual(lastEvent['comments'], 'My comment')
         # cleanUp zmcl.load_config because it impact other tests
         zcml.cleanUp()
 
@@ -147,8 +148,10 @@ class TestContentHistory(IntegrationTestCase):
         # we have also a revision
         self.assertTrue(u'Edited' in actions)
 
-        # enable, the 'publish' actions wille not be viewable anymore, as well as revisions
+        # enable, the 'publish' actions will not be viewable anymore, as well as revisions
         zcml.load_config('testing-adapter.zcml', imio_history)
+        self.request.set('hide_wf_history_event', True)
+        self.request.set('hide_revisions_event', True)
         history = view.getHistory()
         self.assertEqual(len(history), 1)
         actions = [event['action'] for event in history]

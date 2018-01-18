@@ -49,6 +49,7 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
 
         # now register an adapter that will do 'Initial revision' comment not visible
         zcml.load_config('testing-adapter.zcml', imio_history)
+        self.request.set('hide_revisions_comment', True)
         history = view.getHistory()
         lastEvent = history[0]
         self.assertEqual(lastEvent['action'], u'Edited')

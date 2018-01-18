@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from imio.history.adapters import ImioWfHistoryAdapter
 from imio.history.adapters import ImioRevisionHistoryAdapter
 
@@ -6,13 +7,14 @@ class TestingImioWfHistoryAdapter(ImioWfHistoryAdapter):
 
     def mayViewEvent(self, event):
         """See docstring in interfaces.py."""
-        if event['action'] == 'publish':
+        if self.request.get('hide_wf_history_event', False) and \
+           event['action'] == 'publish':
             return False
         return True
 
     def mayViewComment(self, event):
         """See docstring in interfaces.py."""
-        if event['action'] == 'publish':
+        if self.request.get('hide_wf_history_comment', False):
             return False
         return True
 
@@ -21,8 +23,12 @@ class TestingImioRevisionHistoryAdapter(ImioRevisionHistoryAdapter):
 
     def mayViewEvent(self, event):
         """See docstring in interfaces.py."""
-        return False
+        if self.request.get('hide_revisions_event', False):
+            return False
+        return True
 
     def mayViewComment(self, event):
         """See docstring in interfaces.py."""
-        return False
+        if self.request.get('hide_revisions_comment', False):
+            return False
+        return True
