@@ -2,6 +2,7 @@ from Acquisition import aq_base
 
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
+from plone.memoize.instance import memoize
 
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
@@ -21,6 +22,7 @@ class BaseImioHistoryAdapter(object):
         self.context = context
         self.request = self.context.REQUEST
 
+    @memoize
     def get_history_data(self):
         """Overridable method that returns the base history to handle."""
         history = []
@@ -38,12 +40,13 @@ class BaseImioHistoryAdapter(object):
         for event in history:
             # Make sure original event is not modified
             event = event.copy()
+            if self.history_type:
+                event['type'] = self.history_type
+
             if checkMayViewEvent and not self.mayViewEvent(event):
                 continue
             if checkMayViewComment and not self.mayViewComment(event):
                 event['comments'] = self.comment_not_viewable_value
-            if self.history_type:
-                event['type'] = self.history_type
             res.append(event)
         return res
 
