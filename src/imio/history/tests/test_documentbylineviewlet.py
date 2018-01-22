@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewletManager

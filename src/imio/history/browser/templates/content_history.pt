@@ -63,7 +63,9 @@
           <tal:loop tal:repeat="change event/changes/items">
             <tal:change define="field python:context.getField(change[0])">
             <tr valign="top">
-              <td><i tal:content="python: context.translate(field.widget.label_msgid, domain=field.widget.i18n_domain)">Field name</i></td>
+              <td>
+                <i tal:content="python: context.translate(field.widget.label_msgid, domain=field.widget.i18n_domain)">Field name</i>
+              </td>
             </tr>
             <tr valign="top">
               <td tal:content="structure python: change[1]"></td>
