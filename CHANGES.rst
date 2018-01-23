@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.14 (unreleased)
+1.14 (2018-01-23)
 -----------------
 
 - Refactored code so it is easy to handle no histories.
