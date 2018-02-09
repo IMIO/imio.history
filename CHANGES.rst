@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.15 (unreleased)
+1.15 (2018-02-09)
 -----------------
 
 - Added attribute `ImioWfHistoryAdapter.include_previous_review_state`,
