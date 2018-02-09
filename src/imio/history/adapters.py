@@ -64,6 +64,7 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
     """Adapter for workflow history."""
 
     history_type = 'workflow'
+    include_previous_review_state = False
 
     def get_history_data(self):
         """ """
@@ -82,7 +83,20 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
         if wfName not in self.context.workflow_history:
             return history
         history = list(self.context.workflow_history[wfName])
+        if self.include_previous_review_state:
+            history = self._build_history_with_previous_review_state(history)
         return history
+
+    def _build_history_with_previous_review_state(self, history_data):
+        """ """
+        res = []
+        previous_event = None
+        for event in history_data:
+            new_event = event.copy()
+            new_event['previous_review_state'] = previous_event and previous_event['review_state'] or None
+            previous_event = new_event.copy()
+            res.append(new_event)
+        return res
 
     def historyLastEventHasComments(self):
         """See docstring in interfaces.py."""

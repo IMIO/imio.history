@@ -4,8 +4,10 @@ Changelog
 1.15 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added attribute `ImioWfHistoryAdapter.include_previous_review_state`,
+  `False` by default, if set to `True`, the returned history will include
+  `previous_review_state`.
+  [gbastien]
 
 1.14 (2018-01-23)
 -----------------
