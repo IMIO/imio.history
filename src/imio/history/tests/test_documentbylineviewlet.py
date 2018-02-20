@@ -7,6 +7,7 @@ from zope.viewlet.interfaces import IViewletManager
 from Products.Five.browser import BrowserView
 
 from plone import api
+from plone.memoize.instance import Memojito
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
@@ -48,12 +49,15 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
 
         # now 'publish' the doc and add a comment, last event has a comment
         self.wft.doActionFor(self.portal.doc, 'publish', comment='my publish comment')
+        # clean memoize
+        getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
         self.assertTrue(self.viewlet.highlight_history_link())
         self.assertFalse(history[-1]['comments'] in adapter.ignorableHistoryComments())
 
         # now test that the 'you can not access this comment' is an ignored message
         self.wft.doActionFor(self.portal.doc, 'retract', comment=HISTORY_COMMENT_NOT_VIEWABLE)
+        getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
         self.assertFalse(self.viewlet.highlight_history_link())
         self.assertTrue(history[-1]['comments'] in adapter.ignorableHistoryComments())
@@ -61,6 +65,7 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         # test that it works if no history
         # it is the case if we changed used workflow
         self.wft.setChainForPortalTypes(('Document', ), ('intranet_workflow',))
+        getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
         self.assertFalse(self.viewlet.highlight_history_link())
         self.assertTrue(history == [])

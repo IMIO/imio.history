@@ -20,13 +20,11 @@ def getPreviousEvent(obj, event, checkMayViewEvent=True, checkMayViewComment=Tru
         return history[history.index(event) - 1]
 
 
-def getLastAction(obj, action='last', history_name='workflow',
-                  checkMayViewEvent=False, checkMayViewComment=False):
+def getLastAction(adapter, action='last', checkMayViewEvent=True, checkMayViewComment=True):
     '''Returns, from the p_history_name of p_obj, the last occurence of p_event.
        Default p_action is 'last' because we also want to be able to get
        an action that is 'None' in a particular p_history_name.'''
 
-    adapter = getAdapter(obj, IImioHistory, history_name)
     history = adapter.getHistory(
         checkMayViewEvent=checkMayViewEvent, checkMayViewComment=checkMayViewComment)
 

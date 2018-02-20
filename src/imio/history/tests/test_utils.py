@@ -1,8 +1,8 @@
 from DateTime import DateTime
 
 from zope.component import getAdapter
-from zope.component import ComponentLookupError
 from plone import api
+from plone.memoize.instance import Memojito
 
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
@@ -28,6 +28,8 @@ class TestUtils(IntegrationTestCase):
 
         # now publish the doc so we have an new event in the workflow_history
         api.content.transition(doc, 'publish', comment='My comment')
+        # clean memoize
+        getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
         lastEvent = history[-1]
         self.assertTrue(lastEvent['action'] == 'publish')
@@ -49,34 +51,32 @@ class TestUtils(IntegrationTestCase):
                                  container=self.portal)
         # publish the doc so we have an new event in the workflow_history
         api.content.transition(doc, 'publish', comment='First publication comment')
-        self.assertEqual(getLastAction(doc)['action'], 'publish')
+        adapter = getAdapter(doc, IImioHistory, 'workflow')
+        self.assertEqual(getLastAction(adapter)['action'], 'publish')
         # same as getting action with that name
-        publish_action = getLastAction(doc, action='publish')
+        publish_action = getLastAction(adapter, action='publish')
         self.assertEqual(publish_action['action'], 'publish')
         self.assertEqual(publish_action['comments'], 'First publication comment')
 
         # publish again, check that we correctly get last action
         api.content.transition(doc, 'retract')
         api.content.transition(doc, 'publish', comment='Second publication comment')
-        publish_action = getLastAction(doc, action='publish')
+        # clean memoize
+        getattr(adapter, Memojito.propname).clear()
+        publish_action = getLastAction(adapter, action='publish')
         self.assertEqual(publish_action['action'], 'publish')
         self.assertEqual(publish_action['comments'], 'Second publication comment')
 
         # the creation event is stored with a None action
-        self.assertEqual(getLastAction(doc, action=None)['review_state'], 'private')
+        self.assertEqual(getLastAction(adapter, action=None)['review_state'], 'private')
 
         # if action not found, None is returned
-        self.assertIsNone(getLastAction(doc, action='unknown_action'))
-
-    def test_getLastAction_unknown_history(self):
-        """Breaks if unknown history."""
-        self.assertRaises(
-            ComponentLookupError,
-            getLastAction, self.portal.folder, history_name='unknown_history')
+        self.assertIsNone(getLastAction(adapter, action='unknown_action'))
 
     def test_getLastAction_history_empty(self):
         """Does not breaks and returns None if history empty."""
-        self.assertIsNone(getLastAction(self.portal.folder, history_name='revision'))
+        adapter = getAdapter(self.portal.folder, IImioHistory, 'revision')
+        self.assertIsNone(getLastAction(adapter))
 
     def test_add_event_to_history(self):
         """Add an event to an history following an action."""

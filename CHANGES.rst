@@ -4,8 +4,13 @@ Changelog
 1.16 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Use `@memoize` on `BaseImioHistoryAdapter.get_history_data` and
+  `BaseImioHistoryAdapter.getHistory` to avoid recomputing it if adapter did
+  not changed.  This is useful for the `highlight_history_link` functionnality.
+  [gbastien]
+- `utils.getLastAction` now receives an `IImioHistory` adapter as first
+  argument instead an obj and an adapter name.
+  [gbastien]
 
 1.15 (2018-02-09)
 -----------------

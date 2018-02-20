@@ -30,6 +30,7 @@ class BaseImioHistoryAdapter(object):
             history = getattr(self.context, self.history_attr_name, [])
         return history
 
+    @memoize
     def getHistory(self,
                    checkMayViewEvent=True,
                    checkMayViewComment=True,
@@ -66,6 +67,7 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
     history_type = 'workflow'
     include_previous_review_state = False
 
+    @memoize
     def get_history_data(self):
         """ """
         history = []
@@ -100,7 +102,7 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
 
     def historyLastEventHasComments(self):
         """See docstring in interfaces.py."""
-        lastEvent = getLastAction(self.context)
+        lastEvent = getLastAction(self)
         if lastEvent and lastEvent['comments'] not in self.ignorableHistoryComments():
             return True
         return False
@@ -120,6 +122,7 @@ class ImioRevisionHistoryAdapter(BaseImioHistoryAdapter, ContentHistoryViewlet):
         self.request = self.context.REQUEST
         self.site_url = api.portal.get().absolute_url()
 
+    @memoize
     def get_history_data(self):
         """Get revision history."""
         history = self.revisionHistory()
