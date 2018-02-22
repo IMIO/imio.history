@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.16 (unreleased)
+1.16 (2018-02-22)
 -----------------
 
 - Use `@memoize` on `BaseImioHistoryAdapter.get_history_data` and
