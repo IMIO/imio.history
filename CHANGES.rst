@@ -4,8 +4,13 @@ Changelog
 1.17 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Factorize `show_history` functionnality.  The method is now defined on the
+  `IHContentHistoryView` and is used by
+  `IHDocumentBylineViewlet.show_history` and the `@@historyview`.
+  This way, we make sure that if the link is not shown on the viewlet, the
+  history is not shown in the `@@historyview` if user enter the view name
+  manually in the browser.
+  [gbastien]
 
 1.16 (2018-02-22)
 -----------------

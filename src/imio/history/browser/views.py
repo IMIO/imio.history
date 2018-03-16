@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapter, getAdapters
+from zope.component import getAdapter
+from zope.component import getAdapters
+from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone.utils import safe_unicode
+from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
@@ -20,16 +23,16 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
     index = ViewPageTemplateFile("templates/document_byline.pt")
 
     def show_history(self):
-        """
-          Originally, the history is shown to people having the
-          'CMFEditions: Access previous versions' permission, here
-          we want everybody than can acces the object to see the history...
-        """
-        # do not show a link to the history if we are displaying something in a popup
-        # because history is deiaplayed also in a popup...
-        if 'ajax_load' in self.request:
-            return False
-        return True
+        """Rely on contenthistory.show_history."""
+        contenthistory = getMultiAdapter(
+            (self.context, self.request), name='contenthistory')
+        res = contenthistory.show_history()
+        if res:
+            # do not show a link to the history if we are displaying something in
+            # an overlay because history is displayed in an overlay and it does not work...
+            if 'ajax_load' in self.request:
+                res = False
+        return res
 
     def highlight_history_link(self):
         """
@@ -47,10 +50,6 @@ class IHContentHistoryView(ContentHistoryView):
     '''
     histories_to_handle = (u'revision', u'workflow')
     index = ViewPageTemplateFile("templates/content_history.pt")
-
-    def __init__(self, context, request):
-        super(IHContentHistoryView, self).__init__(context, request)
-        self.transformsTool = getToolByName(self.context, 'portal_transforms')
 
     def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True):
         """Get the history for current object.
@@ -101,7 +100,8 @@ class IHContentHistoryView(ContentHistoryView):
             mapping=mapping,
             domain='imio.history',
             context=self.request)
-        data = self.transformsTool.convertTo('text/x-html-safe', translated)
+        transformsTool = api.portal.get_tool('portal_transforms')
+        data = transformsTool.convertTo('text/x-html-safe', translated)
         return data.getData()
 
     @memoize
@@ -116,6 +116,18 @@ class IHContentHistoryView(ContentHistoryView):
     def showColors(self):
         """
           Colorize transition name?
+        """
+        return True
+
+    def show_history(self):
+        """
+          Show the history?  This is a common method used by :
+          - the view (@@historyview);
+          - the viewlet (imio.history.documentbyline);
+          - imio.actionspanel history action icon.
+          Originally, the history is shown to people having the
+          'CMFEditions: Access previous versions' permission, here
+          we want everybody than can acces the object to see the history...
         """
         return True
 
