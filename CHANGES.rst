@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.17 (unreleased)
+1.17 (2018-03-19)
 -----------------
 
 - Factorize `show_history` functionnality.  The method is now defined on the
