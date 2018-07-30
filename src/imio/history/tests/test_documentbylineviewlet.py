@@ -42,8 +42,8 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         adapter = getAdapter(self.portal.doc, IImioHistory, 'workflow')
         # not highlighted because '' is an ignored comment
         history = adapter.getHistory()
+        self.assertFalse(history[-1]['comments'])
         self.assertFalse(self.viewlet.highlight_history_link())
-        self.assertTrue(history[-1]['comments'] in adapter.ignorableHistoryComments())
 
         # now 'publish' the doc and add a comment, last event has a comment
         self.wft.doActionFor(self.portal.doc, 'publish', comment='my publish comment')
