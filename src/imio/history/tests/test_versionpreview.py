@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from plone import api
 
 from imio.history.testing import IntegrationTestCase
+from plone import api
 
 
 class TestVersionPreview(IntegrationTestCase):

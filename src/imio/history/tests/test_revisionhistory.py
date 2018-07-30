@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapter
-from zope.component import getMultiAdapter
-from Products.Five import zcml
-
-from plone import api
-from plone.app.testing import TEST_USER_NAME
 
 from imio import history as imio_history
 from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
+from plone import api
+from plone.app.testing import TEST_USER_NAME
+from Products.Five import zcml
+from zope.component import getAdapter
+from zope.component import getMultiAdapter
 
 
 class TestImioRevisionHistoryAdapter(IntegrationTestCase):

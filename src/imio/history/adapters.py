@@ -1,14 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from Acquisition import aq_base
-
-from plone import api
-from plone.app.layout.viewlets.content import ContentHistoryViewlet
-from plone.memoize.instance import memoize
-from Products.CMFPlone.utils import safe_unicode
-
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 from imio.history.utils import getLastAction
+from plone import api
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
+from plone.memoize.instance import memoize
+from Products.CMFPlone.utils import safe_unicode
 
 
 class BaseImioHistoryAdapter(object):

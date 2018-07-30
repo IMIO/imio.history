@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapter
-from zope.component import getAdapters
-from zope.component import getMultiAdapter
-from zope.i18n import translate
-
-from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone.utils import safe_unicode
+from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
+from imio.history.interfaces import IImioHistory
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.memoize.view import memoize
-
-from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
-from imio.history.interfaces import IImioHistory
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import getAdapter
+from zope.component import getAdapters
+from zope.component import getMultiAdapter
+from zope.i18n import translate
 
 
 class IHDocumentBylineViewlet(DocumentBylineViewlet):

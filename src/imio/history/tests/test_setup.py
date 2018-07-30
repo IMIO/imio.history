@@ -1,5 +1,7 @@
-from Products.CMFCore.utils import getToolByName
+# -*- coding: utf-8 -*-
+
 from imio.history.testing import IntegrationTestCase
+from Products.CMFCore.utils import getToolByName
 
 
 class TestSetup(IntegrationTestCase):

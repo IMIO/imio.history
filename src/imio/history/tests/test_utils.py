@@ -1,14 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from DateTime import DateTime
-
-from zope.component import getAdapter
-from plone import api
-from plone.memoize.instance import Memojito
-
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
 from imio.history.utils import getLastAction
 from imio.history.utils import getPreviousEvent
+from plone import api
+from plone.memoize.instance import Memojito
+from zope.component import getAdapter
 
 
 class TestUtils(IntegrationTestCase):

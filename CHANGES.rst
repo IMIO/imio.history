@@ -9,6 +9,8 @@ Changelog
   `ImioWfHistoryAdapter.historyLastEventHasComments`, this way we avoid warning
   in Zope log.
   [gbastien]
+- `isort` on imports.
+  [gbastien]
 
 
 1.17 (2018-03-19)

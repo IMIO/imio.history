@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from zope.component import getAdapter
-
-from plone import api
-from plone.app.testing import TEST_USER_ID
 
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
+from plone import api
+from plone.app.testing import TEST_USER_ID
+from zope.component import getAdapter
 
 
 class TestImioWFHistoryAdapter(IntegrationTestCase):

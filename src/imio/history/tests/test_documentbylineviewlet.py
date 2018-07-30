@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from zope.component import getAdapter
-from zope.component import getMultiAdapter
-from zope.viewlet.interfaces import IViewletManager
-
-from Products.Five.browser import BrowserView
-
-from plone import api
-from plone.memoize.instance import Memojito
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
+from plone import api
+from plone.memoize.instance import Memojito
+from Products.Five.browser import BrowserView
+from zope.component import getAdapter
+from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
 
 
 class TestDocumentByLineViewlet(IntegrationTestCase):

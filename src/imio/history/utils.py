@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from DateTime import DateTime
-from persistent.list import PersistentList
-from zope.component import getAdapter
 from imio.history.interfaces import IImioHistory
+from persistent.list import PersistentList
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
+from zope.component import getAdapter
 
 
 def getPreviousEvent(obj, event, checkMayViewEvent=True, checkMayViewComment=True):

@@ -13,7 +13,6 @@ from plone.app.testing import TEST_USER_NAME
 from plone.testing import z2
 
 import imio.history
-
 import unittest
 
 

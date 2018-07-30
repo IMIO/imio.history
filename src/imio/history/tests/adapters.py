@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from imio.history.adapters import ImioWfHistoryAdapter
+
 from imio.history.adapters import ImioRevisionHistoryAdapter
+from imio.history.adapters import ImioWfHistoryAdapter
 
 
 class TestingImioWfHistoryAdapter(ImioWfHistoryAdapter):
