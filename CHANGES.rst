@@ -4,7 +4,11 @@ Changelog
 1.18 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- As `ImioWfHistoryAdapter.ignorableHistoryComments` should return a list of
+  unicode, we force unicode comparison in
+  `ImioWfHistoryAdapter.historyLastEventHasComments`, this way we avoid warning
+  in Zope log.
+  [gbastien]
 
 
 1.17 (2018-03-19)

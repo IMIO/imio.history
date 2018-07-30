@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.memoize.instance import memoize
+from Products.CMFPlone.utils import safe_unicode
 
 from imio.history.config import DEFAULT_IGNORABLE_COMMENTS
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
@@ -103,7 +104,9 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
     def historyLastEventHasComments(self):
         """See docstring in interfaces.py."""
         lastEvent = getLastAction(self)
-        if lastEvent and lastEvent['comments'] not in self.ignorableHistoryComments():
+        if lastEvent and \
+           lastEvent['comments'] and \
+           safe_unicode(lastEvent['comments']) not in self.ignorableHistoryComments():
             return True
         return False
 
