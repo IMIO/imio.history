@@ -11,7 +11,9 @@ Changelog
   [gbastien]
 - `isort` on imports.
   [gbastien]
-
+- Added helper `utils.getLastWFAction` that is actually a shortcut to
+  `utils.getLastAction` using the `IImioHistory` 'workflow' adapter.
+  [gbastien]
 
 1.17 (2018-03-19)
 -----------------

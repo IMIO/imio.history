@@ -5,6 +5,7 @@ from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
 from imio.history.utils import getLastAction
+from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
 from plone import api
 from plone.memoize.instance import Memojito
@@ -77,6 +78,21 @@ class TestUtils(IntegrationTestCase):
         """Does not breaks and returns None if history empty."""
         adapter = getAdapter(self.portal.folder, IImioHistory, 'revision')
         self.assertIsNone(getLastAction(adapter))
+
+    def test_getLastWFAction(self):
+        """Test the utils.getLastWFAction method.
+           It should return the action passed in parameter for the workflow_history.
+           It is a shortcut using utils.getLastAction."""
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        # publish the doc so we have an new event in the workflow_history
+        api.content.transition(doc, 'publish', comment='Publication comment')
+        self.assertEqual(getLastWFAction(doc)['action'], 'publish')
+        # same as getting action with that name
+        publish_action = getLastWFAction(doc, transition='publish')
+        self.assertEqual(publish_action['action'], 'publish')
+        self.assertEqual(publish_action['comments'], 'Publication comment')
 
     def test_add_event_to_history(self):
         """Add an event to an history following an action."""

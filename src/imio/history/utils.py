@@ -46,6 +46,13 @@ def getLastAction(adapter, action='last', checkMayViewEvent=True, checkMayViewCo
         i -= 1
 
 
+def getLastWFAction(obj, transition='last'):
+    '''Helper to get last p_transition workflow_history event.'''
+    adapter = getAdapter(obj, IImioHistory, 'workflow')
+    last_wf_action = getLastAction(adapter, action=transition)
+    return last_wf_action
+
+
 def add_event_to_history(obj, history_attr, action, actor=None, time=None, comments=u'', extra_infos={}):
     """This is an helper method to add an entry to an history."""
     if not base_hasattr(obj, history_attr):
