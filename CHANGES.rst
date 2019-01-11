@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.18 (unreleased)
+1.18 (2019-01-11)
 -----------------
 
 - As `ImioWfHistoryAdapter.ignorableHistoryComments` should return a list of
