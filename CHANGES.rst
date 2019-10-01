@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.19 (unreleased)
+1.19 (2019-10-01)
 -----------------
 
 - Allow access to module `utils` from restricted python (TAL expression).
