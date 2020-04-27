@@ -1,0 +1,17 @@
+[main]
+host = https://www.transifex.com
+
+[plonegov-imio.imio-history-pot]
+file_filter = src/imio/history/locales/<lang>/LC_MESSAGES/imio.history.po
+minimum_perc = 0
+source_file = src/imio/history/locales/imio.history.pot
+source_lang = en
+type = PO
+
+#[plonegov-imio.imio-history-plone-pot]
+#file_filter = src/imio/history/locales/<lang>/LC_MESSAGES/plone.po
+#minimum_perc = 0
+#source_file = src/imio/history/locales/plone.pot
+#source_lang = en
+#type = PO
+
