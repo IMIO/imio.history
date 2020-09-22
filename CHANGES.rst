@@ -4,8 +4,10 @@ Changelog
 1.20 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added parameters `checkMayViewEvent=False` and `checkMayViewComment=False` to
+  `utils.getLastWFAction`, this way, we get last WF action even if current user
+  may not, and it is quicker.
+  [gbastien]
 
 1.19 (2019-10-01)
 -----------------

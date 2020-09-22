@@ -46,10 +46,14 @@ def getLastAction(adapter, action='last', checkMayViewEvent=True, checkMayViewCo
         i -= 1
 
 
-def getLastWFAction(obj, transition='last'):
-    '''Helper to get last p_transition workflow_history event.'''
+def getLastWFAction(obj, transition='last', checkMayViewEvent=False, checkMayViewComment=False):
+    '''Helper to get last p_transition workflow_history event.
+       By default, security checks are not done (checkMayViewEvent=False, checkMayViewComment=False).'''
     adapter = getAdapter(obj, IImioHistory, 'workflow')
-    last_wf_action = getLastAction(adapter, action=transition)
+    last_wf_action = getLastAction(adapter,
+                                   action=transition,
+                                   checkMayViewEvent=checkMayViewEvent,
+                                   checkMayViewComment=checkMayViewComment)
     return last_wf_action
 
 
