@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.20 (unreleased)
+1.20 (2020-10-01)
 -----------------
 
 - Added parameters `checkMayViewEvent=False` and `checkMayViewComment=False` to
