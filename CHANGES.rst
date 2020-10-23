@@ -4,8 +4,10 @@ Changelog
 1.21 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added helper `utils.get_all_history_attr` to get every occurence of a given
+  `attr_name` in a `history`. This will return every `review_state` from the
+  `workflow` history for example.
+  [gbastien]
 
 1.20 (2020-10-01)
 -----------------

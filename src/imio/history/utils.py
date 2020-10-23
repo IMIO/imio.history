@@ -57,8 +57,19 @@ def getLastWFAction(obj, transition='last', checkMayViewEvent=False, checkMayVie
     return last_wf_action
 
 
+def get_all_history_attr(obj,
+                         attr_name='action',
+                         history_name='workflow',
+                         checkMayViewEvent=False,
+                         checkMayViewComment=False):
+    '''Return a list of every p_attr_name for p_history_name of p_obj.'''
+    adapter = getAdapter(obj, IImioHistory, history_name)
+    res = [event[attr_name] for event in adapter.getHistory(checkMayViewEvent, checkMayViewComment)]
+    return res
+
+
 def add_event_to_history(obj, history_attr, action, actor=None, time=None, comments=u'', extra_infos={}):
-    """This is an helper method to add an entry to an history."""
+    '''This is an helper method to add an entry to an history.'''
     if not base_hasattr(obj, history_attr):
         setattr(obj, history_attr, PersistentList())
     history_data = {'action': action,

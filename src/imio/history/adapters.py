@@ -91,7 +91,7 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
         return history
 
     def _build_history_with_previous_review_state(self, history_data):
-        """ """
+        """Include 'previous_review_state' key in every hisotry event."""
         res = []
         previous_event = None
         for event in history_data:

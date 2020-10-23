@@ -4,6 +4,7 @@ from DateTime import DateTime
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
+from imio.history.utils import get_all_history_attr
 from imio.history.utils import getLastAction
 from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
@@ -129,3 +130,18 @@ class TestUtils(IntegrationTestCase):
         # extra infos
         self.assertEqual(added_action2['dummy_info1'], u'Information 1')
         self.assertEqual(added_action2['dummy_info2'], u'Information 2')
+
+    def test_get_all_history_attr(self):
+        """Get every coccurence of a given attr_name in a history."""
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        api.content.transition(doc, 'publish', comment='Publication comment')
+        api.content.transition(doc, 'retract')
+        self.assertEqual(get_all_history_attr(doc), [None, 'publish', 'retract'])
+        self.assertEqual(get_all_history_attr(doc, attr_name='review_state'),
+                         ['private', 'published', 'private'])
+        self.assertEqual(get_all_history_attr(doc, attr_name='actor'),
+                         ['test_user_1_', 'test_user_1_', 'test_user_1_'])
+        self.assertEqual(get_all_history_attr(doc, attr_name='comments'),
+                         ['', 'Publication comment', ''])
