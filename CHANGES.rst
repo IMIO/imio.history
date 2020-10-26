@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.21 (unreleased)
+1.21 (2020-10-26)
 -----------------
 
 - Added helper `utils.get_all_history_attr` to get every occurence of a given
