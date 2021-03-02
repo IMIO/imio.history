@@ -4,8 +4,12 @@ Changelog
 1.22 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Changed default to `False` for parameters `checkMayViewEvent=False` and
+  `checkMayViewComment=False` of `utils.getLastAction`, this way, we get last
+  action even if current user may not, and it is quicker.
+  This fix a performance issue in `ImioWfHistoryAdapter.historyLastEventHasComments`
+  when called several times.
+  [gbastien]
 
 1.21 (2020-10-26)
 -----------------

@@ -103,6 +103,8 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
 
     def historyLastEventHasComments(self):
         """See docstring in interfaces.py."""
+        # for performance reasons, we use checkMayViewEvent=False, checkMayViewComment=False
+        # this will do sometimes highlight history in red and last comment is not viewable...
         lastEvent = getLastAction(self)
         if lastEvent and \
            lastEvent['comments'] and \

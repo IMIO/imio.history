@@ -8,30 +8,46 @@ from Products.CMFPlone.utils import base_hasattr
 from zope.component import getAdapter
 
 
-def getPreviousEvent(obj, event, checkMayViewEvent=True, checkMayViewComment=True):
+def _check_may_view(event, adapter, checkMayViewEvent=False, checkMayViewComment=False):
+    if event is not None:
+        if checkMayViewEvent:
+            if not adapter.mayViewEvent(event):
+                event = None
+        if checkMayViewComment and event is not None:
+            if not adapter.mayViewComment(event):
+                event = None
+
+
+def getPreviousEvent(obj, event, checkMayViewEvent=False, checkMayViewComment=False):
     '''Returns the previous event found in the history for the given p_event
        on p_obj if p_event is found.  p_checkMayView is passed to IImioHistory.getHistory
        and will enable/disable event's comments viewability check.'''
 
     adapter = getAdapter(obj, IImioHistory, 'workflow')
+    # for performance, checkMayViewEvent and checkMayViewComment only on found event
     history = adapter.getHistory(
-        checkMayViewEvent=checkMayViewEvent, checkMayViewComment=checkMayViewComment)
+        checkMayViewEvent=False, checkMayViewComment=False)
+    event = None
     if event in history and history.index(event) > 0:
-        return history[history.index(event) - 1]
+        event = history[history.index(event) - 1]
+
+    return _check_may_view(event, adapter, checkMayViewEvent, checkMayViewComment)
 
 
-def getLastAction(adapter, action='last', checkMayViewEvent=True, checkMayViewComment=True):
-    '''Returns, from the p_history_name of p_obj, the last occurence of p_event.
+def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewComment=False):
+    '''Returns, from the p_history_name of p_adapter, the last occurence of p_action.
        Default p_action is 'last' because we also want to be able to get
        an action that is 'None' in a particular p_history_name.'''
 
+    # for performance, checkMayViewEvent and checkMayViewComment only on found event
     history = adapter.getHistory(
-        checkMayViewEvent=checkMayViewEvent, checkMayViewComment=checkMayViewComment)
+        checkMayViewEvent=False, checkMayViewComment=False)
 
     if action == 'last':
         # do not break if history is empty
         return history and history[-1] or None
 
+    event = None
     i = len(history) - 1
     while i >= 0:
         event = history[i]
@@ -42,8 +58,10 @@ def getLastAction(adapter, action='last', checkMayViewEvent=True, checkMayViewCo
         else:
             condition = event['action'] in action
         if condition:
-            return event
+            break
         i -= 1
+
+    return _check_may_view(event, adapter, checkMayViewEvent, checkMayViewComment)
 
 
 def getLastWFAction(obj, transition='last', checkMayViewEvent=False, checkMayViewComment=False):
