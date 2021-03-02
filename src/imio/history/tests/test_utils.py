@@ -34,8 +34,8 @@ class TestUtils(IntegrationTestCase):
         getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
         lastEvent = history[-1]
-        self.assertTrue(lastEvent['action'] == 'publish')
-        self.assertTrue(getPreviousEvent(doc, lastEvent) == firstEvent)
+        self.assertEqual(lastEvent['action'], 'publish')
+        self.assertEqual(getPreviousEvent(doc, lastEvent), firstEvent)
 
         # if the event is not found, None is returned
         wrongEvent = {'action': 'wrong',
@@ -87,6 +87,8 @@ class TestUtils(IntegrationTestCase):
         doc = api.content.create(type='Document',
                                  id='doc',
                                  container=self.portal)
+        # 'before_last' action is None
+        self.assertIsNone(getLastWFAction(doc, transition='before_last'))
         # publish the doc so we have an new event in the workflow_history
         api.content.transition(doc, 'publish', comment='Publication comment')
         self.assertEqual(getLastWFAction(doc)['action'], 'publish')
@@ -94,6 +96,7 @@ class TestUtils(IntegrationTestCase):
         publish_action = getLastWFAction(doc, transition='publish')
         self.assertEqual(publish_action['action'], 'publish')
         self.assertEqual(publish_action['comments'], 'Publication comment')
+        self.assertEqual(getLastWFAction(doc, transition='before_last')['review_state'], 'private')
 
     def test_add_event_to_history(self):
         """Add an event to an history following an action."""

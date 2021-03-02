@@ -16,6 +16,7 @@ def _check_may_view(event, adapter, checkMayViewEvent=False, checkMayViewComment
         if checkMayViewComment and event is not None:
             if not adapter.mayViewComment(event):
                 event = None
+    return event
 
 
 def getPreviousEvent(obj, event, checkMayViewEvent=False, checkMayViewComment=False):
@@ -27,11 +28,11 @@ def getPreviousEvent(obj, event, checkMayViewEvent=False, checkMayViewComment=Fa
     # for performance, checkMayViewEvent and checkMayViewComment only on found event
     history = adapter.getHistory(
         checkMayViewEvent=False, checkMayViewComment=False)
-    event = None
+    res = None
     if event in history and history.index(event) > 0:
-        event = history[history.index(event) - 1]
+        res = history[history.index(event) - 1]
 
-    return _check_may_view(event, adapter, checkMayViewEvent, checkMayViewComment)
+    return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 
 
 def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewComment=False):
@@ -46,8 +47,11 @@ def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewC
     if action == 'last':
         # do not break if history is empty
         return history and history[-1] or None
+    elif action == 'before_last':
+        # do not break if history empty or only contains one single event
+        return len(history) > 1 and history[-2] or None
 
-    event = None
+    res = None
     i = len(history) - 1
     while i >= 0:
         event = history[i]
@@ -58,10 +62,11 @@ def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewC
         else:
             condition = event['action'] in action
         if condition:
+            res = event
             break
         i -= 1
 
-    return _check_may_view(event, adapter, checkMayViewEvent, checkMayViewComment)
+    return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 
 
 def getLastWFAction(obj, transition='last', checkMayViewEvent=False, checkMayViewComment=False):

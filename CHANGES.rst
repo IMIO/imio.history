@@ -10,6 +10,9 @@ Changelog
   This fix a performance issue in `ImioWfHistoryAdapter.historyLastEventHasComments`
   when called several times.
   [gbastien]
+- In `utils.getLastAction`, parameter `action` may be `before_last` and will
+  return the before last action if it exists.
+  [gbastien]
 
 1.21 (2020-10-26)
 -----------------
