@@ -80,6 +80,22 @@ class TestUtils(IntegrationTestCase):
         adapter = getAdapter(self.portal.folder, IImioHistory, 'revision')
         self.assertIsNone(getLastAction(adapter))
 
+    def test_getLastAction_checkMayView(self):
+        """Check checkMayViewEvent/checkMayViewComment, default implementation
+           returns True."""
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        # publish the doc so we have an new event in the workflow_history
+        api.content.transition(doc, 'publish', comment='First publication comment')
+        adapter = getAdapter(doc, IImioHistory, 'workflow')
+        self.assertEqual(getLastAction(
+            adapter, checkMayViewEvent=False, checkMayViewComment=False)['action'],
+            'publish')
+        self.assertEqual(getLastAction(
+            adapter, checkMayViewEvent=True, checkMayViewComment=True)['action'],
+            'publish')
+
     def test_getLastWFAction(self):
         """Test the utils.getLastWFAction method.
            It should return the action passed in parameter for the workflow_history.
