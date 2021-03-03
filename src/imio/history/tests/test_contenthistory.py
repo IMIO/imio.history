@@ -148,7 +148,8 @@ class TestContentHistory(IntegrationTestCase):
         # we have also a revision
         self.assertTrue(u'Edited' in actions)
 
-        # enable, the 'publish' actions will not be viewable anymore, as well as revisions
+        # enable testing-adapter.zcml, the 'publish' actions will
+        # not be viewable anymore, as well as revisions
         zcml.load_config('testing-adapter.zcml', imio_history)
         self.request.set('hide_wf_history_event', True)
         self.request.set('hide_revisions_event', True)

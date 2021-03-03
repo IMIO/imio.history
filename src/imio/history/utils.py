@@ -15,7 +15,7 @@ def _check_may_view(event, adapter, checkMayViewEvent=False, checkMayViewComment
                 event = None
         if checkMayViewComment and event is not None:
             if not adapter.mayViewComment(event):
-                event = None
+                event['comments'] = adapter.comment_not_viewable_value
     return event
 
 
@@ -44,27 +44,27 @@ def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewC
     history = adapter.getHistory(
         checkMayViewEvent=False, checkMayViewComment=False)
 
+    res = None
     if action == 'last':
         # do not break if history is empty
-        return history and history[-1] or None
+        res = history and history[-1] or None
     elif action == 'before_last':
         # do not break if history empty or only contains one single event
-        return len(history) > 1 and history[-2] or None
-
-    res = None
-    i = len(history) - 1
-    while i >= 0:
-        event = history[i]
-        if isinstance(action, basestring):
-            condition = event['action'] == action
-        elif action is None:
-            condition = event['action'] is None
-        else:
-            condition = event['action'] in action
-        if condition:
-            res = event
-            break
-        i -= 1
+        res = len(history) > 1 and history[-2] or None
+    else:
+        i = len(history) - 1
+        while i >= 0:
+            event = history[i]
+            if isinstance(action, basestring):
+                condition = event['action'] == action
+            elif action is None:
+                condition = event['action'] is None
+            else:
+                condition = event['action'] in action
+            if condition:
+                res = event
+                break
+            i -= 1
 
     return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from DateTime import DateTime
+from imio import history as imio_history
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
@@ -10,6 +11,7 @@ from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
 from plone import api
 from plone.memoize.instance import Memojito
+from Products.Five import zcml
 from zope.component import getAdapter
 
 
@@ -95,6 +97,22 @@ class TestUtils(IntegrationTestCase):
         self.assertEqual(getLastAction(
             adapter, checkMayViewEvent=True, checkMayViewComment=True)['action'],
             'publish')
+        # enable testing-adapter.zcml, the 'publish' actions will
+        # not be viewable anymore, as well as revisions
+        zcml.load_config('testing-adapter.zcml', imio_history)
+        self.request.set('hide_wf_history_event', True)
+        self.request.set('hide_wf_history_comment', True)
+        adapter = getAdapter(doc, IImioHistory, 'workflow')
+        # checkMayViewEvent=False, checkMayViewComment=False
+        res = getLastAction(adapter, checkMayViewEvent=False, checkMayViewComment=False)
+        self.assertEqual(res['action'], 'publish')
+        self.assertEqual(res['comments'], 'First publication comment')
+        # checkMayViewEvent=True, checkMayViewComment=True
+        self.assertIsNone(getLastAction(adapter, checkMayViewEvent=True, checkMayViewComment=True))
+        # checkMayViewEvent=False, checkMayViewComment=True
+        res = getLastAction(adapter, checkMayViewEvent=False, checkMayViewComment=True)
+        self.assertEqual(res['action'], 'publish')
+        self.assertEqual(res['comments'], adapter.comment_not_viewable_value)
 
     def test_getLastWFAction(self):
         """Test the utils.getLastWFAction method.
