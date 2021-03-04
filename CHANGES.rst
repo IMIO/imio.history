@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.22 (unreleased)
+1.22 (2021-03-04)
 -----------------
 
 - Changed default to `False` for parameters `checkMayViewEvent=False` and
