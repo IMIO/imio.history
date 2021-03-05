@@ -4,7 +4,10 @@ Changelog
 1.23 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Add Transifex.net service integration to manage the translation process.
+  [macagua]
+- Add Spanish translation
+  [macagua]
 
 
 1.22 (2021-03-04)

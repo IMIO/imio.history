@@ -41,3 +41,15 @@ The `@@historyview` will display the histories as a table with each information 
 You define in the `histories_to_handle` attribute of the view, what histories (named adapters) it should display.
 
 Every histories are sorted together on the `time` key as it uses the same structure.
+
+Translations
+------------
+
+This product has been translated into
+
+- French.
+
+- Spanish.
+
+You can contribute for any message missing or other new languages, join us at `PloneGov iMiO Team <https://www.transifex.com/plone/plonegov-imio/>`_ into *Transifex.net* service with all world Plone translators community.
+
