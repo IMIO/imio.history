@@ -9,10 +9,10 @@
   <table class="listing nosort" style="width: 100%">
    <thead>
     <tr>
-      <th i18n:translate="listingheader_action" width="100px">Action</th>
-      <th i18n:translate="listingheader_performed_by" width="125px">Performed by</th>
-      <th i18n:translate="listingheader_date_and_time" width="125px">Date and time</th>
-      <th i18n:translate="listingheader_comment">Comment</th>
+      <th class="history-action" i18n:translate="listingheader_action">Action</th>
+      <th class="history-performer" i18n:translate="listingheader_performed_by">Performed by</th>
+      <th class="history-date" i18n:translate="listingheader_date_and_time" width="90px">Date and time</th>
+      <th class="history-comment" i18n:translate="listingheader_comment">Comment</th>
       <th i18n:translate="" tal:condition="showRevisionInfos"></th>
       <th i18n:translate="" tal:condition="showRevisionInfos"></th>
     </tr>

@@ -4,8 +4,9 @@ Changelog
 1.24 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `content_history` template, only fix date column width,
+  for other columns, let the browser optimize it.
+  [gbastien]
 
 1.23 (2021-04-21)
 -----------------
