@@ -1,3 +1,6 @@
+include *.txt
+include .isort.cfg
+include ci.cfg
 include *.py
 include *.rst
 include .coveragerc
