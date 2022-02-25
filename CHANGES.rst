@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.24 (unreleased)
+1.24 (2022-02-25)
 -----------------
 
 - In `content_history` template, only fix date column width,
