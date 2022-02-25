@@ -18,3 +18,4 @@ src/*
 !src/imio
 var/
 .coverage
+pyvenv.cfg
