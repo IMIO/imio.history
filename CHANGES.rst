@@ -4,8 +4,8 @@ Changelog
 1.25 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Optimized `@@contenthistory` view.
+  [gbastien]
 
 1.24 (2022-02-25)
 -----------------

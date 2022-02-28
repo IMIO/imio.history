@@ -1,9 +1,11 @@
 <div id="content" define-macro="history" i18n:domain="plone"
      tal:condition="view/show_history"
-     tal:define="events view/getHistory;
-                 showColors  view/showColors;
-                 showRevisionInfos view/showRevisionInfos;">
-  <tal:block replace="structure view/renderCustomJS"></tal:block>
+     tal:define="events python: view.getHistory();
+                 showColors python: view.showColors();
+                 showRevisionInfos python: view.showRevisionInfos();
+                 ploneView python: context.restrictedTraverse('@@plone');
+                 member python: view.member">
+  <tal:block replace="structure python: view.renderCustomJS()"></tal:block>
   <tal:comment replace="nothing">Table containing the history</tal:comment>
   <tal:history condition="events">
   <table class="listing nosort" style="width: 100%">
@@ -28,15 +30,13 @@
         <i i18n:translate="data_change" i18n:domain="imio.history">Data change</i>
         <form name="deleteEventForm"
               action="delete_history_event"
-              tal:define="member context/@@plone_portal_state/member;
-                          portal_url context/@@plone_portal_state/portal_url;"
               tal:condition="python: member.has_role('Manager')"
               tal:attributes="action string:${context/absolute_url}/delete_history_event">
             <input type="hidden" name="object_uid" tal:attributes="value context/UID" />
             <input type="hidden" name="event_time" tal:attributes="value event/time" />
             <tal:comment replace="nothing">Icon</tal:comment>
             <img i18n:attributes="title" title="Delete"
-                 tal:attributes="src string: $portal_url/delete_icon.png"
+                 tal:attributes="src string:${view/portal_url}/delete_icon.png"
                  onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
         </form>
       </td>
@@ -46,11 +46,11 @@
           tal:content="actionTitle" i18n:translate=""
           tal:attributes="class python: showColors and ('state-%s' % str(state).lower()) or ''">Action</td>
       <td tal:define="actorid python:event.get('actor');
-                      actor python:context.portal_membership.getMemberInfo(actorid);
+                      actor python:view.getUserInfo(actorid);
                       fullname actor/fullname|nothing;
                       username actor/username|nothing"
           tal:content="python:fullname or username or actorid"/>
-      <td tal:content="python:context.restrictedTraverse('@@plone').toLocalizedTime(event['time'],long_format=True)"/>
+      <td tal:content="python:ploneView.toLocalizedTime(event['time'],long_format=True)"/>
       <td tal:condition="not: isDataChange" class="history-comments">
         <tal:renderComments condition="comments">
          <tal:renderedComments replace="structure python: view.renderComments(event)"/>

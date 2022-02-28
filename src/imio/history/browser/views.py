@@ -147,6 +147,13 @@ class IHContentHistoryView(ContentHistoryView):
         """ """
         return '<script></script>'
 
+    @property
+    def member(self):
+        """ """
+        member = getattr(self, "_member", api.user.get_current())
+        setattr(self, "_member", member)
+        return member
+
 
 class IHVersionPreviewView(BrowserView):
     """Makes it possible to display a preview of a given version."""
