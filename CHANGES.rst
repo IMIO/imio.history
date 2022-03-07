@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.25 (unreleased)
+1.25 (2022-03-07)
 -----------------
 
 - Optimized `@@contenthistory` view.
