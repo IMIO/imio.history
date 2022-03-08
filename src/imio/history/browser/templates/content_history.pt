@@ -47,9 +47,8 @@
           tal:attributes="class python: showColors and ('state-%s' % str(state).lower()) or ''">Action</td>
       <td tal:define="actorid python:event.get('actor');
                       actor python:view.getUserInfo(actorid);
-                      fullname actor/fullname|nothing;
-                      username actor/username|nothing"
-          tal:content="python:fullname or username or actorid"/>
+                      fullname actor/actor/fullname|nothing;"
+          tal:content="python:fullname or actorid"/>
       <td tal:content="python:ploneView.toLocalizedTime(event['time'],long_format=True)"/>
       <td tal:condition="not: isDataChange" class="history-comments">
         <tal:renderComments condition="comments">

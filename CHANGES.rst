@@ -4,8 +4,8 @@ Changelog
 1.26 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Fixed display of actor fullname in `@@historyview`.
+  [gbastien]
 
 1.25 (2022-03-07)
 -----------------
