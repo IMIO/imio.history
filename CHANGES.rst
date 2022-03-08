@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.26 (unreleased)
+1.26 (2022-03-08)
 -----------------
 
 - Fixed display of actor fullname in `@@historyview`.
