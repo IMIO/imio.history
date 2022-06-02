@@ -4,8 +4,8 @@ Changelog
 1.27 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `safe_utils.py` that will only include safe utils.
+  [gbastien]
 
 1.26 (2022-03-08)
 -----------------
