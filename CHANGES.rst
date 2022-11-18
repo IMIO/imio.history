@@ -4,8 +4,9 @@ Changelog
 1.28 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added possibility to display an event preview under the comment
+  in the `@@contenthistory` view.
+  [gbastien]
 
 1.27 (2022-06-14)
 -----------------

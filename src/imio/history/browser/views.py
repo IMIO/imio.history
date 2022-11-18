@@ -129,6 +129,10 @@ class IHContentHistoryView(ContentHistoryView):
         """
         return True
 
+    def show_preview(self, event):
+        """When True, a @@history-event-preview view is displayed under the comment."""
+        return False
+
     def showRevisionInfos(self):
         """Return True if the type of the context is versioned. """
         pr = getToolByName(self.context, 'portal_repository')
@@ -155,16 +159,30 @@ class IHContentHistoryView(ContentHistoryView):
         return member
 
 
-class IHVersionPreviewView(BrowserView):
+class VersionPreviewView(BrowserView):
     """Makes it possible to display a preview of a given version."""
 
     def __init__(self, context, request):
         """ """
-        super(IHVersionPreviewView, self).__init__(context, request)
+        super(VersionPreviewView, self).__init__(context, request)
         self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
         self.portal_url = self.portal.absolute_url()
 
     def __call__(self, version_id):
         pr = getToolByName(self.context, 'portal_repository')
         self.versioned_object = pr.retrieve(self.context, version_id).object
-        return super(IHVersionPreviewView, self).__call__()
+        return super(VersionPreviewView, self).__call__()
+
+
+class EventPreviewView(BrowserView):
+    """Makes it possible to display a preview of a given event."""
+
+    def __init__(self, context, request):
+        """ """
+        super(EventPreviewView, self).__init__(context, request)
+        self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        self.portal_url = self.portal.absolute_url()
+
+    def __call__(self, event):
+        self.event = event
+        return super(EventPreviewView, self).__call__(event)
