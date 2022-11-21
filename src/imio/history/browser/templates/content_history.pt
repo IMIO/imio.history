@@ -55,6 +55,10 @@
          <tal:renderedComments replace="structure python: view.renderComments(event)"/>
         </tal:renderComments>
         <span tal:condition="not: comments" i18n:translate="no_comments" class="discreet">No comments</span>
+        <tal:renderEventPreview condition="python: view.show_preview(event)">
+          <p>&nbsp;</p>
+         <tal:previewEvent replace="structure python: context.restrictedTraverse('@@history-event-preview')(event)" />
+        </tal:renderEventPreview>
       </td>
       <td tal:condition="isDataChange">
         <tal:comment replace="nothing">

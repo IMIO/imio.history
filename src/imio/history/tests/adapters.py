@@ -2,6 +2,7 @@
 
 from imio.history.adapters import ImioRevisionHistoryAdapter
 from imio.history.adapters import ImioWfHistoryAdapter
+from imio.history.browser.views import IHContentHistoryView
 
 
 class TestingImioWfHistoryAdapter(ImioWfHistoryAdapter):
@@ -32,4 +33,11 @@ class TestingImioRevisionHistoryAdapter(ImioRevisionHistoryAdapter):
         """See docstring in interfaces.py."""
         if self.request.get('hide_revisions_comment', False):
             return False
+        return True
+
+
+class TestingIHContentHistoryView(IHContentHistoryView):
+
+    def show_preview(self, event):
+        """ """
         return True
