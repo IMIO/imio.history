@@ -200,3 +200,10 @@ class TestContentHistory(IntegrationTestCase):
         last_event = view.getHistory()[0]
         self.assertEquals(view.renderComments(last_event),
                           u'<p>Custom comments not translatable.<br />And one additional line.</p>')
+
+    def test_contenthistoryWithEventPreview(self):
+        """Test the event-preview-view."""
+        self.wft.doActionFor(self.doc, 'publish', comment='My comment')
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+        # preview is there because we overrided show_preview in adapters.TestingIHContentHistoryView
+        self.assertTrue("No preview available." in view())

@@ -6,16 +6,23 @@
     i18n_domain="imio.history">
 
 
-  <include package="zope.component" file="meta.zcml" />
+    <include package="zope.component" file="meta.zcml" />
 
-  <adapter for="OFS.interfaces.IItem"
-           factory=".tests.adapters.TestingImioWfHistoryAdapter"
-           name="workflow"
-           provides=".interfaces.IImioWfHistory" />
+    <adapter for="OFS.interfaces.IItem"
+             factory=".tests.adapters.TestingImioWfHistoryAdapter"
+             name="workflow"
+             provides=".interfaces.IImioWfHistory" />
 
-  <adapter for="OFS.interfaces.IItem"
-           factory=".tests.adapters.TestingImioRevisionHistoryAdapter"
-           name="revision"
-           provides=".interfaces.IImioRevisionHistory" />
+    <adapter for="OFS.interfaces.IItem"
+             factory=".tests.adapters.TestingImioRevisionHistoryAdapter"
+             name="revision"
+             provides=".interfaces.IImioRevisionHistory" />
+
+    <browser:view
+        for="*"
+        name="contenthistory"
+        class=".tests.adapters.TestingIHContentHistoryView"
+        layer="imio.history.interfaces.IImioHistoryLayer"
+        permission="zope.Public" />
 
 </configure>
