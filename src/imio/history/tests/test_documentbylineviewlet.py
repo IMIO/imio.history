@@ -26,6 +26,8 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
             'plone.belowcontenttitle')
         manager.update()
         self.viewlet = manager.get(u'imio.history.documentbyline')
+        self.viewlet.update()
+        self.viewlet.render()
 
     def test_show_history(self):
         """Test the show_history method.

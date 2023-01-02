@@ -35,10 +35,13 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
 
     index = ViewPageTemplateFile("templates/document_byline.pt")
 
-    def show_history(self):
-        """Rely on contenthistory.show_history."""
+    def render(self):
         self.contenthistory = getMultiAdapter(
             (self.context, self.request), name='contenthistory')
+        return super(IHDocumentBylineViewlet, self).render()
+
+    def show_history(self):
+        """Rely on contenthistory.show_history."""
         res = self.contenthistory.show_history()
         if res:
             # do not show a link to the history if we are displaying something in
