@@ -6,13 +6,10 @@ from setuptools import setup
 
 
 long_description = (
-    open('README.rst').read()
-    + '\n' +
+    open('README.rst').read() + '\n' +
     'Contributors\n'
-    '============\n'
-    + '\n' +
-    open('CHANGES.rst').read()
-    + '\n')
+    '============\n' + '\n' +
+    open('CHANGES.rst').read() + '\n')
 
 
 setup(
@@ -43,7 +40,7 @@ setup(
     install_requires=[
         'Plone',
         'setuptools',
-        'plone.api',
+        'plone.api<2.0.0',
     ],
     extras_require={
         'test': [
