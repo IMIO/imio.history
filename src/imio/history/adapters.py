@@ -18,6 +18,7 @@ class BaseImioHistoryAdapter(object):
     history_type = None
     history_attr_name = None
     comment_not_viewable_value = HISTORY_COMMENT_NOT_VIEWABLE
+    highlight_last_comment = False
 
     def __init__(self, context):
         self.context = context
@@ -60,6 +61,22 @@ class BaseImioHistoryAdapter(object):
         """See docstring in interfaces.py."""
         return True
 
+    def historyLastEventHasComments(self):
+        """See docstring in interfaces.py."""
+        if self.highlight_last_comment:
+            # for performance reasons, we use checkMayViewEvent=False, checkMayViewComment=False
+            # this will do sometimes highlight history in red and last comment is not viewable...
+            lastEvent = getLastAction(self)
+            if lastEvent and \
+               lastEvent['comments'] and \
+               safe_unicode(lastEvent['comments']) not in self.ignorableHistoryComments():
+                return True
+        return False
+
+    def ignorableHistoryComments(self):
+        """See docstring in interfaces.py."""
+        return DEFAULT_IGNORABLE_COMMENTS
+
 
 class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
 
@@ -67,6 +84,7 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
 
     history_type = 'workflow'
     include_previous_review_state = False
+    highlight_last_comment = True
 
     @memoize
     def get_history_data(self):
@@ -100,21 +118,6 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
             previous_event = new_event.copy()
             res.append(new_event)
         return res
-
-    def historyLastEventHasComments(self):
-        """See docstring in interfaces.py."""
-        # for performance reasons, we use checkMayViewEvent=False, checkMayViewComment=False
-        # this will do sometimes highlight history in red and last comment is not viewable...
-        lastEvent = getLastAction(self)
-        if lastEvent and \
-           lastEvent['comments'] and \
-           safe_unicode(lastEvent['comments']) not in self.ignorableHistoryComments():
-            return True
-        return False
-
-    def ignorableHistoryComments(self):
-        """See docstring in interfaces.py."""
-        return DEFAULT_IGNORABLE_COMMENTS
 
 
 class ImioRevisionHistoryAdapter(BaseImioHistoryAdapter, ContentHistoryViewlet):
