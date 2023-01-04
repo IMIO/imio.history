@@ -15,16 +15,34 @@ from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 
+def should_highlight_history_link(context, contenthistory):
+    """ """
+    adapter = getAdapter(context, IImioHistory, 'workflow')
+    history_adapters = getAdapters((context,), IImioHistory)
+    highlight = False
+    for adapter_name, adapter in history_adapters:
+        if adapter.highlight_last_comment and \
+           adapter_name in contenthistory.histories_to_handle:
+            if adapter.historyLastEventHasComments():
+                highlight = True
+                break
+    if highlight:
+        return True
+
+
 class IHDocumentBylineViewlet(DocumentBylineViewlet):
     """Overrides the DocumentBylineViewlet."""
 
     index = ViewPageTemplateFile("templates/document_byline.pt")
 
+    def render(self):
+        self.contenthistory = getMultiAdapter(
+            (self.context, self.request), name='contenthistory')
+        return super(IHDocumentBylineViewlet, self).render()
+
     def show_history(self):
         """Rely on contenthistory.show_history."""
-        contenthistory = getMultiAdapter(
-            (self.context, self.request), name='contenthistory')
-        res = contenthistory.show_history()
+        res = self.contenthistory.show_history()
         if res:
             # do not show a link to the history if we are displaying something in
             # an overlay because history is displayed in an overlay and it does not work...
@@ -37,8 +55,7 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
           If a comment was added to last event of the object history,
           we highlight the link (set a css class on it) so user eye is drawn to it.
         """
-        adapter = getAdapter(self.context, IImioHistory, 'workflow')
-        return adapter.historyLastEventHasComments()
+        return should_highlight_history_link(self.context, self.contenthistory)
 
 
 class IHContentHistoryView(ContentHistoryView):

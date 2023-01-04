@@ -28,6 +28,14 @@ class IImioHistory(Interface):
     def mayViewComment(self, event):
         """This will make it possible to hide some comments."""
 
+    def historyLastEventHasComments(self):
+        """Returns True if the last event of the object's history has a comment.
+           Ideally, this method should return a list of unicode so comparison
+           with comments is possible."""
+
+    def ignorableHistoryComments(self):
+        """Ignorable history comments, stored as utf-8."""
+
 
 class IImioWfHistory(IImioHistory):
 
@@ -35,13 +43,6 @@ class IImioWfHistory(IImioHistory):
 
     def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True, **kw):
         """Returns the WF history for context."""
-
-    def historyLastEventHasComments(self):
-        """Returns True if the last event of the object's history has a comment.
-           Ideally, this method should return a list of unicode so comparison with comments is possible."""
-
-    def ignorableHistoryComments(self):
-        """Ignorable history comments, stored as utf-8."""
 
 
 class IImioRevisionHistory(IImioHistory):

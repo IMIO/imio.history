@@ -7,6 +7,9 @@ Changelog
 - Added possibility to display an event preview under the comment
   in the `@@contenthistory` view.
   [gbastien]
+- Make the `highlight_last_comment` functionnality generic, it was only used
+  with WF history but now any history may be set `highlight_last_comment=True`.
+  [gbastien]
 
 1.27 (2022-06-14)
 -----------------
