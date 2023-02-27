@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.28 (unreleased)
+1.28 (2023-02-27)
 -----------------
 
 - Added possibility to display an event preview under the comment
