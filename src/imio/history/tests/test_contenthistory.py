@@ -192,14 +192,21 @@ class TestContentHistory(IntegrationTestCase):
         # do a transition with a comment that will be translatable
         self.wft.doActionFor(self.doc, 'publish', comment='data_change')
         last_event = view.getHistory()[0]
-        self.assertEquals(view.renderComments(last_event), u'<p>Data change</p>')
+        self.assertEqual(view.renderComments(last_event), u'<p>Data change</p>')
 
         # turned from text/plain to text/html
         # do a transition with a comment that will be translatable
         self.wft.doActionFor(self.doc, 'retract', comment='Custom comments not translatable.\nAnd one additional line.')
         last_event = view.getHistory()[0]
-        self.assertEquals(view.renderComments(last_event),
-                          u'<p>Custom comments not translatable.<br />And one additional line.</p>')
+        self.assertEqual(view.renderComments(last_event),
+                         u'<p>Custom comments not translatable.<br />And one additional line.</p>')
+        # special value may break rendering when mimetype is not given
+        last_event['comments'] = u'*** x-patch mimetype ***'
+        self.assertEqual(view.renderComments(last_event),
+                         u'<p>*** x-patch mimetype ***</p>')
+        # mimetype passed to renderComments is 'text/plain', if not given
+        # it is auto detected by mimetypes_registry
+        self.assertRaises(AttributeError, view.renderComments, last_event, mimetype=None)
 
     def test_contenthistoryWithEventPreview(self):
         """Test the event-preview-view."""

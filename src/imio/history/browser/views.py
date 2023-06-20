@@ -100,7 +100,7 @@ class IHContentHistoryView(ContentHistoryView):
         """ """
         return {}
 
-    def renderComments(self, event):
+    def renderComments(self, event, mimetype='text/plain'):
         """
           Render comments correctly as it is 'plain/text' and we want 'text/html'.
         """
@@ -116,7 +116,8 @@ class IHContentHistoryView(ContentHistoryView):
             domain='imio.history',
             context=self.request)
         transformsTool = api.portal.get_tool('portal_transforms')
-        data = transformsTool.convertTo('text/x-html-safe', translated)
+        data = transformsTool.convertTo(
+            'text/x-html-safe', translated, mimetype=mimetype)
         return data.getData()
 
     @memoize

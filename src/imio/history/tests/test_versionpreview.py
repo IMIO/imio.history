@@ -27,13 +27,10 @@ class TestVersionPreview(IntegrationTestCase):
         # so it is available in the template
         view = doc.restrictedTraverse('@@history-version-preview')
         # current
-        self.assertEquals(view.context.Title(),
-                          "Document title 3")
+        self.assertEqual(view.context.Title(), "Document title 3")
         # version_id 1
         view(version_id=1)
-        self.assertEquals(view.versioned_object.Title(),
-                          "Document title 1")
+        self.assertEqual(view.versioned_object.Title(), "Document title 1")
         # version_id 2
         view(version_id=2)
-        self.assertEquals(view.versioned_object.Title(),
-                          "Document title 2")
+        self.assertEqual(view.versioned_object.Title(), "Document title 2")

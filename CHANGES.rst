@@ -4,8 +4,10 @@ Changelog
 1.29 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Make `IHContentHistoryView.renderComments` more robust by passing original
+  `mimetype='text/plain'` to avoid `portal_transforms` detecting it automatically
+  that can lead to wrong detection.
+  [gbastien]
 
 1.28 (2023-02-27)
 -----------------
