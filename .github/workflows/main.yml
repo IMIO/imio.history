@@ -17,11 +17,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v2
+      - name: Set up pyenv and Python
+        uses: "gabrielfalcao/pyenv-action@v14"
         with:
-          python-version: 2.7
-      - name: Setup Env
+          default: 2.7.18
+          versions: 3.8.16
+          command: pyenv -v
+      - name: Set up Env
         run: |
           pip install -r requirements.txt coverage==5.3.1 wheel
       - name: Cache eggs
@@ -32,20 +34,16 @@ jobs:
           path: ~/buildout-cache/eggs
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
           restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.PLONE_VERSION }}
-      - name: buildout
+      - name: Buildout
         run: |
           buildout -c ci.cfg annotate
           buildout -c ci.cfg
-      - name: code-analysis
+      - name: Code analysis
         run: |
           bin/code-analysis
-      - name: test coverage
+      - name: Test coverage
         run: |
           bin/coverage run bin/test
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - name: Install Coveralls
         run: |
           pip3 install -U pip setuptools --no-cache-dir
