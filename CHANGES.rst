@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.29 (unreleased)
+1.29 (2023-06-27)
 -----------------
 
 - Make `IHContentHistoryView.renderComments` more robust by passing original
