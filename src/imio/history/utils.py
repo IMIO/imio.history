@@ -101,3 +101,11 @@ def add_event_to_history(obj, history_attr, action, actor=None, time=None, comme
                     'comments': comments}
     history_data.update(extra_infos)
     getattr(obj, history_attr).append(history_data.copy())
+
+
+def get_event_by_time(obj, history_name, int_event_time):
+    """ """
+    adapter = getAdapter(obj, IImioHistory, history_name)
+    for event in adapter.get_history_data():
+        if int(event['time']) == int_event_time:
+            return event

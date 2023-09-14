@@ -201,6 +201,10 @@ class EventPreviewView(BrowserView):
         self.portal = getToolByName(self.context, 'portal_url').getPortalObject()
         self.portal_url = self.portal.absolute_url()
 
+    def may_view_historized_data(self):
+        """ """
+        return True
+
     def __call__(self, event):
         self.event = event
         return super(EventPreviewView, self).__call__(event)
