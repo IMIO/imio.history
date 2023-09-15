@@ -6,6 +6,7 @@ from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
 from imio.history.utils import get_all_history_attr
+from imio.history.utils import get_event_by_time
 from imio.history.utils import getLastAction
 from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
@@ -182,3 +183,13 @@ class TestUtils(IntegrationTestCase):
                          ['test_user_1_', 'test_user_1_', 'test_user_1_'])
         self.assertEqual(get_all_history_attr(doc, attr_name='comments'),
                          ['', 'Publication comment', ''])
+
+    def test_get_event_by_time(self):
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        api.content.transition(doc, 'publish', comment='Publication comment')
+        api.content.transition(doc, 'retract')
+        float_event_time = float(doc.workflow_history['simple_publication_workflow'][-1]['time'])
+        self.assertEqual(get_event_by_time(doc, 'workflow', float_event_time)['action'], 'retract')
+        self.assertIsNone(get_event_by_time(doc, 'workflow', 0))

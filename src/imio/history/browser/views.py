@@ -106,7 +106,7 @@ class IHContentHistoryView(ContentHistoryView):
         """
         # prepare some data passed to translate as mappings
         mapping = event.copy()
-        mapping['event_time'] = int(event['time'])
+        mapping['event_time'] = float(event['time'])
         mapping['url'] = self.context.absolute_url()
         mapping.update(self._extra_render_comments_mapping())
         # try to translate comments before it is turned into text/html

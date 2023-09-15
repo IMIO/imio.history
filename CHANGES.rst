@@ -4,8 +4,9 @@ Changelog
 1.30 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.get_event_by_time` that will return an history event based
+  on a given float event time.
+  [gbastien]
 
 1.29 (2023-06-27)
 -----------------
