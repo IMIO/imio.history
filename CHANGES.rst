@@ -7,6 +7,8 @@ Changelog
 - Added `utils.get_event_by_time` that will return an history event based
   on a given float event time.
   [gbastien]
+- Formalized use of `EventPreviewView.may_view_historized_data`.
+  [gbastien]
 
 1.29 (2023-06-27)
 -----------------
