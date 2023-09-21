@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.30 (unreleased)
+1.30 (2023-09-21)
 -----------------
 
 - Added `utils.get_event_by_time` that will return an history event based
