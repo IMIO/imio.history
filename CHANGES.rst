@@ -4,8 +4,10 @@ Changelog
 1.31 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added parameter `ignore_previous_event_actions=[]` to `utils.getLastAction`,
+  this way when finding the last action in a history, it will check previous
+  event action and continue if it is an action to ignore.
+  [gbastien]
 
 1.30 (2023-09-21)
 -----------------

@@ -35,7 +35,11 @@ def getPreviousEvent(obj, event, checkMayViewEvent=False, checkMayViewComment=Fa
     return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 
 
-def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewComment=False):
+def getLastAction(adapter,
+                  action='last',
+                  ignore_previous_event_actions=[],
+                  checkMayViewEvent=False,
+                  checkMayViewComment=False):
     '''Returns, from the p_history_name of p_adapter, the last occurence of p_action.
        Default p_action is 'last' because we also want to be able to get
        an action that is 'None' in a particular p_history_name.'''
@@ -61,7 +65,9 @@ def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewC
                 condition = event['action'] is None
             else:
                 condition = event['action'] in action
-            if condition:
+            if condition and \
+                    (not ignore_previous_event_actions or
+                     history[i - 1]['action'] not in ignore_previous_event_actions):
                 res = event
                 break
             i -= 1
@@ -69,14 +75,20 @@ def getLastAction(adapter, action='last', checkMayViewEvent=False, checkMayViewC
     return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 
 
-def getLastWFAction(obj, transition='last', checkMayViewEvent=False, checkMayViewComment=False):
+def getLastWFAction(obj,
+                    transition='last',
+                    ignore_previous_event_actions=[],
+                    checkMayViewEvent=False,
+                    checkMayViewComment=False):
     '''Helper to get last p_transition workflow_history event.
        By default, security checks are not done (checkMayViewEvent=False, checkMayViewComment=False).'''
     adapter = getAdapter(obj, IImioHistory, 'workflow')
-    last_wf_action = getLastAction(adapter,
-                                   action=transition,
-                                   checkMayViewEvent=checkMayViewEvent,
-                                   checkMayViewComment=checkMayViewComment)
+    last_wf_action = getLastAction(
+        adapter,
+        action=transition,
+        ignore_previous_event_actions=ignore_previous_event_actions,
+        checkMayViewEvent=checkMayViewEvent,
+        checkMayViewComment=checkMayViewComment)
     return last_wf_action
 
 

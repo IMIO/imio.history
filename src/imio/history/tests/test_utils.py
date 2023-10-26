@@ -133,6 +133,27 @@ class TestUtils(IntegrationTestCase):
         self.assertEqual(publish_action['comments'], 'Publication comment')
         self.assertEqual(getLastWFAction(doc, transition='before_last')['review_state'], 'private')
 
+    def test_getLastWFAction_ignore_previous_event_actions(self):
+        """Test utils.getLastWFAction with ignore_previous_event_actions."""
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        # we are going to:
+        # publish, retract, submit, publish
+        # then get the last publish ignoring previous "submit"
+        api.content.transition(doc, 'publish', comment='Publication comment')
+        api.content.transition(doc, 'retract', comment='Retract comment')
+        api.content.transition(doc, 'submit', comment='Submit comment')
+        api.content.transition(doc, 'publish', comment='Publication2 comment')
+        action = getLastWFAction(doc, 'publish')
+        action_with_ignored_previous = getLastWFAction(
+            doc, 'publish', ignore_previous_event_actions=['submit'])
+        self.assertNotEqual(action['time'], action_with_ignored_previous['time'])
+        self.assertEqual(action['action'], 'publish')
+        self.assertEqual(action_with_ignored_previous['action'], 'publish')
+        self.assertEqual(action['comments'], 'Publication2 comment')
+        self.assertEqual(action_with_ignored_previous['comments'], 'Publication comment')
+
     def test_add_event_to_history(self):
         """Add an event to an history following an action."""
         folder = self.portal.folder
