@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.31 (unreleased)
+1.31 (2023-10-27)
 -----------------
 
 - Added parameter `ignore_previous_event_actions=[]` to `utils.getLastAction`,
