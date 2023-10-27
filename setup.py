@@ -14,7 +14,7 @@ long_description = (
 
 setup(
     name='imio.history',
-    version='1.31',
+    version='1.32.dev0',
     description="Imio history",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
