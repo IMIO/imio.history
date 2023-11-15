@@ -42,13 +42,8 @@ class IHDocumentBylineViewlet(DocumentBylineViewlet):
 
     def show_history(self):
         """Rely on contenthistory.show_history."""
-        res = self.contenthistory.show_history()
-        if res:
-            # do not show a link to the history if we are displaying something in
-            # an overlay because history is displayed in an overlay and it does not work...
-            if 'ajax_load' in self.request:
-                res = False
-        return res
+        if super(IHDocumentBylineViewlet, self).show_history():
+            return self.contenthistory.show_history()
 
     def highlight_history_link(self):
         """

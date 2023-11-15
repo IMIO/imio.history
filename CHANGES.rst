@@ -4,8 +4,9 @@ Changelog
 1.32 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- In `IHDocumentBylineViewlet`, do not display creator if `show_history`
+  is `False` as creator is part of the history.
+  [gbastien]
 
 1.31 (2023-10-27)
 -----------------
