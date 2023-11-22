@@ -5,7 +5,6 @@ from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from plone import api
 from plone.memoize.instance import Memojito
-from Products.Five.browser import BrowserView
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
