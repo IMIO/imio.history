@@ -19,7 +19,7 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         doc = api.content.create(type='Document',
                                  id='doc',
                                  container=self.portal)
-        view = BrowserView(doc, self.portal.REQUEST)
+        view = doc.restrictedTraverse('@@folder_contents')
         manager = getMultiAdapter(
             (doc, self.portal.REQUEST, view),
             IViewletManager,
@@ -30,12 +30,11 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         self.viewlet.render()
 
     def test_show_history(self):
-        """Test the show_history method.
-           The history is shown in every case except if 'ajax_load' is found in the REQUEST."""
+        """Test the show_history method.  Shown by default."""
         self.assertTrue(self.viewlet.show_history())
-        # show_history is False if displayed in a popup, aka 'ajax_load' in the REQUEST
+        # show_history is also displayed in a popup, aka 'ajax_load' in the REQUEST
         self.portal.REQUEST.set('ajax_load', True)
-        self.assertFalse(self.viewlet.show_history())
+        self.assertTrue(self.viewlet.show_history())
 
     def test_highlight_history_link(self):
         """Test the highlight_history_link method.
