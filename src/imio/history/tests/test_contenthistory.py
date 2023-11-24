@@ -214,3 +214,9 @@ class TestContentHistory(IntegrationTestCase):
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
         # preview is there because we overrided show_preview in adapters.TestingIHContentHistoryView
         self.assertTrue("No preview available." in view())
+
+    def test_contenthistory(self):
+        """Test the @@contenthistory view."""
+        view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
+        # the @@header view rendered in @@contenthistory displays current context prettylink
+        self.assertTrue("class='pretty_link_content state-private'" in view())
