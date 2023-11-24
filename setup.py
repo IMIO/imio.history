@@ -41,6 +41,7 @@ setup(
         'Plone',
         'setuptools',
         'plone.api<2.0.0',
+        'imio.prettylink',
     ],
     extras_require={
         'test': [

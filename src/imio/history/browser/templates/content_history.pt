@@ -6,6 +6,7 @@
                  ploneView python: context.restrictedTraverse('@@plone');
                  member python: view.member">
   <tal:block replace="structure python: view.renderCustomJS()"></tal:block>
+  <tal:header replace="structure context/@@header" />
   <tal:comment replace="nothing">Table containing the history</tal:comment>
   <tal:history condition="events">
   <table class="listing nosort" style="width: 100%">

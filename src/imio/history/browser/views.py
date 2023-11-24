@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
+from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
@@ -203,3 +205,11 @@ class EventPreviewView(BrowserView):
     def __call__(self, event):
         self.event = event
         return super(EventPreviewView, self).__call__(event)
+
+
+class HeaderView(BrowserView):
+    """ """
+
+    def get_title(self):
+        """ """
+        return IPrettyLink(self.context).getLink()
