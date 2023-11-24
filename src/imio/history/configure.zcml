@@ -10,6 +10,7 @@
 
   <include package=".browser" />
 
+  <include package="imio.prettylink" />
   <include package="Products.GenericSetup" file="meta.zcml" />
 
   <genericsetup:registerProfile
