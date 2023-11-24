@@ -7,6 +7,11 @@ Changelog
 - In `IHDocumentBylineViewlet`, do not display creator if `show_history`
   is `False` as creator is part of the history.
   [gbastien]
+- In `@@historyview`, display a `@@header` view under `History` title that will
+  by default display the `prettylink` of the context, useful when displaying
+  history in a popup from a dashboard containing plenty of elements.
+  Added direct dependency on `imio.prettylink`.
+  [gbastien]
 
 1.31 (2023-10-27)
 -----------------

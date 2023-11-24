@@ -41,4 +41,11 @@
         layer="imio.history.interfaces.IImioHistoryLayer"
         permission="zope2.View" />
 
+    <browser:page
+      for="OFS.interfaces.IItem"
+      name="header"
+      template="templates/header.pt"
+      class=".views.HeaderView"
+      permission="zope2.View" />
+
 </configure>
