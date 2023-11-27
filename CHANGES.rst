@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.32 (unreleased)
+1.32 (2023-11-27)
 -----------------
 
 - In `IHDocumentBylineViewlet`, do not display creator if `show_history`
