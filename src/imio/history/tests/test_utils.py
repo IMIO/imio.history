@@ -5,6 +5,7 @@ from imio import history as imio_history
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from imio.history.utils import add_event_to_history
+from imio.history.utils import add_event_to_wf_history
 from imio.history.utils import get_all_history_attr
 from imio.history.utils import get_event_by_time
 from imio.history.utils import getLastAction
@@ -214,3 +215,14 @@ class TestUtils(IntegrationTestCase):
         float_event_time = float(doc.workflow_history['simple_publication_workflow'][-1]['time'])
         self.assertEqual(get_event_by_time(doc, 'workflow', float_event_time)['action'], 'retract')
         self.assertIsNone(get_event_by_time(doc, 'workflow', 0))
+
+    def test_add_event_to_wf_history(self):
+        doc = api.content.create(type='Document',
+                                 id='doc',
+                                 container=self.portal)
+        add_event_to_wf_history(doc, action="test", comments="Test")
+        self.assertEqual(doc.workflow_history['simple_publication_workflow'][-1]['action'], "test")
+        # insert at index 1
+        add_event_to_wf_history(doc, action="test2", comments="Test2", insert_index=1)
+        self.assertEqual(doc.workflow_history['simple_publication_workflow'][-1]['action'], "test")
+        self.assertEqual(doc.workflow_history['simple_publication_workflow'][-2]['action'], "test2")

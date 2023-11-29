@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from DateTime import DateTime
+from imio.helpers.cache import get_current_user_id
 from imio.history.interfaces import IImioHistory
 from persistent.list import PersistentList
 from plone import api
@@ -113,6 +114,40 @@ def add_event_to_history(obj, history_attr, action, actor=None, time=None, comme
                     'comments': comments}
     history_data.update(extra_infos)
     getattr(obj, history_attr).append(history_data.copy())
+
+
+def add_event_to_wf_history(obj, action, actor=None, comments=u'', insert_index=None):
+    wfTool = api.portal.get_tool('portal_workflow')
+    wfs = wfTool.getWorkflowsFor(obj)
+    if not wfs:
+        return
+    wf = wfs[0]
+    wfName = wf.id
+    # get review_state from last event if any
+    events = list(obj.workflow_history[wfName]) or []
+    if events:
+        previous_event = events[-1]
+        review_state_id = previous_event['review_state']
+    else:
+        # use initial_state
+        review_state_id = wf.initial_state
+    # action comments must be translated in the imio.history domain
+    new_event = {}
+    new_event['comments'] = comments or ''
+    # action_name must be translated in the plone domain
+    new_event['action'] = action
+    new_event['actor'] = actor or get_current_user_id(obj.REQUEST)
+    # if an insert_index is defined, use same 'time' as previous as
+    # events are sorted on 'time' and just add 1 millisecond
+    if insert_index is not None:
+        new_event['time'] = events[insert_index]['time'] + 0.000000001
+        new_event['review_state'] = events[insert_index]['review_state']
+        events.insert(insert_index, new_event)
+    else:
+        new_event['time'] = DateTime()
+        new_event['review_state'] = review_state_id
+        events.insert(len(events), new_event)
+    obj.workflow_history[wfName] = events
 
 
 def get_event_by_time(obj, history_name, float_event_time):

@@ -4,8 +4,9 @@ Changelog
 1.33 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.add_event_to_wf_history` to insert an event
+  to the `workflow_history` of an element.
+  [gbastien]
 
 1.32 (2023-11-27)
 -----------------
