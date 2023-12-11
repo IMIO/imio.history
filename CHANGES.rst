@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.33 (unreleased)
+1.33 (2023-12-11)
 -----------------
 
 - Added `utils.add_event_to_wf_history` to insert an event
