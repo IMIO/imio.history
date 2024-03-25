@@ -20,12 +20,12 @@ def _check_may_view(event, adapter, checkMayViewEvent=False, checkMayViewComment
     return event
 
 
-def getPreviousEvent(obj, event, checkMayViewEvent=False, checkMayViewComment=False):
+def getPreviousEvent(obj, event, history_name='workflow', checkMayViewEvent=False, checkMayViewComment=False):
     '''Returns the previous event found in the history for the given p_event
        on p_obj if p_event is found.  p_checkMayView is passed to IImioHistory.getHistory
        and will enable/disable event's comments viewability check.'''
 
-    adapter = getAdapter(obj, IImioHistory, 'workflow')
+    adapter = getAdapter(obj, IImioHistory, history_name)
     # for performance, checkMayViewEvent and checkMayViewComment only on found event
     history = adapter.getHistory(
         checkMayViewEvent=False, checkMayViewComment=False)
