@@ -6,6 +6,9 @@ Changelog
 
 - Adapted `utils.getPreviousEvent` to add parameter `history_name='workflow'`.
   [gbastien]
+- Fixed display of `HISTORY_COMMENT_NOT_VIEWABLE` in `@@contenthistory` view
+  that was displayed as text, showing the HTML code.
+  [gbastien]
 
 1.33 (2023-12-11)
 -----------------

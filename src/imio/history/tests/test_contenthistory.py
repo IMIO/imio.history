@@ -122,6 +122,8 @@ class TestContentHistory(IntegrationTestCase):
         self.assertEqual(lastEvent['action'], 'publish')
         # now comment is no more viewable
         self.assertEqual(lastEvent['comments'], HISTORY_COMMENT_NOT_VIEWABLE)
+        # correctly rendered
+        self.assertTrue(HISTORY_COMMENT_NOT_VIEWABLE in view())
 
         # getHistory can be called with checkMayViewComment set to False,
         # in this case, mayViewComment check is not done

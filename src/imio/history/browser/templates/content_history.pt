@@ -1,5 +1,5 @@
 <div id="content" define-macro="history" i18n:domain="plone"
-     tal:condition="view/show_history"
+     tal:condition="python: view.show_history()"
      tal:define="events python: view.getHistory();
                  showColors python: view.showColors();
                  showRevisionInfos python: view.showRevisionInfos();

@@ -48,7 +48,9 @@ class BaseImioHistoryAdapter(object):
 
             if checkMayViewEvent and not self.mayViewEvent(event):
                 continue
+            event['comments_viewable'] = True
             if checkMayViewComment and not self.mayViewComment(event):
+                event['comments_viewable'] = False
                 event['comments'] = self.comment_not_viewable_value
             res.append(event)
         return res

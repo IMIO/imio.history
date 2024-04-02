@@ -112,6 +112,9 @@ class IHContentHistoryView(ContentHistoryView):
             mapping=mapping,
             domain='imio.history',
             context=self.request)
+        # bypass transform when comments not viewable as we have HTML
+        if event['comments_viewable'] is False:
+            return translated
         transformsTool = api.portal.get_tool('portal_transforms')
         data = transformsTool.convertTo(
             'text/x-html-safe', translated, mimetype=mimetype)
