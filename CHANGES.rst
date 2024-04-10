@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.34 (unreleased)
+1.34 (2024-04-10)
 -----------------
 
 - Adapted `utils.getPreviousEvent` to add parameter `history_name='workflow'`.
