@@ -4,8 +4,9 @@ Changelog
 1.35 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Moved translation of event comments to a sub method
+  `IHContentHistoryView._translate_comments` so it is easier to override.
+  [gbastien]
 
 1.34 (2024-04-10)
 -----------------
