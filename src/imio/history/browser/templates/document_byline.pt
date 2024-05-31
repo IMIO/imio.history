@@ -2,12 +2,12 @@
      id="plone-document-byline"
      i18n:domain="plone"
      tal:condition="python: view.show()"
-     tal:define="show_history python: view.show_history()">
-  <span id="lock-icon"
-        tal:define="lock_icon view/locked_icon"
-        tal:condition="python:lock_icon">
-      <img tal:replace="structure lock_icon" />
-  </span>
+     tal:define="show_history python: lambda: 0">
+<!--?  <span id="lock-icon"-->
+<!--?        tal:define="lock_icon view/locked_icon"-->
+<!--?        tal:condition="python:lock_icon">-->
+<!--?      <img tal:replace="structure lock_icon" />-->
+<!--?  </span>  MIGRATION-PLONE6 -->
 
   <tal:creator tal:define="creator_short_form python: view.creator();"
                tal:condition="python: creator_short_form and show_history">

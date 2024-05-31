@@ -40,7 +40,7 @@ setup(
     install_requires=[
         'Plone',
         'setuptools',
-        'plone.api<2.0.0',
+        'plone.api',
         'imio.prettylink',
     ],
     extras_require={
