@@ -6,9 +6,10 @@ from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from plone import api
 from plone.app.testing import TEST_USER_NAME
-from Products.Five import zcml
+from Zope2.App import zcml
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.i18n import translate
 
 
 class TestImioRevisionHistoryAdapter(IntegrationTestCase):
@@ -40,10 +41,10 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         history = view.getHistory()
         # as versioning is active for documents, a revision is already available
         pr = self.portal.portal_repository
-        self.assertTrue(self.doc.meta_type in pr.getVersionableContentTypes())
+        self.assertTrue(self.doc.portal_type in pr.getVersionableContentTypes())
         lastEvent = history[0]
-        self.assertEqual(lastEvent['action'], u'Edited')
-        self.assertEqual(lastEvent['comments'], u'Initial revision')
+        self.assertEqual(lastEvent['action'], 'Edited')
+        self.assertEqual(translate(lastEvent['comments']), 'Initial version')
         self.assertTrue(view.versionIsViewable(lastEvent))
 
         # now register an adapter that will do 'Initial revision' comment not visible
@@ -51,7 +52,7 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         self.request.set('hide_revisions_comment', True)
         history = view.getHistory()
         lastEvent = history[0]
-        self.assertEqual(lastEvent['action'], u'Edited')
+        self.assertEqual(lastEvent['action'], 'Edited')
         self.assertEqual(lastEvent['comments'], HISTORY_REVISION_NOT_VIEWABLE)
         self.assertFalse(view.versionIsViewable(lastEvent))
 
@@ -59,7 +60,7 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         # in this case, mayViewVersion check is not done
         history = view.getHistory(checkMayViewComment=False)
         lastEvent = history[0]
-        self.assertEqual(lastEvent['action'], u'Edited')
-        self.assertEqual(lastEvent['comments'], u'Initial revision')
+        self.assertEqual(lastEvent['action'], 'Edited')
+        self.assertEqual(translate(lastEvent['comments']), 'Initial version')
         # cleanUp zmcl.load_config because it impact other tests
         zcml.cleanUp()

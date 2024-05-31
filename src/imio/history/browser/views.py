@@ -6,6 +6,7 @@ from imio.prettylink.interfaces import IPrettyLink
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
+from plone.app.layout.viewlets.content import HistoryByLineView
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -32,7 +33,7 @@ def should_highlight_history_link(context, contenthistory):
         return True
 
 
-class IHDocumentBylineViewlet(DocumentBylineViewlet):
+class IHDocumentBylineViewlet(DocumentBylineViewlet, HistoryByLineView):
     """Overrides the DocumentBylineViewlet."""
 
     index = ViewPageTemplateFile("templates/document_byline.pt")
@@ -60,7 +61,7 @@ class IHContentHistoryView(ContentHistoryView):
       Overrides the ContentHistoryView template to use our own.
       We want to display the content_history as a table.
     '''
-    histories_to_handle = (u'revision', u'workflow')
+    histories_to_handle = ('revision', 'workflow')
     index = ViewPageTemplateFile("templates/content_history.pt")
 
     def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True):

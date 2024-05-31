@@ -4,9 +4,11 @@ from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
 from plone import api
+from plone.app.layout.globals.interfaces import IViewView
 from plone.memoize.instance import Memojito
 from zope.component import getAdapter
 from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
 from zope.viewlet.interfaces import IViewletManager
 
 
@@ -18,13 +20,14 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         doc = api.content.create(type='Document',
                                  id='doc',
                                  container=self.portal)
-        view = doc.restrictedTraverse('@@folder_contents')
+        view = doc.restrictedTraverse('@@view')
+        alsoProvides(view, IViewView)
         manager = getMultiAdapter(
             (doc, self.portal.REQUEST, view),
             IViewletManager,
             'plone.belowcontenttitle')
         manager.update()
-        self.viewlet = manager.get(u'imio.history.documentbyline')
+        self.viewlet = manager.get('imio.history.documentbyline')
         self.viewlet.update()
         self.viewlet.render()
 

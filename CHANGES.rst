@@ -4,8 +4,10 @@ Changelog
 1.38 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Add Plone 6.1 compatibility, drop Plone 4 compatibility
+  [duchenean, laulaz]
+- Add uninstall profile
+  [duchenean, laulaz]
 
 1.37 (2026-03-13)
 -----------------

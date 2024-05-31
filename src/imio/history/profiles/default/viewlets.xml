@@ -2,6 +2,6 @@
 <object>
   <!-- hide the documentby_line viewlet -->
   <hidden manager="plone.belowcontenttitle" skinname="*">
-    <viewlet name="plone.belowcontenttitle.documentbyline" />
+    <viewlet name="plone.documentbyline" />
   </hidden>
 </object>

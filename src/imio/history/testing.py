@@ -86,3 +86,16 @@ class IntegrationTestCase(unittest.TestCase):
         self.request = self.layer['request']
         self.catalog = self.portal.portal_catalog
         self.wft = self.portal.portal_workflow
+
+
+class FunctionalTestCase(unittest.TestCase):
+    """Base class for functional tests."""
+
+    layer = FUNCTIONAL
+
+    def setUp(self):
+        super(FunctionalTestCase, self).setUp()
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        self.catalog = self.portal.portal_catalog
+        self.wft = self.portal.portal_workflow
