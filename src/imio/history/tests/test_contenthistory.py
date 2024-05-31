@@ -2,14 +2,16 @@
 
 from imio import history as imio_history
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
-from imio.history.testing import IntegrationTestCase
+from imio.history.testing import FunctionalTestCase
 from plone import api
 from plone.app.testing import TEST_USER_NAME
-from Products.Five import zcml
+from Zope2.App import zcml
 from zope.component import getMultiAdapter
 
+import transaction
 
-class TestContentHistory(IntegrationTestCase):
+
+class TestContentHistory(FunctionalTestCase):
 
     def setUp(self):
         super(TestContentHistory, self).setUp()
@@ -17,6 +19,7 @@ class TestContentHistory(IntegrationTestCase):
                                  id='doc',
                                  container=self.portal)
         self.doc = doc
+        transaction.commit()
 
     def test_getHistory(self):
         """Test the getHistory method.
@@ -88,8 +91,8 @@ class TestContentHistory(IntegrationTestCase):
         self.assertEqual(view.getTransitionTitle('publish'),
                          'publish')
         # an entry that is not a transition_id but contains special chars does not break
-        self.assertEqual(view.getTransitionTitle(u'sp\xe9cial'),
-                         u'sp\xe9cial')
+        self.assertEqual(view.getTransitionTitle('sp\xe9cial'),
+                         'sp\xe9cial')
         self.assertEqual(view.getTransitionTitle('sp\xc3\xa9cial'),
                          'sp\xc3\xa9cial')
         # empty value does not break
@@ -148,7 +151,7 @@ class TestContentHistory(IntegrationTestCase):
         actions = [event['action'] for event in history]
         self.assertTrue('publish' in actions)
         # we have also a revision
-        self.assertTrue(u'Edited' in actions)
+        self.assertTrue('Edited' in actions)
 
         # enable testing-adapter.zcml, the 'publish' actions will
         # not be viewable anymore, as well as revisions
@@ -159,14 +162,14 @@ class TestContentHistory(IntegrationTestCase):
         self.assertEqual(len(history), 1)
         actions = [event['action'] for event in history]
         self.assertFalse('publish' in actions)
-        self.assertFalse(u'Edited' in actions)
+        self.assertFalse('Edited' in actions)
 
         # if passing checkMayViewEvent=False, then publish event is viewable
         history = view.getHistory(checkMayViewEvent=False)
         self.assertEqual(len(history), 3)
         actions = [event['action'] for event in history]
         self.assertTrue('publish' in actions)
-        self.assertTrue(u'Edited' in actions)
+        self.assertTrue('Edited' in actions)
         # cleanUp zmcl.load_config because it impact other tests
         zcml.cleanUp()
 
@@ -179,7 +182,7 @@ class TestContentHistory(IntegrationTestCase):
         # return True.
         self.assertTrue(view.showRevisionInfos())
         # Remove the type "Document" from the versionable content.
-        pr.setVersionableContentType([u'ATDocument', u'ATNewsItem', u'Event', u'Link', u'News Item'])
+        pr.setVersionableContentType(['ATDocument', 'ATNewsItem', 'Event', 'Link', 'News Item'])
         # Now showRevisionInfos shoud return False.
         self.assertFalse(view.showRevisionInfos())
 
@@ -188,27 +191,24 @@ class TestContentHistory(IntegrationTestCase):
         # render comments will first try to translate the comments
         # then turn it from 'text/plain' to 'text/html'
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name='contenthistory')
-        view.histories_to_handle = (u'workflow', )
+        view.histories_to_handle = ('workflow', )
 
         # translated
         # do a transition with a comment that will be translatable
         self.wft.doActionFor(self.doc, 'publish', comment='data_change')
         last_event = view.getHistory()[0]
-        self.assertEqual(view.renderComments(last_event), u'<p>Data change</p>')
+        self.assertEqual(view.renderComments(last_event), '<p>Data change</p>')
 
         # turned from text/plain to text/html
         # do a transition with a comment that will be translatable
         self.wft.doActionFor(self.doc, 'retract', comment='Custom comments not translatable.\nAnd one additional line.')
         last_event = view.getHistory()[0]
         self.assertEqual(view.renderComments(last_event),
-                         u'<p>Custom comments not translatable.<br />And one additional line.</p>')
+                         '<p>Custom comments not translatable.<br>And one additional line.</p>')
         # special value may break rendering when mimetype is not given
-        last_event['comments'] = u'*** x-patch mimetype ***'
+        last_event['comments'] = '*** x-patch mimetype ***'
         self.assertEqual(view.renderComments(last_event),
-                         u'<p>*** x-patch mimetype ***</p>')
-        # mimetype passed to renderComments is 'text/plain', if not given
-        # it is auto detected by mimetypes_registry
-        self.assertRaises(AttributeError, view.renderComments, last_event, mimetype=None)
+                         '<p>*** x-patch mimetype ***</p>')
 
     def test_contenthistoryWithEventPreview(self):
         """Test the event-preview-view."""

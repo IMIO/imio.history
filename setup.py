@@ -22,10 +22,10 @@ setup(
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 6.1",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.13",
     ],
     keywords='Python Plone',
     author='IMIO',
@@ -40,7 +40,7 @@ setup(
     install_requires=[
         'Plone',
         'setuptools',
-        'plone.api<2.0.0',
+        'plone.api',
         'imio.prettylink',
     ],
     extras_require={

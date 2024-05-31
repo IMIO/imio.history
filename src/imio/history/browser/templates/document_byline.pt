@@ -69,6 +69,7 @@
     —
     <a href="#"
        tal:attributes="href string:${here/absolute_url}/@@historyview"
+       class="link-tooltip"
        i18n:translate="label_history">History</a>
   </span>
 

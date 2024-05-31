@@ -13,7 +13,7 @@ from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
 from plone import api
 from plone.memoize.instance import Memojito
-from Products.Five import zcml
+from Zope2.App import zcml
 from zope.component import getAdapter
 
 
@@ -179,17 +179,17 @@ class TestUtils(IntegrationTestCase):
                              'action2',
                              actor=new_user,
                              time=DateTime('2018/01/12'),
-                             comments=u'My comments',
-                             extra_infos={'dummy_info1': u'Information 1',
-                                          'dummy_info2': u'Information 2'})
+                             comments='My comments',
+                             extra_infos={'dummy_info1': 'Information 1',
+                                          'dummy_info2': 'Information 2'})
         added_action2 = getattr(folder, DUMMY_HISTORY_ATTR)[1]
         self.assertEqual(added_action2['action'], 'action2')
         self.assertEqual(added_action2['actor'], new_user.getId())
-        self.assertEqual(added_action2['comments'], u'My comments')
+        self.assertEqual(added_action2['comments'], 'My comments')
         self.assertEqual(added_action2['time'], DateTime('2018/01/12'))
         # extra infos
-        self.assertEqual(added_action2['dummy_info1'], u'Information 1')
-        self.assertEqual(added_action2['dummy_info2'], u'Information 2')
+        self.assertEqual(added_action2['dummy_info1'], 'Information 1')
+        self.assertEqual(added_action2['dummy_info2'], 'Information 2')
 
     def test_get_all_history_attr(self):
         """Get every coccurence of a given attr_name in a history."""

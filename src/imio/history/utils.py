@@ -5,7 +5,7 @@ from imio.helpers.cache import get_current_user_id
 from imio.history.interfaces import IImioHistory
 from persistent.list import PersistentList
 from plone import api
-from Products.CMFPlone.utils import base_hasattr
+from plone.base.utils import base_hasattr
 from zope.component import getAdapter
 
 
@@ -60,7 +60,7 @@ def getLastAction(adapter,
         i = len(history) - 1
         while i >= 0:
             event = history[i]
-            if isinstance(action, basestring):
+            if isinstance(action, str):
                 condition = event['action'] == action
             elif action is None:
                 condition = event['action'] is None
@@ -104,7 +104,7 @@ def get_all_history_attr(obj,
     return res
 
 
-def add_event_to_history(obj, history_attr, action, actor=None, time=None, comments=u'', extra_infos={}):
+def add_event_to_history(obj, history_attr, action, actor=None, time=None, comments='', extra_infos={}):
     '''This is an helper method to add an entry to an history.'''
     if not base_hasattr(obj, history_attr):
         setattr(obj, history_attr, PersistentList())
@@ -116,7 +116,7 @@ def add_event_to_history(obj, history_attr, action, actor=None, time=None, comme
     getattr(obj, history_attr).append(history_data.copy())
 
 
-def add_event_to_wf_history(obj, action, actor=None, comments=u'', insert_index=None):
+def add_event_to_wf_history(obj, action, actor=None, comments='', insert_index=None):
     wfTool = api.portal.get_tool('portal_workflow')
     wfs = wfTool.getWorkflowsFor(obj)
     if not wfs:
