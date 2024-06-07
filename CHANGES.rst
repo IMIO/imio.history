@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.35 (unreleased)
+1.35 (2024-06-07)
 -----------------
 
 - Moved translation of event comments to a sub method
