@@ -4,8 +4,8 @@ Changelog
 1.36 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.get_all_history_attr` to `safe_utils`.
+  [gbastien]
 
 1.35 (2024-06-07)
 -----------------
