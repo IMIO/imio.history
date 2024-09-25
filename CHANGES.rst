@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.36 (unreleased)
+1.36 (2024-09-25)
 -----------------
 
 - Added `utils.get_all_history_attr` to `safe_utils`.
