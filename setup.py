@@ -6,15 +6,14 @@ from setuptools import setup
 
 
 long_description = (
-    open('README.rst').read() + '\n' +
-    'Contributors\n'
-    '============\n' + '\n' +
-    open('CHANGES.rst').read() + '\n')
+    open("README.rst").read() + "\n" + "Contributors\n"
+    "============\n" + "\n" + open("CHANGES.rst").read() + "\n"
+)
 
 
 setup(
-    name='imio.history',
-    version='1.37.dev0',
+    name="imio.history",
+    version="1.37.dev0",
     description="Imio history",
     long_description=long_description,
     # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -27,27 +26,29 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.13",
     ],
-    keywords='Python Plone',
-    author='IMIO',
-    author_email='dev@imio.be',
-    url='http://pypi.python.org/pypi/imio.history',
-    license='GPL',
-    packages=find_packages('src', exclude=['ez_setup']),
-    namespace_packages=['imio', ],
-    package_dir={'': 'src'},
+    keywords="Python Plone",
+    author="IMIO",
+    author_email="dev@imio.be",
+    url="http://pypi.python.org/pypi/imio.history",
+    license="GPL",
+    packages=find_packages("src", exclude=["ez_setup"]),
+    namespace_packages=[
+        "imio",
+    ],
+    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'Plone',
-        'setuptools',
-        'plone.api',
-        'imio.prettylink',
+        "Plone",
+        "setuptools",
+        "plone.api",
+        "imio.prettylink",
     ],
     extras_require={
-        'test': [
-            'plone.app.testing',
-            'plone.app.robotframework',
-            'ipdb',
+        "test": [
+            "plone.app.testing",
+            "plone.app.robotframework",
+            "ipdb",
         ],
     },
     entry_points="""

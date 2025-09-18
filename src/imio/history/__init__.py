@@ -3,7 +3,7 @@
 from AccessControl import allow_module
 
 
-allow_module('imio.history.utils')
+allow_module("imio.history.utils")
 
 
 def initialize(context):
