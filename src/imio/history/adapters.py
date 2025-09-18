@@ -12,7 +12,6 @@ from Products.CMFPlone.utils import safe_unicode
 
 
 class BaseImioHistoryAdapter(object):
-
     """Base adapter for imio.history."""
 
     history_type = None
@@ -33,10 +32,7 @@ class BaseImioHistoryAdapter(object):
         return history
 
     @memoize
-    def getHistory(self,
-                   checkMayViewEvent=True,
-                   checkMayViewComment=True,
-                   **kw):
+    def getHistory(self, checkMayViewEvent=True, checkMayViewComment=True, **kw):
         """Get an history."""
         history = self.get_history_data()
         res = []
@@ -44,14 +40,14 @@ class BaseImioHistoryAdapter(object):
             # Make sure original event is not modified
             event = event.copy()
             if self.history_type:
-                event['type'] = self.history_type
+                event["type"] = self.history_type
 
             if checkMayViewEvent and not self.mayViewEvent(event):
                 continue
-            event['comments_viewable'] = True
+            event["comments_viewable"] = True
             if checkMayViewComment and not self.mayViewComment(event):
-                event['comments_viewable'] = False
-                event['comments'] = self.comment_not_viewable_value
+                event["comments_viewable"] = False
+                event["comments"] = self.comment_not_viewable_value
             res.append(event)
         return res
 
@@ -69,9 +65,12 @@ class BaseImioHistoryAdapter(object):
             # for performance reasons, we use checkMayViewEvent=False, checkMayViewComment=False
             # this will do sometimes highlight history in red and last comment is not viewable...
             lastEvent = getLastAction(self)
-            if lastEvent and \
-               lastEvent['comments'] and \
-               safe_unicode(lastEvent['comments']) not in self.ignorableHistoryComments():
+            if (
+                lastEvent
+                and lastEvent["comments"]
+                and safe_unicode(lastEvent["comments"])
+                not in self.ignorableHistoryComments()
+            ):
                 return True
         return False
 
@@ -81,10 +80,9 @@ class BaseImioHistoryAdapter(object):
 
 
 class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
-
     """Adapter for workflow history."""
 
-    history_type = 'workflow'
+    history_type = "workflow"
     include_previous_review_state = False
     highlight_last_comment = True
 
@@ -93,9 +91,9 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
         """ """
         history = []
         # no workflow_history attribute?  Return
-        if not hasattr(aq_base(self.context), 'workflow_history'):
+        if not hasattr(aq_base(self.context), "workflow_history"):
             return history
-        wfTool = api.portal.get_tool('portal_workflow')
+        wfTool = api.portal.get_tool("portal_workflow")
         wfs = wfTool.getWorkflowsFor(self.context)
         # no workflow currently used for the context?  Return
         if not wfs:
@@ -116,7 +114,9 @@ class ImioWfHistoryAdapter(BaseImioHistoryAdapter):
         previous_event = None
         for event in history_data:
             new_event = event.copy()
-            new_event['previous_review_state'] = previous_event and previous_event['review_state'] or None
+            new_event["previous_review_state"] = (
+                previous_event and previous_event["review_state"] or None
+            )
             previous_event = new_event.copy()
             res.append(new_event)
         return res
@@ -138,5 +138,5 @@ class ImioRevisionHistoryAdapter(BaseImioHistoryAdapter, ContentHistoryViewlet):
         history = self.revisionHistory()
         # only store actors fullnames
         for event in history:
-            event['actor'] = event['actor']['fullname']
+            event["actor"] = event["actor"]["fullname"]
         return history
