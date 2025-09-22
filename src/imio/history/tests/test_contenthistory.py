@@ -100,9 +100,7 @@ class TestContentHistory(FunctionalTestCase):
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name="contenthistory")
         self.assertTrue(view.showColors())
 
-    def test_MayViewComment(
-        self,
-    ):
+    def test_MayViewComment(self):
         """Test the mayViewComment method.
         We will register an adapter that hide 'publish' transition comments."""
         # by default, mayViewComment returns "True" so every comments

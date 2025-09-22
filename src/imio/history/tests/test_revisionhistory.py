@@ -28,9 +28,7 @@ class TestImioRevisionHistoryAdapter(IntegrationTestCase):
         self.assertEqual(history[0]["actor"], TEST_USER_NAME)
         self.assertEqual(history[0]["action"], "Edited")
 
-    def test_MayViewVersionComment(
-        self,
-    ):
+    def test_MayViewVersionComment(self):
         """Test the mayViewComment method.
         We will register an adapter that test when it is overrided."""
         # by default, mayViewComment returns "True" so every revisions
