@@ -15,18 +15,10 @@ class TestVersionPreview(IntegrationTestCase):
         pr = self.portal.portal_repository
         pr.save(obj=doc)
         doc.setTitle("Document title 2")
-        doc.reindexObject(
-            idxs=[
-                "Title",
-            ]
-        )
+        doc.reindexObject(idxs=["Title"])
         pr.save(obj=doc)
         doc.setTitle("Document title 3")
-        doc.reindexObject(
-            idxs=[
-                "Title",
-            ]
-        )
+        doc.reindexObject(idxs=["Title"])
         # the view __call__ receives a version_id
         # it will store in self.versioned_object the version_id object
         # so it is available in the template
