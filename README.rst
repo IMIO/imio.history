@@ -45,6 +45,12 @@ You define in the `histories_to_handle` attribute of the view, what histories (n
 
 Every histories are sorted together on the `time` key as it uses the same structure.
 
+Versions
+--------
+
+- Version 2.x is for Plone 6+ only
+- Version 1.x is for Plone 4
+
 Translations
 ------------
 

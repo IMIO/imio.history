@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object>
+  <!-- show the documentby_line viewlet -->
+  <orger manager="plone.belowcontenttitle" skinname="*">
+    <viewlet name="plone.documentbyline" />
+  </orger>
+</object>
