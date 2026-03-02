@@ -4,8 +4,8 @@ Changelog
 1.37 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added `utils.get_last_event` and added it to `safe_utils`.
+  [gbastien]
 
 1.36 (2024-09-25)
 -----------------

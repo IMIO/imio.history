@@ -8,6 +8,7 @@ from imio.history.utils import add_event_to_history
 from imio.history.utils import add_event_to_wf_history
 from imio.history.utils import get_all_history_attr
 from imio.history.utils import get_event_by_time
+from imio.history.utils import get_last_event
 from imio.history.utils import getLastAction
 from imio.history.utils import getLastWFAction
 from imio.history.utils import getPreviousEvent
@@ -27,42 +28,45 @@ class TestUtils(IntegrationTestCase):
                                  container=self.portal)
         adapter = getAdapter(doc, IImioHistory, 'workflow')
         history = adapter.getHistory()
-        firstEvent = history[0]
+        first_event = history[0]
         # this is the 'creation' event
-        self.assertTrue(firstEvent['action'] is None)
-        self.assertTrue(getPreviousEvent(doc, firstEvent) is None)
+        self.assertTrue(first_event['action'] is None)
+        self.assertTrue(getPreviousEvent(doc, first_event) is None)
 
         # now publish the doc so we have an new event in the workflow_history
         api.content.transition(doc, 'publish', comment='My comment')
         # clean memoize
         getattr(adapter, Memojito.propname).clear()
         history = adapter.getHistory()
-        lastEvent = history[-1]
-        self.assertEqual(lastEvent['action'], 'publish')
-        self.assertEqual(getPreviousEvent(doc, lastEvent), firstEvent)
+        last_event = history[-1]
+        self.assertEqual(last_event['action'], 'publish')
+        self.assertEqual(getPreviousEvent(doc, last_event), first_event)
 
         # if the event is not found, None is returned
-        wrongEvent = {'action': 'wrong',
-                      'review_state': 'wrong',
-                      'comments': 'My wrong comment',
-                      'actor': 'wrong',
-                      'time': DateTime('2015/01/01 13:30:0.0 GMT+2')}
-        self.assertTrue(getPreviousEvent(doc, wrongEvent) is None)
+        wrong_event = {'action': 'wrong',
+                       'review_state': 'wrong',
+                       'comments': 'My wrong comment',
+                       'actor': 'wrong',
+                       'time': DateTime('2015/01/01 13:30:0.0 GMT+2')}
+        self.assertTrue(getPreviousEvent(doc, wrong_event) is None)
 
-    def test_getLastAction(self):
+    def test_getLastAction_and_get_last_event(self):
         """Test the utils.getLastAction method.
            It should return the action passed in parameter for the given history name."""
-        doc = api.content.create(type='Document',
-                                 id='doc',
-                                 container=self.portal)
+        doc = api.content.create(
+            type='Document', id='doc', container=self.portal)
         # publish the doc so we have an new event in the workflow_history
         api.content.transition(doc, 'publish', comment='First publication comment')
         adapter = getAdapter(doc, IImioHistory, 'workflow')
         self.assertEqual(getLastAction(adapter)['action'], 'publish')
+        self.assertEqual(get_last_event(doc, 'workflow')['action'], 'publish')
         # same as getting action with that name
         publish_action = getLastAction(adapter, action='publish')
         self.assertEqual(publish_action['action'], 'publish')
         self.assertEqual(publish_action['comments'], 'First publication comment')
+        event_publish_action = get_last_event(doc, 'workflow', action='publish')
+        self.assertEqual(event_publish_action['action'], 'publish')
+        self.assertEqual(event_publish_action['comments'], 'First publication comment')
 
         # publish again, check that we correctly get last action
         api.content.transition(doc, 'retract')
@@ -72,12 +76,17 @@ class TestUtils(IntegrationTestCase):
         publish_action = getLastAction(adapter, action='publish')
         self.assertEqual(publish_action['action'], 'publish')
         self.assertEqual(publish_action['comments'], 'Second publication comment')
+        event_publish_action = get_last_event(doc, 'workflow', action='publish')
+        self.assertEqual(event_publish_action['action'], 'publish')
+        self.assertEqual(event_publish_action['comments'], 'Second publication comment')
 
         # the creation event is stored with a None action
         self.assertEqual(getLastAction(adapter, action=None)['review_state'], 'private')
+        self.assertEqual(get_last_event(doc, 'workflow', action=None)['review_state'], 'private')
 
         # if action not found, None is returned
         self.assertIsNone(getLastAction(adapter, action='unknown_action'))
+        self.assertIsNone(get_last_event(doc, 'workflow', action='unknown_action'))
 
     def test_getLastAction_history_empty(self):
         """Does not breaks and returns None if history empty."""

@@ -36,6 +36,21 @@ def getPreviousEvent(obj, event, history_name='workflow', checkMayViewEvent=Fals
     return _check_may_view(res, adapter, checkMayViewEvent, checkMayViewComment)
 
 
+def get_last_event(obj,
+                   history_name='workflow',
+                   action='last',
+                   ignore_previous_event_actions=[],
+                   checkMayViewEvent=False,
+                   checkMayViewComment=False):
+        adapter = getAdapter(obj, IImioHistory, history_name)
+        return getLastAction(
+            adapter,
+            action=action,
+            ignore_previous_event_actions=ignore_previous_event_actions,
+            checkMayViewEvent=checkMayViewEvent,
+            checkMayViewComment=checkMayViewComment)
+
+
 def getLastAction(adapter,
                   action='last',
                   ignore_previous_event_actions=[],
