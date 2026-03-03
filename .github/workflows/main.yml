@@ -26,6 +26,7 @@ jobs:
           command: pyenv -v
       - name: Set up Env
         run: |
+          sudo apt-get install -y libjpeg62 libjpeg62-dev libbz2-dev
           pip install -r requirements.txt coverage==5.3.1 wheel
       - name: Cache eggs
         uses: actions/cache@v4
