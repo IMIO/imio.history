@@ -42,13 +42,13 @@ def get_last_event(obj,
                    ignore_previous_event_actions=[],
                    checkMayViewEvent=False,
                    checkMayViewComment=False):
-        adapter = getAdapter(obj, IImioHistory, history_name)
-        return getLastAction(
-            adapter,
-            action=action,
-            ignore_previous_event_actions=ignore_previous_event_actions,
-            checkMayViewEvent=checkMayViewEvent,
-            checkMayViewComment=checkMayViewComment)
+    adapter = getAdapter(obj, IImioHistory, history_name)
+    return getLastAction(
+        adapter,
+        action=action,
+        ignore_previous_event_actions=ignore_previous_event_actions,
+        checkMayViewEvent=checkMayViewEvent,
+        checkMayViewComment=checkMayViewComment)
 
 
 def getLastAction(adapter,
