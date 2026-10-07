@@ -8,6 +8,7 @@ from plone.app.testing import TEST_USER_NAME
 from Zope2.App import zcml
 from zope.component import getMultiAdapter
 
+import re
 import transaction
 
 
@@ -227,3 +228,26 @@ class TestContentHistory(FunctionalTestCase):
         view = getMultiAdapter((self.doc, self.portal.REQUEST), name="contenthistory")
         # the @@header view rendered in @@contenthistory displays current context prettylink
         self.assertTrue("class='pretty_link_content state-private'" in view())
+        # workflow event: transition title colored by the new state, actor, comment
+        self.wft.doActionFor(self.doc, "publish", comment="My publish comment")
+        html = view()
+        self.assertIn(
+            '<td class="state-published">Reviewer publishes content</td>', html
+        )
+        self.assertIn("<td>test_user_1_</td>", html)
+        self.assertIn("<p>My publish comment</p>", html)
+        # revision of a versionable type: View link, Revert button once the content changed
+        api.portal.get_tool("portal_repository").save(self.doc, comment="Second")
+        self.doc.notifyModified()
+        html = view()
+        self.assertIn(
+            'href="http://nohost/plone/doc/versions_history_form?version_id=1', html
+        )
+        self.assertIn(">View</a>", html)
+        self.assertIn('action="http://nohost/plone/doc/revertversion"', html)
+        self.assertIn("Revert to this revision", html)
+        # no event: no table, a dash
+        afile = api.content.create(type="File", id="afile", container=self.portal)
+        html = getMultiAdapter((afile, self.portal.REQUEST), name="contenthistory")()
+        self.assertNotIn("history-action", html)
+        self.assertTrue(re.search(r"<div>(&mdash;|\W)</div>", html))

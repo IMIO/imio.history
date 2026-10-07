@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
+from plone.app.layout.globals.interfaces import IViewView
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -10,10 +11,25 @@ from plone.app.testing import PloneWithPackageLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from plone.testing import z2
+from plone.testing import zope
+from Products.CMFPlone.utils import getFSVersionTuple
+from Products.Five.browser import BrowserView
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
+from zope.viewlet.interfaces import IViewletManager
 
 import imio.history
 import unittest
+
+
+PLONE_MAJOR = getFSVersionTuple()[0]
+
+
+def plone6_bug(test_method):
+    """Expected failure on Plone 6: bug of the Plone 6 port, pinned until it is fixed."""
+    if PLONE_MAJOR >= 6:
+        return unittest.expectedFailure(test_method)
+    return test_method
 
 
 class PloneWithHistoryLayer(PloneWithPackageLayer):
@@ -24,7 +40,7 @@ class PloneWithHistoryLayer(PloneWithPackageLayer):
         """Set up Zope."""
         # Load ZCML
         self.loadZCML(package=imio.history, name="testing.zcml")
-        z2.installProduct(app, "imio.history")
+        zope.installProduct(app, "imio.history")
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -47,7 +63,7 @@ class PloneWithHistoryLayer(PloneWithPackageLayer):
 
     def tearDownZope(self, app):
         """Tear down Zope."""
-        z2.uninstallProduct(app, "imio.history")
+        zope.uninstallProduct(app, "imio.history")
 
 
 FIXTURE = PloneWithHistoryLayer(name="FIXTURE")
@@ -60,7 +76,8 @@ FUNCTIONAL = FunctionalTesting(bases=(FIXTURE,), name="FUNCTIONAL")
 
 
 ACCEPTANCE = FunctionalTesting(
-    bases=(FIXTURE, AUTOLOGIN_LIBRARY_FIXTURE, z2.ZSERVER_FIXTURE), name="ACCEPTANCE"
+    bases=(FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, zope.WSGI_SERVER_FIXTURE),
+    name="ACCEPTANCE",
 )
 
 
@@ -75,6 +92,16 @@ class IntegrationTestCase(unittest.TestCase):
         self.request = self.layer["request"]
         self.catalog = self.portal.portal_catalog
         self.wft = self.portal.portal_workflow
+
+    def below_content_title(self, obj):
+        """plone.belowcontenttitle viewlet manager of the obj view, for the current user."""
+        view = BrowserView(obj, self.portal.REQUEST)
+        alsoProvides(view, IViewView)
+        manager = getMultiAdapter(
+            (obj, self.portal.REQUEST, view), IViewletManager, "plone.belowcontenttitle"
+        )
+        manager.update()
+        return manager
 
 
 class FunctionalTestCase(unittest.TestCase):

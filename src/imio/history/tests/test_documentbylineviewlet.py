@@ -3,30 +3,63 @@
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
+from imio.history.testing import plone6_bug
 from plone import api
-from plone.app.layout.globals.interfaces import IViewView
+from plone.app.testing import login
 from plone.memoize.instance import Memojito
 from zope.component import getAdapter
-from zope.component import getMultiAdapter
-from zope.interface import alsoProvides
-from zope.viewlet.interfaces import IViewletManager
+
+import re
 
 
 class TestDocumentByLineViewlet(IntegrationTestCase):
 
     def setUp(self):
         super(TestDocumentByLineViewlet, self).setUp()
-        # get the viewlet
-        doc = api.content.create(type="Document", id="doc", container=self.portal)
-        view = doc.restrictedTraverse("@@view")
-        alsoProvides(view, IViewView)
-        manager = getMultiAdapter(
-            (doc, self.portal.REQUEST, view), IViewletManager, "plone.belowcontenttitle"
-        )
-        manager.update()
-        self.viewlet = manager.get("imio.history.documentbyline")
-        self.viewlet.update()
+        api.content.create(type="Document", id="doc", container=self.portal)
+        self.viewlet = self._viewlet()
         self.viewlet.render()
+
+    def _viewlet(self):
+        """The byline viewlet of the doc, for the current user."""
+        manager = self.below_content_title(self.portal.doc)
+        viewlet = manager.get("imio.history.documentbyline")
+        viewlet.update()
+        return viewlet
+
+    def test_render(self):
+        """Author without link, History link to @@historyview, highlighted after a comment."""
+        html = self.viewlet.render()
+        self.assertIn('<span class="documentAuthor">', html)
+        self.assertNotIn("/author/", html)
+        self.assertIn('<span class="contentHistory" id="content-history">', html)
+        self.assertIn('href="http://nohost/plone/doc/@@historyview"', html)
+        self.wft.doActionFor(self.portal.doc, "publish", comment="my publish comment")
+        html = self._viewlet().render()
+        self.assertIn(
+            '<span class="contentHistory highlight-history-link" id="content-history">',
+            html,
+        )
+
+    @plone6_bug
+    def test_history_link_viewable_without_modify_permission(self):
+        """A Reviewer may access previous versions but not modify a published document:
+        the History link is shown to him and he may open it.
+        Plone 6: @@historyview requires "Modify portal content"."""
+        doc = self.portal.doc
+        self.wft.doActionFor(doc, "publish")
+        api.user.create(
+            email="reviewer@example.org",
+            username="reviewer",
+            password="reviewer-secret",
+            roles=("Member", "Reviewer"),
+        )
+        login(self.portal, "reviewer")
+        self.assertFalse(api.user.has_permission("Modify portal content", obj=doc))
+        html = self._viewlet().render()
+        href = re.search(r'id="content-history">.*?href="([^"]+)"', html, re.S).group(1)
+        path = str(href.replace(self.portal.absolute_url() + "/", ""))
+        self.assertTrue(self.portal.restrictedTraverse(path))
 
     def test_show_history(self):
         """Test the show_history method.  Shown by default."""
