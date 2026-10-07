@@ -12,7 +12,6 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.testing import zope
-from Products.CMFPlone.utils import getFSVersionTuple
 from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
@@ -20,16 +19,6 @@ from zope.viewlet.interfaces import IViewletManager
 
 import imio.history
 import unittest
-
-
-PLONE_MAJOR = getFSVersionTuple()[0]
-
-
-def plone6_bug(test_method):
-    """Expected failure on Plone 6: bug of the Plone 6 port, pinned until it is fixed."""
-    if PLONE_MAJOR >= 6:
-        return unittest.expectedFailure(test_method)
-    return test_method
 
 
 class PloneWithHistoryLayer(PloneWithPackageLayer):

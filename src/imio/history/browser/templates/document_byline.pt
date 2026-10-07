@@ -67,9 +67,11 @@
         class="contentHistory" id="content-history"
         tal:condition="show_history">
     —
+    <tal:comment replace="nothing">XXX change by imio.history, @@contenthistorypopup in a modal (@@historyview needs Modify portal content)</tal:comment>
     <a href="#"
-       tal:attributes="href string:${here/absolute_url}/@@historyview"
-       class="link-tooltip"
+       tal:attributes="href string:${here/absolute_url}/@@contenthistorypopup"
+       class="pat-plone-modal"
+       data-pat-plone-modal='{"titleSelector": "h3:first", "modalSizeClass": "modal-xl", "loadLinksWithinModal": false}'
        i18n:translate="label_history">History</a>
   </span>
 

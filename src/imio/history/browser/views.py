@@ -7,9 +7,9 @@ from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.layout.viewlets.content import DocumentBylineViewlet
 from plone.app.layout.viewlets.content import HistoryByLineView
+from plone.base.utils import safe_text
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getAdapter
@@ -117,7 +117,7 @@ class IHContentHistoryView(ContentHistoryView):
         mapping.update(self._extra_render_comments_mapping(event))
         # try to translate comments before it is turned into text/html
         return translate(
-            safe_unicode(event["comments"]),
+            safe_text(event["comments"]),
             mapping=mapping,
             domain="imio.history",
             context=self.request,

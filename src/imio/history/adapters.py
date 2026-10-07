@@ -7,8 +7,8 @@ from imio.history.config import HISTORY_REVISION_NOT_VIEWABLE
 from imio.history.utils import getLastAction
 from plone import api
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
+from plone.base.utils import safe_text
 from plone.memoize.instance import memoize
-from Products.CMFPlone.utils import safe_unicode
 
 
 class BaseImioHistoryAdapter(object):
@@ -68,7 +68,7 @@ class BaseImioHistoryAdapter(object):
             if (
                 lastEvent
                 and lastEvent["comments"]
-                and safe_unicode(lastEvent["comments"])
+                and safe_text(lastEvent["comments"])
                 not in self.ignorableHistoryComments()
             ):
                 return True

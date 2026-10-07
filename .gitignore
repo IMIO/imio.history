@@ -20,3 +20,6 @@ src/*
 var/
 .coverage
 pyvenv.cfg
+.plone-version
+.python-version
+CACHEDIR.TAG

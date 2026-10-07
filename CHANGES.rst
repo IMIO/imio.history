@@ -8,6 +8,8 @@ Changelog
   [duchenean, laulaz]
 - Add uninstall profile
   [duchenean, laulaz]
+- Add Plone 6.2 compatibility, fix uninstall (Plone's byline) and History link (modal, no Modify permission needed)
+  [chris-adam]
 
 1.37 (2026-03-13)
 -----------------

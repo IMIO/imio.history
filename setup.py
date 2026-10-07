@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Installer for the imio.actionspanel package."""
+"""Installer for the imio.history package."""
 
 from setuptools import find_packages
 from setuptools import setup
@@ -22,6 +22,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.13",
@@ -32,9 +33,6 @@ setup(
     url="http://pypi.python.org/pypi/imio.history",
     license="GPL",
     packages=find_packages("src", exclude=["ez_setup"]),
-    namespace_packages=[
-        "imio",
-    ],
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
@@ -42,6 +40,7 @@ setup(
         "Plone",
         "setuptools",
         "plone.api",
+        "imio.helpers",
         "imio.prettylink",
     ],
     extras_require={

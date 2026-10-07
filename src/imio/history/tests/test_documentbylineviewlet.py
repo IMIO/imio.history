@@ -3,7 +3,6 @@
 from imio.history.config import HISTORY_COMMENT_NOT_VIEWABLE
 from imio.history.interfaces import IImioHistory
 from imio.history.testing import IntegrationTestCase
-from imio.history.testing import plone6_bug
 from plone import api
 from plone.app.testing import login
 from plone.memoize.instance import Memojito
@@ -28,12 +27,13 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
         return viewlet
 
     def test_render(self):
-        """Author without link, History link to @@historyview, highlighted after a comment."""
+        """Author without link, History link to @@contenthistorypopup, highlighted after a comment."""
         html = self.viewlet.render()
         self.assertIn('<span class="documentAuthor">', html)
         self.assertNotIn("/author/", html)
         self.assertIn('<span class="contentHistory" id="content-history">', html)
-        self.assertIn('href="http://nohost/plone/doc/@@historyview"', html)
+        self.assertIn('href="http://nohost/plone/doc/@@contenthistorypopup"', html)
+        self.assertIn('class="pat-plone-modal"', html)
         self.wft.doActionFor(self.portal.doc, "publish", comment="my publish comment")
         html = self._viewlet().render()
         self.assertIn(
@@ -41,11 +41,9 @@ class TestDocumentByLineViewlet(IntegrationTestCase):
             html,
         )
 
-    @plone6_bug
     def test_history_link_viewable_without_modify_permission(self):
         """A Reviewer may access previous versions but not modify a published document:
-        the History link is shown to him and he may open it.
-        Plone 6: @@historyview requires "Modify portal content"."""
+        the History link is shown to him and he may open it."""
         doc = self.portal.doc
         self.wft.doActionFor(doc, "publish")
         api.user.create(

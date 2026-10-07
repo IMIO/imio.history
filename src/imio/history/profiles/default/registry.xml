@@ -2,7 +2,7 @@
 <registry>
 
   <records prefix="plone.bundles/imio-history"
-           interface="Products.CMFPlone.interfaces.IBundleRegistry">
+           interface="plone.base.interfaces.IBundleRegistry">
     <value key="enabled">True</value>
     <value key="csscompilation">++resource++imio.history/imiohistory.css</value>
     <value key="load_async">False</value>

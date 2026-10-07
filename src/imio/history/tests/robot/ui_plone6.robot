@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation  Plone 6 Classic UI keywords. Same keyword names and arguments as ui_plone4.robot.
 ...            Robot Framework 3.0 syntax: shared with the Plone 4.3 (Python 2) environment.
-...            Selectors checked on Plone 6.1 (collective.contact.contactlist, imio.history).
+...            Selectors checked on Plone 6.1 (collective.contact.contactlist, imio.history) and 6.2 (imio.history).
 Resource  plone/app/robotframework/selenium.robot
 Resource  plone/app/robotframework/keywords.robot
 Library  Remote  ${PLONE_URL}/RobotRemote
@@ -102,5 +102,5 @@ Edit the title
     The status message contains  Changes saved
 
 The history is shown
-    [Documentation]  The History link of the byline opens the @@historyview page (no modal yet)
-    Wait until page contains element  css=th.history-action
+    [Documentation]  The History link of the byline opens @@contenthistorypopup in a modal
+    Wait until element is visible  ${MODAL} th.history-action
