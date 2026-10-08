@@ -4,6 +4,8 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Migrated to Plone 6.2 / Python 3, based on the work started by @duchenean and @laulaz on `plone6`.
+  [duchenean, laulaz, chris-adam]
 - Add Plone 6.1 compatibility, drop Plone 4 compatibility
   [duchenean, laulaz]
 - Add uninstall profile
