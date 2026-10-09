@@ -4,12 +4,16 @@
                  showColors python: view.showColors();
                  showRevisionInfos python: view.showRevisionInfos();
                  ploneView python: context.restrictedTraverse('@@plone');
+                 icons python:context.restrictedTraverse('@@iconresolver');
                  member python: view.member">
   <tal:block replace="structure python: view.renderCustomJS()"></tal:block>
   <tal:header replace="structure context/@@header" />
   <tal:comment replace="nothing">Table containing the history</tal:comment>
   <tal:history condition="events">
-  <table class="listing nosort" style="width: 100%">
+  <table class="table table-responsive table-striped"
+         id="history-list"
+         summary="Content history"
+         i18n:attributes="summary summary_content_history;">
    <thead>
     <tr>
       <th class="history-action" i18n:translate="listingheader_action">Action</th>
@@ -22,11 +26,10 @@
    </thead>
    <tbody>
     <tal:event repeat="event events">
-    <tr tal:define="odd repeat/event/odd;
-                    comments event/comments|nothing;
+    <tr tal:define="comments event/comments|nothing;
                     state event/review_state|event/action|nothing;
                     isDataChange python: event['action'] == '_datachange_'"
-        tal:attributes="class python: odd and 'even' or 'odd'" valign="top">
+        valign="top">
       <td tal:condition="isDataChange">
         <i i18n:translate="data_change" i18n:domain="imio.history">Data change</i>
         <form name="deleteEventForm"
@@ -88,12 +91,23 @@
             <tal:previewVersion replace="structure python: context.restrictedTraverse('@@history-version-preview')(version_id=event['version_id'])" />
 
             <div class="historyLinks">
-              <a href=""
+              <a class="btn btn-primary"
+                 href=""
                  tal:attributes="href event/preview_url"
                  i18n:translate="title_view_revision">View</a>
-              <a href="" tal:attributes="href event/diff_current_url"
-                 tal:condition="exists:event/diff_current_url"
-                 i18n:translate="title_compare_revision">&middot; Compare to current</a>
+              <a class="btn btn-secondary"
+                 href="" tal:attributes="href event/diff_current_url"
+                 tal:condition="exists:event/diff_current_url">
+                <tal:icon replace="structure python:icons.tag('arrow-up')" />
+                <span i18n:translate="title_compare_revision">Compare to current</span>
+              </a>
+              <a class="btn btn-secondary"
+                 href="" tal:attributes="href event/diff_previous_url;"
+                 tal:condition="exists:event/diff_previous_url">
+
+                <tal:icon replace="structure python:icons.tag('arrow-down')" />
+                <span i18n:translate="label_compare">Compare</span>
+              </a>
             </div>
 
           </tal:versionViewable>
@@ -104,7 +118,7 @@
         <tal:block condition="isVersion">
           <form action="" method="post" tal:condition="event/revert_url" tal:attributes="action event/revert_url">
             <input type="hidden" name="version_id" value="" tal:attributes="value event/version_id" />
-            <input class="standalone" type="submit" i18n:attributes="value title_revert_revision" tal:condition="exists:event/diff_current_url" value="Revert to this revision" />
+            <button class="btn btn-warning" type="submit" tal:condition="exists:event/diff_current_url" i18n:translate="title_revert_revision">Revert to this revision</button>
           </form>
         </tal:block>
       </td>
@@ -113,5 +127,5 @@
    </tbody>
   </table>
   </tal:history>
-  <div tal:condition="not: events">—</div>
+  <div tal:condition="not: events">&mdash;</div>
 </div>

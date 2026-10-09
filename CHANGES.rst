@@ -1,11 +1,17 @@
 Changelog
 =========
 
-1.38 (unreleased)
------------------
+2.0.0 (unreleased)
+------------------
 
-- Nothing changed yet.
-
+- Migrated to Plone 6.2 / Python 3, based on the work started by @duchenean and @laulaz on `plone6`.
+  [duchenean, laulaz, chris-adam]
+- Add Plone 6.1 compatibility, drop Plone 4 compatibility
+  [duchenean, laulaz]
+- Add uninstall profile
+  [duchenean, laulaz]
+- Add Plone 6.2 compatibility, fix uninstall (Plone's byline) and History link (modal, no Modify permission needed)
+  [chris-adam]
 
 1.37 (2026-03-13)
 -----------------
