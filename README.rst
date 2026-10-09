@@ -1,8 +1,9 @@
+.. image:: https://coveralls.io/repos/github/IMIO/imio.history/badge.svg
+    :target: https://coveralls.io/github/IMIO/imio.history
+
 .. image:: https://github.com/IMIO/imio.history/actions/workflows/main.yml/badge.svg?branch=master
     :target: https://github.com/IMIO/imio.history/actions/workflows/main.yml
 
-.. image:: https://coveralls.io/repos/IMIO/imio.history/badge.svg
-  :target: https://coveralls.io/r/IMIO/imio.history
 
 .. image:: http://img.shields.io/pypi/v/imio.history.svg
    :alt: PyPI badge
