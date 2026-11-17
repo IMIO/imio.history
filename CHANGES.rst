@@ -12,6 +12,8 @@ Changelog
   [duchenean, laulaz]
 - Add Plone 6.2 compatibility, fix uninstall (Plone's byline) and History link (modal, no Modify permission needed)
   [chris-adam]
+- Dropped support for Plone versions below 6.2.
+  [chris-adam]
 
 1.37 (2026-03-13)
 -----------------
