@@ -3,6 +3,7 @@
 *.pyc
 .installed.cfg
 .mr.developer.cfg
+.plone.versioncheck.tracked.json
 .project
 .pydevproject
 .settings/
@@ -19,3 +20,6 @@ src/*
 var/
 .coverage
 pyvenv.cfg
+.plone-version
+.python-version
+CACHEDIR.TAG
